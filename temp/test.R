@@ -4,16 +4,19 @@ library(LaplacesDemon)
 library(ggdist)
 source("R/bvar_osa.R")
 source("R/bvar_pd.R")
-
-og_tiny <- og_medium[, c("GDPC1", "FEDFUNDS", "GDPCTPI")]
-Y <- og_tiny[2:217, ]
-y <- og_tiny[218, ]
-Z <- og_tiny[1:216, ]
-pd <- bvar_pd(Z, og_tiny[218, ], Y, 1)
+source("R/notebook_bvar")
 
 
-vu <- pd[[4]]
-sig <- as.numeric(pd[[3]][1,1] / (pd[[2]] * vu))
-bvar_osa_marg(y, pd, 1)
+Y <- og_medium[2:217, ]
+y <- og_medium[218, ]
+Z <- og_medium[1:216, ]
+pd <- bvar_pd(Z, og_medium[218, ], Y, 1)
 
-dstudent_t(x = y[1], df = vu, mu = pd[[1]][1], sigma = sqrt(sig), log = TRUE)
+test <- notebook_bvar(og_medium, c(1,2,3))
+test2 <- notebook_bvar(og_medium, c(1,2,3,4,5,6,7))
+
+head(test)
+head(test2)
+
+mean(test$de)
+mean(test2$dens)
