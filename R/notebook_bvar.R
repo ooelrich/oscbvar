@@ -25,7 +25,7 @@ notebook_bvar <- function(data, model, window_length = 60) {
         pdist <- bvar_pd(Z, z, Y, 1)
         pdens <- bvar_osa_marg(y, pdist, 1, TRUE)
 
-        df[j, "cov"][[1]] <- list(data[j, ])
+        df[j, "cov"][[1]] <- list(z)
         df[j, "pred_mean"][[1]] <- pdist[[1]][1,1]
         df[j, "dens"] <- pdens
         df[j, "y"] <- y
