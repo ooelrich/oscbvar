@@ -1,1 +1,1 @@
-export(bvar_pd, bvar_osa, bvar_osa_marg, notebook_bvar, relevance_goldfish)
+exportPattern("^[^\\.]")
