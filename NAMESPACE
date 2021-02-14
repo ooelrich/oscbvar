@@ -1,1 +1,3 @@
 exportPattern("^[^\\.]")
+importFrom("stats", "dnorm", "predict", "sd")
+importFrom("stochvol", "svsample")

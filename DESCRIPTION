@@ -9,3 +9,4 @@ Description: BVAR-related function. Predictive densities.
 License: GPL
 RoxygenNote: 7.1.1
 Encoding: UTF-8
+Depends: stochvol
