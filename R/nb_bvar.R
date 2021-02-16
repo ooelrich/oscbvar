@@ -1,4 +1,4 @@
-#' Generates a notebook for a BVAR model
+#' Generates a notebook for a BVAR model v2
 #' 
 #' Uses Jeffreys' prior. Generates a notebook for the decision-maker to use. 
 #' Uses a rolling window of default length 60 to estimate the model.
@@ -7,10 +7,10 @@
 #' @param model Which columns in the dataset should be included
 #' @param window_length Length of estimation window. Defaults to 60.
 
-notebook_bvar <- function(data, model, window_length = 60) {
+nb_bvar <- function(data, model, window_length = 60) {
 
-    df <- data.frame(matrix(ncol = 4, nrow = 0))
-    x <- c("cov", "pred_mean", "dens", "y")
+    df <- data.frame(matrix(ncol = 2, nrow = 0))
+    x <- c("pred_mean", "dens")
     colnames(df) <- x
 
     for (i in (window_length + 2):218) {
@@ -24,10 +24,8 @@ notebook_bvar <- function(data, model, window_length = 60) {
         pdist <- bvar_pd(Z, z, Y, 1)
         pdens <- bvar_osa_marg(y, pdist, 1, TRUE)
 
-        df[j, "cov"][[1]] <- list(z)
         df[j, "pred_mean"][[1]] <- pdist[[1]][1,1]
         df[j, "dens"] <- pdens
-        df[j, "y"] <- y
 
     }
     return(df)
