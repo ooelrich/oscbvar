@@ -4,7 +4,7 @@
 \alias{nb_stochvol}
 \title{Generates a notebook for a simple stochastic volatility model}
 \usage{
-nb_stochvol(data, model, window_length)
+nb_stochvol(data, model, window_length, rolling = FALSE)
 }
 \arguments{
 \item{data}{Dataset from which to generate the notebook}
@@ -12,6 +12,8 @@ nb_stochvol(data, model, window_length)
 \item{model}{Which columns in the dataset should be included as covariates.}
 
 \item{window_length}{Length of estimation window. Defaults to 60.}
+
+\item{rolling}{Whether to use a rolling estimation window or not.}
 }
 \description{
 Uses Gregors prior. Generates a notebook for the decision-maker to use. 

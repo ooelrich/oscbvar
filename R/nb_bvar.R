@@ -5,17 +5,23 @@
 #' 
 #' @param data Dataset from which to generate the notebook
 #' @param model Which columns in the dataset should be included
-#' @param window_length Length of estimation window. Defaults to 60.
+#' @param window_length Minimum length of the estimation window.
+#' @param rolling Whether to use a rolling estimation window or not.
 
-nb_bvar <- function(data, model, window_length = 60) {
+nb_bvar <- function(data, model, window_length = 60, rolling = FALSE) {
 
     df <- data.frame(matrix(ncol = 2, nrow = 0))
     x <- c("pred_mean", "dens")
     colnames(df) <- x
 
+
     for (i in (window_length + 2):218) {
         
-        j <- i - window_length - 1
+        if (rolling == TRUE) {
+            j <- i - window_length - 1
+        } else {
+            j <- 1
+        }
 
         Y <- data[(j + 1):(i - 1), model]
         Z <- data[j:(i - 2), model]

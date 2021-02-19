@@ -4,14 +4,16 @@
 \alias{nb_bvar}
 \title{Generates a notebook for a BVAR model v2}
 \usage{
-nb_bvar(data, model, window_length = 60)
+nb_bvar(data, model, window_length = 60, rolling = FALSE)
 }
 \arguments{
 \item{data}{Dataset from which to generate the notebook}
 
 \item{model}{Which columns in the dataset should be included}
 
-\item{window_length}{Length of estimation window. Defaults to 60.}
+\item{window_length}{Minimum length of the estimation window.}
+
+\item{rolling}{Whether to use a rolling estimation window or not.}
 }
 \description{
 Uses Jeffreys' prior. Generates a notebook for the decision-maker to use. 

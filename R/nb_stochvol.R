@@ -6,17 +6,22 @@
 #' @param data Dataset from which to generate the notebook
 #' @param model Which columns in the dataset should be included as covariates.
 #' @param window_length Length of estimation window. Defaults to 60.
+#' @param rolling Whether to use a rolling estimation window or not.
 #' 
 #' @import stochvol
 
-nb_stochvol <- function(data, model, window_length) {
+nb_stochvol <- function(data, model, window_length, rolling = FALSE) {
     df <- data.frame(matrix(ncol = 2, nrow = 0))
     x <- c("pred_mean", "dens")
     colnames(df) <- x
 
     for (i in (window_length + 2):218) {
         
-        j <- i - window_length - 1
+        if (rolling == TRUE) {
+            j <- i - window_length - 1
+        } else {
+            j <- 1
+        }
 
         Y <- data[(j + 1):(i - 1), 1]
         Z <- data[j:(i - 2), model]
