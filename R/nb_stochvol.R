@@ -36,8 +36,8 @@ nb_stochvol <- function(data, model, window_length, rolling = FALSE) {
         pred_sd <- sd(pred_draws$y[[1]])
         pdens <- dnorm(y, pred_mean, pred_sd, log = TRUE)
 
-        df[j, "pred_mean"] <- pred_mean
-        df[j, "dens"] <- pdens
+        df[(i - window_length - 1), "pred_mean"] <- pred_mean
+        df[(i - window_length - 1), "dens"] <- pdens
 
     }
     return(df)

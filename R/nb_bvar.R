@@ -30,8 +30,8 @@ nb_bvar <- function(data, model, window_length = 60, rolling = FALSE) {
         pdist <- bvar_pd(Z, z, Y, 1)
         pdens <- bvar_osa_marg(y, pdist, 1, TRUE)
 
-        df[j, "pred_mean"][[1]] <- pdist[[1]][1,1]
-        df[j, "dens"] <- pdens
+        df[(i - window_length - 1), "pred_mean"][[1]] <- pdist[[1]][1,1]
+        df[(i - window_length - 1), "dens"] <- pdens
 
     }
     return(df)
