@@ -20,3 +20,9 @@ head(test2)
 
 mean(test$de)
 mean(test2$dens)
+
+
+load_all()
+library(devtools)
+
+document()

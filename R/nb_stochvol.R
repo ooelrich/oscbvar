@@ -28,7 +28,7 @@ nb_stochvol <- function(data, model, window_length, rolling = FALSE) {
         z <- data[i - 1, model]
         y <- data[i, 1]
 
-        sv_draws <- svsample(Y,
+        sv_draws <- stochvol::svsample(Y,
                            designmatrix = Z)
         pred_draws <- predict(sv_draws, 1, t(z))
 
