@@ -10,10 +10,7 @@
 
 nb_bvar <- function(data, model, window_length = 60, rolling = FALSE) {
 
-    df <- data.frame(matrix(ncol = 2, nrow = 0))
-    x <- c("pred_mean", "dens")
-    colnames(df) <- x
-
+    df <- gen_atomic_df()
 
     for (i in (window_length + 2):218) {
         
@@ -30,9 +27,10 @@ nb_bvar <- function(data, model, window_length = 60, rolling = FALSE) {
         pdist <- bvar_pd(Z, z, Y, 1)
         pdens <- bvar_osa_marg(y, pdist, 1, TRUE)
 
-        df[(i - window_length - 1), "pred_mean"][[1]] <- pdist[[1]][1,1]
-        df[(i - window_length - 1), "dens"] <- pdens
-
+        df[(i - window_length - 1), "pmean"][[1]] <- pdist[[1]][1,1]
+        df[(i - window_length - 1), "lpdens"] <- pdens
+        df[(i - window_length - 1), "method"] <- sprintf("BAR_%f", length(model))
+        df[(i - window_length - 1), "t"] <- i
     }
     return(df)
 }
