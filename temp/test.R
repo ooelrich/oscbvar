@@ -1,28 +1,27 @@
-library(mvtnorm)
-library(goldfish)
-library(LaplacesDemon)
-library(ggdist)
-source("R/bvar_osa.R")
-source("R/bvar_pd.R")
-source("R/notebook_bvar")
+library(devtools)
+load_all()
 
 
-Y <- og_medium[2:217, ]
-y <- og_medium[218, ]
-Z <- og_medium[1:216, ]
-pd <- bvar_pd(Z, og_medium[218, ], Y, 1)
 
-test <- notebook_bvar(og_medium, c(1,2,3))
-test2 <- notebook_bvar(og_medium, c(1,2,3,4,5,6,7))
 
+
+
+# TESTING THE DIFFERENT NOTEBOOK GENERATORS
+install_github("ooelrich/goldfish",
+    auth_token = "b9ca31e6d5d20f94fb1d99429a0cd615efe5bffd")
+    library(goldfish)
+
+
+og_sub <- og_medium_scaled[1:100, ]
+
+test <- nb_bvar(og_sub, c(1:3))
 head(test)
+
+test2 <- nb_stochvol(og_sub, c(1:3))
 head(test2)
 
-mean(test$de)
-mean(test2$dens)
+test3 <- nb_bart(og_sub, c(1:3))
+head(test3)
 
-
-load_all()
-library(devtools)
-
-document()
+test4 <- nb_tvpbvar(og_sub, c(1:3))
+head(test4)
