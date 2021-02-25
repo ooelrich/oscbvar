@@ -9,6 +9,67 @@ gen_atomic_df <- function() {
     return(df)
 }
 
+#' Generates a notebook of atomic predictive densities and means
+#' 
+#' Function to generate the atomic predictions (that is the predictions of the
+#' individual models, not of aggregation scehemes) for the macro-data example 
+#' for predicting DGP.
+#' 
+#' @param data Specify dataset, should be based on OG medium, this is just for 
+#' the macro data example.
+#' @param window_length How many observations to use for estimation
+#' @param rolling Whether to use a rolling window for estimation, defaults to false
+#' @param bvar_3 Should the 3-dimensional BVAR model be included?
+#' @param bvar_7 Should the 7-dimensional BVAR model be included?
+#' @param svbvar_3 Should the 3-dimensional BVAR with stochastic volatility be included?
+#' @param svbvar_7 Should the 7-dimensional BVAR with stochastic volatility be included?
+#' @param bart_7 Should the 7-dimensional BART model be included?
+#' @param tvpsvbvar_3 Should the 3-dimensional time-varying-parameter BVAR with stochastic
+#' volatility be included?
+
+
+gen_atomic_preds <- function(data, window_length = 60, rolling = FALSE,
+                            bvar_3 = TRUE, bvar_7 = TRUE,
+                            svbvar_3 = TRUE, svbvar_7 = TRUE,
+                            bart_7 = TRUE, tvpsvbvar_3 = TRUE) {
+
+    df <- gen_atomic_df()
+    if (bvar_3 == TRUE) {
+        dat <- nb_bvar(data, c(1:3), window_length = window_length, 
+                        rolling = rolling)
+        df <- rbind(df, dat)
+    }
+    if (bvar_7 == TRUE) {
+        dat <- nb_bvar(data, c(1:7), window_length = window_length,
+                        rolling = rolling)
+        df <- rbind(df, dat)
+    }
+    if (svbvar_3 == TRUE) {
+        dat <- nb_svbvar(data, c(1:3), window_length = window_length,
+                        rolling = rolling)
+        df <- rbind(df, dat)
+    }
+    if (svbvar_7 == TRUE) {
+        dat <- nb_svbvar(data, c(1:7), window_length = window_length,
+                        rolling = rolling)
+        df <- rbind(df, dat)
+    }
+    if (bart_7 == TRUE) {
+        dat <- nb_bart(data, c(1:7), window_length = window_length,
+                        rolling = rolling)
+        df <- rbind(df, dat)
+    }
+    if (tvpsvbvar_3 == TRUE) {
+        dat <- nb_tvpsvbvar(data, c(1:3), window_length = window_length,
+                    rolling = rolling)
+        df <- rbind(df, dat)
+    }
+
+    return(df)
+
+}
+
+
 #' Generates a notebook for a BVAR model v2
 #' 
 #' Uses Jeffreys' prior. Generates a notebook for the decision-maker to use. 
@@ -60,7 +121,7 @@ nb_bvar <- function(data, model, window_length = 60, rolling = FALSE) {
 #' 
 #' @import stochvol
 
-nb_stochvol <- function(data, model, window_length = 60, rolling = FALSE) {
+nb_svbvar <- function(data, model, window_length = 60, rolling = FALSE) {
     
     df <- gen_atomic_df()
     n <- nrow(data)
@@ -153,7 +214,7 @@ nb_bart <- function(data, model, window_length = 60, rolling = FALSE,
 #' @param nburn Number of burn-in draws
 #' @param tau Number of observations to use for training prior.
 
-nb_tvpbvar <- function(data, model, window_length = 60, rolling = FALSE,
+nb_tvpsvbvar <- function(data, model, window_length = 60, rolling = FALSE,
                        nrep = 10000, nburn = 5000, tau = 20) {
 
   df <- gen_atomic_df()
