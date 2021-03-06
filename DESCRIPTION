@@ -7,8 +7,10 @@ Author: Oscar Oelrich
 Maintainer: Oscar Oelrich <oscar.oelrich@live.com>
 Description: BVAR-related function. Predictive densities.
 License: GPL
+LazyData: TRUE
 RoxygenNote: 7.1.1
 Encoding: UTF-8
+Depends: R(>= 4.0.0)
 Imports: 
     stochvol,
     dbarts,

@@ -2,19 +2,38 @@
 % Please edit documentation in R/bvar_pd.R
 \name{bvar_pd}
 \alias{bvar_pd}
-\title{Generates the predictive density for a BVAR}
+\title{BVAR-NiW predictive density}
 \usage{
-bvar_pd(Z, z, Y, p)
+bvar_pd(z, y, gamma_n, omega_n, S_n, nu_n, marg = 1, logscale = TRUE)
 }
 \arguments{
-\item{Z}{Matrix of stacked covariates, with each row corresponding to one observation. Typically lagged values of Y.}
-
 \item{z}{A vector of covariates for the observation we wish to predict.}
 
-\item{Y}{A matrix of stacked dependent variables, with each row corresponding to one observation (a vector of (y_1t, ... , ymt)).}
+\item{y}{A vector of outcome variables, the solution manual if you will}
 
-\item{p}{Number of lags.}
+\item{gamma_n}{Posterior mean for the regression coefficients}
+
+\item{omega_n}{Posterior covariance-matrix for the regression coefficients}
+
+\item{S_n}{Part of the posterior of the covariance matrix}
+
+\item{nu_n}{Part of the posterior of the covariance matrix}
+
+\item{marg}{Which outcome variable we are interested in, defaults to DGP}
+
+\item{logscale}{Whether or not to use logscale. Currently only logscale is
+available, so defaults to true and trying to change this causes and error.}
+}
+\value{
+A list consisting of the predictive mean and log density of the
+  variable corresponding to `marg`.
 }
 \description{
-Generates the one-step ahead predictive distribution for a BVAR model with Jeffreys' prior. Returns a list that can be used to get predicitive denistites usinng bvar_osa and bvar_osa_marg.
+Generates the predictive density for a BVAR model with NiW prior.
+}
+\details{
+Generates the one-step ahead predictive distribution for a BVAR model with
+normal-Wishart prior (or the flat-Jeff prior). Returns the predictive density
+and mean corresponding to the variable in `marg`. Density is given on the log
+scale by default, and the function currenlty does not support non-logscale.
 }
