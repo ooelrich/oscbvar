@@ -47,42 +47,42 @@ gen_atomic_preds <- function(window_length = 60,
     df <- gen_atomic_df()
 
     if (bvar_3 == TRUE) {
-        dat <- nb_bvar(macrodata[, 1:3], window_length = window_length, 
+        dat <- nb_bvar(oscbvar::macrodata[, 1:3], window_length = window_length, 
                         rolling = rolling, start_t = start_t, lags = 1)
         df <- rbind(df, dat)
     }
     if (bvar_7 == TRUE) {
-        dat <- nb_bvar(macrodata[, 1:7], window_length = window_length,
+        dat <- nb_bvar(oscbvar::macrodata[, 1:7], window_length = window_length,
                         rolling = rolling, start_t = start_t, lags = 1)
         df <- rbind(df, dat)
     }
     if (bvar_3_o2 == TRUE) {
-        dat <- nb_bvar(macrodata[, 1:3], window_length = window_length, 
+        dat <- nb_bvar(oscbvar::macrodata[, 1:3], window_length = window_length, 
                         rolling = rolling, start_t = start_t, lags = 2)
         df <- rbind(df, dat)
     }
     if (bvar_7_o2 == TRUE) {
-        dat <- nb_bvar(macrodata[, 1:7], window_length = window_length,
+        dat <- nb_bvar(oscbvar::macrodata[, 1:7], window_length = window_length,
                         rolling = rolling, start_t = start_t, lags = 2)
         df <- rbind(df, dat)
     }
     if (svbvar_3 == TRUE) {
-        dat <- nb_svbvar(macrodata[, 1:3], window_length = window_length,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:3], window_length = window_length,
                         rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }
     if (svbvar_7 == TRUE) {
-        dat <- nb_svbvar(macrodata[, 1:7], window_length = window_length,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:7], window_length = window_length,
                         rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }
     if (bart_7 == TRUE) {
-        dat <- nb_bart(macrodata, c(1:7), window_length = window_length,
+        dat <- nb_bart(oscbvar::macrodata, c(1:7), window_length = window_length,
                         rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }
     if (tvpsvbvar_3 == TRUE) {
-        dat <- nb_tvpsvbvar(macrodata, c(1:3), window_length = window_length,
+        dat <- nb_tvpsvbvar(oscbvar::macrodata, c(1:3), window_length = window_length,
                     rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }
