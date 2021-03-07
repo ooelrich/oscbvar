@@ -1,5 +1,3 @@
-
-    
 #' @title Notebook generator: BVAR NiW
 #' 
 #' @description
@@ -40,8 +38,7 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
     T <- nrow(data)
     m <- ncol(data)
     Y_all <- as.matrix(data.frame(data[start_t:T, ]))
-    Z_all <- gen_Z(data = data.frame(data), start_t = start_t, lags = lags,
-                   include_intercept = include_intercept)
+    Z_all <- gen_Z(data = data.frame(data), start_t, lags, include_intercept)
 
     # Determine the priors that are constant over time
     nu_0 <- m + 2
@@ -142,7 +139,7 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 
         df[(i + 1 - window_length), "pmean"] <- pred_mean
         df[(i + 1 - window_length), "lpdens"] <- pdens
-        df[(i + 1 - window_length), "method"] <- sprintf("SVBVAR_%i", m)
+        df[(i + 1 - window_length), "method"] <- sprintf("SVBVAR_%i_o%i", m, lags)
         df[(i + 1 - window_length), "t"] <- i
 
     }
@@ -150,57 +147,105 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 }
 
 
-#' Generates a notebook for a BART model
+#' @title Notebook generator: BART
 #'
+#' @description
+#' Generates a notebook for a BART model.
+#' 
+#' @details 
 #' Uses default settings in dbarts.
 #'
-#' @param data Dataset from which to generate the notebook
-#' @param model Which columns in the dataset should be included
+#' @param data Dataset from which to generate the notebook.
 #' @param window_length Minimum length of the estimation window.
-#' @param rolling Whether to use a rolling estimation window or not.
-#' @param start_t Which observation to set as t=1.
+#' @param rolling Whether to use a rolling estimation window or not. Defaults to
+#'   FALSE.
+#' @param start_t Which observation to set as t = 1. Defaults to observation 5.
+#' @param lags The order of the VAR. Defaults to 1.
+#' @param include_intercept Whether to include an intercep in the design matrix
+#'   or not. Defaults to FALSE since the intercept breaks the function.
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
 
-nb_bart <- function(data, model, window_length = 60, rolling = FALSE,
-                    start_t = 5, nrep = 10000, nburn = 5000) {
 
+nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
+                    lags = 1, include_intercept = FALSE,
+                    nrep = 10000, nburn = 5000) {
+  
   df <- gen_atomic_df()
-  n <- nrow(data)
+  T <- nrow(data)
+  m <- ncol(data)
+  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
+  Z_all <- gen_Z(data.frame(data), start_t, lags, include_intercept)
 
-  for (i in (window_length + 2):n) {
-
+  cgm.level <- 0.95 # alpha
+  cgm.exp <- 2 # beta
+  num.trees <- 250 # S
+  prior.cov <- 0.01
+  sd.mu <- 2
+  
+  control <- dbarts::dbartsControl(verbose = FALSE, keepTrainingFits = TRUE, 
+                           useQuantiles = FALSE,
+                           keepTrees = TRUE, n.samples = nrep,
+                           n.cuts = 100L, n.burn = nburn, n.trees = num.trees, 
+                           n.chains = 1,
+                           n.threads = 1, n.thin = 1L, printEvery = 1,
+                           printCutoffs = 0L, rngKind = "default", 
+                           rngNormalKind = "default",
+                           updateState = FALSE)
+  
+  for (i in (window_length):(T - start_t)) {
+    
     if (rolling == TRUE) {
-      j <- i - window_length - 1
+      j <- i + 1 - window_length
     } else {
       j <- 1
     }
-
-    Y <- data[(j + 1):(i - 1), model]
-    Z <- data[j:(i - 2), model]
-    z <- data[i - 1, model]
-    y <- data[i, 1]
-
-    bart_model <- dbarts::bart(Z, Y[, 1], z, ndpost = nrep, nskip = nburn)
-    kernel_density <- density(bart_model$yhat.test)
+    
+    Y <- Y_all[j:i, ]
+    Z <- Z_all[j:i, ]
+    z <- Z_all[i + 1, ]
+    y <- Y_all[i + 1, 1]
+    
+    Sigma.OLS <- sigma(lm(Y~Z))^2
+    prior.sig <- c(NROW(Y)/2, 0.75)
+    
+    bart_model <- dbarts::dbarts(Y[, 1]~Z, 
+                                 control = control,
+                                 tree.prior = cgm(cgm.exp, cgm.level), 
+                                 node.prior = normal(sd.mu),
+                                 n.samples = nrep, 
+                                 weights = rep(1, NROW(Y)), 
+                                 sigma = sqrt(Sigma.OLS[1]), 
+                                 resid.prior = chisq(prior.sig[[1]], prior.sig[[2]]))
+    est_mod <- bart_model$run()
+    preds <- bart_model$predict(z, NULL)[1, ]
+    #bart_model <- dbarts::bart(Z, Y[,1], z, 
+    #                           sigma = sqrt(Sigma.OLS), 
+    #                           ndpost = nrep, nskip = nburn)
+    #preds <- bart_model$yhat.test
+    
+    kernel_density <- density(preds)
     log_pred_dens_bart <- log(approx(kernel_density$x, kernel_density$y, xout = y)$y)
-
-    df[(i - window_length - 1), "pmean"][[1]] <- bart_model$yhat.test.mean
-    df[(i - window_length - 1), "lpdens"] <- log_pred_dens_bart
-    df[(i - window_length - 1), "method"] <- sprintf("BART_%i", length(model))
-    df[(i - window_length - 1), "t"] <- i
-
+    
+    df[(i + 1 - window_length), "pmean"][[1]] <- mean(preds)
+    df[(i + 1 - window_length), "lpdens"] <- log_pred_dens_bart
+    df[(i + 1 - window_length), "method"] <- sprintf("BART_%i_o%i", m, lags)
+    df[(i + 1 - window_length), "t"] <- i
+    
   }
   return(df)
 }
 
-
-#' Generates a notebook for a TVP-SV-BVAR model
+#' @title Notebook generator: TVP-SV-BVAR
 #'
+#' @description
+#' Generates a notebook for a BVAR model with stochastic variance and time-
+#'   varying parameters.
+#' 
+#' @details  
 #' Uses default settings in bvarsv.
 #'
 #' @param data Dataset from which to generate the notebook
-#' @param model Which columns in the dataset should be included
 #' @param window_length Minimum length of the estimation window.
 #' @param rolling Whether to use a rolling estimation window or not.
 #' @param start_t Which observation to consider as t=1.
@@ -208,22 +253,25 @@ nb_bart <- function(data, model, window_length = 60, rolling = FALSE,
 #' @param nburn Number of burn-in draws
 #' @param tau Number of observations to use for training prior.
 
-nb_tvpsvbvar <- function(data, model, window_length = 60, rolling = FALSE,
+nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
                        start_t = 5, nrep = 10000, nburn = 5000, tau = 20) {
 
   df <- gen_atomic_df()
-  n <- nrow(data)
+  T <- nrow(data)
+  m <- ncol(data)
 
-  for (i in (window_length + 2):n) {
+  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
+
+  for (i in window_length:(T - start_t)) {
 
     if (rolling == TRUE) {
-      j <- i - window_length - 1
+      j <- i + 1 - window_length
     } else {
       j <- 1
     }
 
-    Y <- data[j:(i - 1), model]
-    y <- data[i, 1]
+    Y <- Y_all[j:i, ]
+    y <- Y_all[i + 1, 1]
 
     bv <- bvarsv::bvar.sv.tvp(Y, nf = 1, nrep = nrep, nburn = nburn, tau = tau)
     f <- bvarsv::predictive.density(bv, v = 1, h = 1)
@@ -231,7 +279,7 @@ nb_tvpsvbvar <- function(data, model, window_length = 60, rolling = FALSE,
 
     df[(i - window_length - 1), "pmean"][[1]] <- mean(bv$fc.mdraws[1, 1, ])
     df[(i - window_length - 1), "lpdens"] <- log_pred_dens_bvar
-    df[(i - window_length - 1), "method"] <- sprintf("TVPSVBVAR_%i", length(model))
+    df[(i - window_length - 1), "method"] <- sprintf("TVPSVBVAR_%i", m)
     df[(i - window_length - 1), "t"] <- i
 
   }
@@ -239,25 +287,33 @@ nb_tvpsvbvar <- function(data, model, window_length = 60, rolling = FALSE,
 }
 
 
-#' Generates a notebook for a BVAR simple version
+#' @title Notebook generator: simple (flat-Jeff) BVAR
 #' 
-#' Uses a flat Jeffreys' prior. Generates a notebook for the decision-maker to use. No intercept. One lag. Very simple. 
+#' @description 
+#' Generates a notebook for a BVAR model with flat-Jeff priors, meaning a flat
+#' prior on the regression coefficients and Jeffreys' prior on the var-covariance.
 #' 
 #' @param data Dataset from which to generate the notebook
 #' @param window_length Minimum length of the estimation window.
 #' @param rolling Whether to use a rolling estimation window or not.
+#' @param start_t Which observation to consider as t = 1. Defaults to 5.
+#' @param lags The order of the VAR.
+#' @param include_intercept Whether or not an intercept should be included.
 
 nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE) {
 
     df <- gen_atomic_df()
-    n <- nrow(data)
+    T <- nrow(data)
     m <- ncol(data)
-    data <- data.frame(data)
+    
+    Y_all <- as.matrix(data.frame(data[start_t:T, ]))
+    Z_all <- gen_Z(data = data.frame(data), start_t, lags, include_intercept)
 
-    for (i in (window_length + 2):n) {
+    
+    for (i in window_length:(T - start_t)) {
         
         if (rolling == TRUE) {
-            j <- i - window_length - 1
+            j <- i + 1 - window_length
         } else {
             j <- 1
         }
@@ -269,18 +325,20 @@ nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE) {
         ZtZ <- t(Z) %*% Z
         ZtY <- t(Z) %*% Y
         beta_ols <- solve(ZtZ, ZtY)
+        S <- t(Y - Z %*% beta_ols) %*% (Y - Z %*% beta_ols)
 
-        gamma_n <- beta_ols
         omega_n <- solve(ZtZ)
-        S_n <- t(Y - Z %*% beta_ols) %*% (Y - Z %*% beta_ols)
-        nu_n <- nrow(Y) - ncol(Y)
+        gamma_n <- beta_ols
+        S_n <- S
+        nu_n <- nrow(Z) - ncol(Z)
 
-        pdist <- bvar_pd(z, y, gamma_n, omega_n, S_n, nu_n)
+        pdist <- bvar_pd(z, y, gamma_n = gamma_n, omega_n = omega_n, S_n = S_n,
+                        nu_n = nu_n, marg = 1, logscale = TRUE)
 
-        df[(i - window_length - 1), "pmean"][[1]] <- pdist[[1]]
-        df[(i - window_length - 1), "lpdens"] <- pdist[[2]]
-        df[(i - window_length - 1), "method"] <- sprintf("BVAR_%i", m)
-        df[(i - window_length - 1), "t"] <- i
+        df[(i + 1 - window_length), "pmean"][[1]] <- pdist[[1]]
+        df[(i + 1 - window_length), "lpdens"] <- pdist[[2]]
+        df[(i + 1 - window_length), "method"] <- sprintf("BVAR_%i_o%i", m, lags)
+        df[(i + 1 - window_length), "t"] <- i
     }
     return(df)
 }

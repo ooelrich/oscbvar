@@ -41,6 +41,7 @@ gen_atomic_preds <- function(window_length = 60,
                              bvar_3 = TRUE, bvar_7 = TRUE,
                              bvar_3_o2 = TRUE, bvar_7_o2 = TRUE,
                              svbvar_3 = TRUE, svbvar_7 = TRUE,
+                             svbvar_3_o2 = TRUE, svbvar_7_o2 = TRUE,
                              bart_7 = TRUE, tvpsvbvar_3 = TRUE,
                              bvar_3_basic = FALSE, bvar_7_basic = FALSE) {
 
@@ -68,12 +69,26 @@ gen_atomic_preds <- function(window_length = 60,
     }
     if (svbvar_3 == TRUE) {
         dat <- nb_svbvar(oscbvar::macrodata[, 1:3], window_length = window_length,
-                        rolling = rolling, start_t = start_t)
+                        rolling = rolling, start_t = start_t, lags = 1,
+                        include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if (svbvar_7 == TRUE) {
         dat <- nb_svbvar(oscbvar::macrodata[, 1:7], window_length = window_length,
-                        rolling = rolling, start_t = start_t)
+                        rolling = rolling, start_t = start_t, lags = 1,
+                        include_intercept = TRUE)
+        df <- rbind(df, dat)
+    }
+    if (svbvar_3_o2 == TRUE) {
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:3], window_length = window_length,
+                        rolling = rolling, start_t = start_t, lags = 2,
+                        include_intercept = TRUE)
+        df <- rbind(df, dat)
+    }
+    if (svbvar_7_o2 == TRUE) {
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:7], window_length = window_length,
+                        rolling = rolling, start_t = start_t, lags = 2,
+                        include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if (bart_7 == TRUE) {
