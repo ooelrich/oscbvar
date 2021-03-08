@@ -87,9 +87,6 @@ omega_minnesota <- function(lags, overall_tightness, lag_decay, m, include_inter
 
 gen_gewisano <- function(data, start_t) {
 
-    #data <- atom_dat # debug stuff
-    #start_t <- 100
-
     fun_to_opt <- function(x, dataopt) {
         -sum(log(exp(dataopt) %*% x))
     }
@@ -98,24 +95,25 @@ gen_gewisano <- function(data, start_t) {
     df_fat <- data.table::dcast(data, t ~ method, value.var = "lpdens")
     k <- ncol(df_fat) - 1
     start_val <- rep((1 / k), k)
-    t <- seq(start_t, max(data$t))
-    wts <- matrix(ncol = k, nrow = length(t))
+    tt <- seq(start_t, max(data$t))
+    wts <- matrix(ncol = k, nrow = length(tt))
 
     j <- 0
     for (i in start_t:(max(data$t))) {
         j <- j + 1
-        vecop <- as.matrix(df_fat[t <= i, 2:(k + 1)])
+        vecop <- as.matrix(df_fat[df_fat$t <= i, 2:(k + 1)])
         opt_sol <- pracma::fmincon(start_val, fun_to_opt, Aeq = matrix(1, 1, k),
                 beq = 1, lb = rep(0, k), ub = rep(1, k), dataopt = vecop)
         wts[j, ] <- opt_sol$par
     }
 
-    lpdens <- log(rowSums(exp(df_fat[t >= start_t, 2:(k + 1)]) * wts))
+    lpdens <- log(rowSums(exp(df_fat[df_fat$t >= start_t, 2:(k + 1)]) * wts))
     df_pmean <- data.table::dcast(data, t ~ method, value.var = "pmean")
-    pmean <- rowSums(df_pmean[t >= start_t, 2:(k + 1)] * wts)
+    pmean <- rowSums(df_pmean[df_pmean$t >= start_t, 2:(k + 1)] * wts)
     
-    method <- rep("gewisano", length(t))
-    df_gew_res <- data.frame(pmean, lpdens, method, t)
+    method <- rep("gewisano", length(tt))
+    df_gew_res <- data.frame(pmean, lpdens, method, tt)
+    colnames(df_gew_res) <- c("pmean", "lpdens", "method", "t")
     df_gew <- gen_atomic_df()
     df_gew <- rbind(df_gew, df_gew_res)
 

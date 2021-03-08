@@ -27,28 +27,11 @@ RAL_gen <- function(atomic_df, start_t, rel_method) {
     return(RAL_df)
 }
 
-gen_baseline <- function(atomic_df, start_t) {
 
-    baseline_df <- gen_atomic_df()
-    T <- max(atomic_df$t)
 
-    # Giving all models equal weight
-    df_all <- data.table::data.table(atomic_df)
-    df_equal_wt <- df_all[start_t:T,
-        .(pmean = mean(pmean), lpdens = log(mean(exp(lpdens))), method = "equal_wt", t),
-        by = .(t)][, 2:5]
-    baseline_df <- rbind(baseline_df, df_equal_wt)
+load_all()
 
-    # Optimal prediction pools (Geweke & Amisano)
-    df_gewisano <- gen_gewisano(data = atomic_df, start_t)
-    baseline_df <- rbind(baseline_df, df_gewisano)
 
-    return(baseline_df)
-}
-
-agga <- gen_baseline(atomic_df = atom_dat, start_t = 161)
-
-gen_gewisano(atom_dat, start_t = 161)
 
 # Individual tests
 
