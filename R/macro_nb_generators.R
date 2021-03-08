@@ -66,16 +66,10 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
         S_0 <- diag(diag(S))
 
         # Calculate the posterior
-        #omega_n <- solve(solve(omega_0) + ZtZ)
-        #gamma_n <- omega_n %*% t(Z) %*% Y
-        #nu_n <- nrow(Y) + nu_0
-        #S_n <- S_0 + S + t(beta_ols) %*% solve(omega_0 + solve(ZtZ), beta_ols)
-
-        # set to flat-Jeff for testing (REMOVE ME LATER)
-        omega_n <- solve(ZtZ)
-        gamma_n <- beta_ols
-        S_n <- S
-        nu_n <- nrow(Z) - ncol(Z)
+        omega_n <- solve(solve(omega_0) + ZtZ)
+        gamma_n <- omega_n %*% t(Z) %*% Y
+        nu_n <- nrow(Y) + nu_0
+        S_n <- S_0 + S + t(beta_ols) %*% solve(omega_0 + solve(ZtZ), beta_ols)
 
         pdist <- bvar_pd(z, y, gamma_n = gamma_n, omega_n = omega_n, S_n = S_n,
                         nu_n = nu_n, marg = 1, logscale = TRUE)
@@ -300,7 +294,8 @@ nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
 #' @param lags The order of the VAR.
 #' @param include_intercept Whether or not an intercept should be included.
 
-nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE) {
+nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE,
+                              start_t = 5, lags = 1, include_intercept = FALSE) {
 
     df <- gen_atomic_df()
     T <- nrow(data)

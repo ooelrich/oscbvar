@@ -27,7 +27,7 @@ gen_atomic_df <- function() {
 #' columns.
 #' 
 #' @param data Data frame (Y).
-#' @param start_t Which observation is considered as t=1. Needs to be greater 
+#' @param start_t Which observation is considered as t = 1. Needs to be greater 
 #'   than the number of lags.
 #' @param lags Order of the VAR.
 #' @param include_intercept Boolean. Determines is an intercept should be used
@@ -73,4 +73,51 @@ omega_minnesota <- function(lags, overall_tightness, lag_decay, m, include_inter
         om_vec <- c(om_vec, rep((overall_tightness / i)^2, m))
     }
     return(diag(om_vec))
+}
+
+#' @title Generate GewSano Weights
+#' 
+#' @description
+#' Generates weights according to Geweke & Amisano 2011/2012, also known as
+#' linear predicition pools.
+#' 
+#' @param data Data set of atomic predictions.
+#' @param start_t Which timepoint to start generating weights for. Obs! This is
+#'   based on the variable t in the data, not the row number!
+
+gen_gewisano <- function(data, start_t) {
+
+    #data <- atom_dat # debug stuff
+    #start_t <- 100
+
+    fun_to_opt <- function(x, dataopt) {
+        -sum(log(exp(dataopt) %*% x))
+    }
+
+    data <- data.table::data.table(data)
+    df_fat <- data.table::dcast(data, t ~ method, value.var = "lpdens")
+    k <- ncol(df_fat) - 1
+    start_val <- rep((1 / k), k)
+    t <- seq(start_t, max(data$t))
+    wts <- matrix(ncol = k, nrow = length(t))
+
+    j <- 0
+    for (i in start_t:(max(data$t))) {
+        j <- j + 1
+        vecop <- as.matrix(df_fat[t <= i, 2:(k + 1)])
+        opt_sol <- pracma::fmincon(start_val, fun_to_opt, Aeq = matrix(1, 1, k),
+                beq = 1, lb = rep(0, k), ub = rep(1, k), dataopt = vecop)
+        wts[j, ] <- opt_sol$par
+    }
+
+    lpdens <- log(rowSums(exp(df_fat[t >= start_t, 2:(k + 1)]) * wts))
+    df_pmean <- data.table::dcast(data, t ~ method, value.var = "pmean")
+    pmean <- rowSums(df_pmean[t >= start_t, 2:(k + 1)] * wts)
+    
+    method <- rep("gewisano", length(t))
+    df_gew_res <- data.frame(pmean, lpdens, method, t)
+    df_gew <- gen_atomic_df()
+    df_gew <- rbind(df_gew, df_gew_res)
+
+    return(df_gew)
 }
