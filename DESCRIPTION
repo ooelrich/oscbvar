@@ -10,8 +10,10 @@ License: GPL
 LazyData: TRUE
 RoxygenNote: 7.1.1
 Encoding: UTF-8
-Depends: R(>= 4.0.0)
+Depends: R(>= 4.0.0), data.table
 Imports: 
     stochvol,
     dbarts,
-    bvarsv
+    bvarsv,
+    pracma,
+    sn

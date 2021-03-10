@@ -119,3 +119,19 @@ gen_gewisano <- function(data, start_t) {
 
     return(df_gew)
 }
+
+#' @title Generate state_of_the_world
+#' 
+#' @description 
+#' Generates a data frame with the state of the world, including the t-notation
+#' used by the rest of the package.
+#' 
+#' @param start_t Which observation to consider as t = 1.
+
+gen_sotw <- function(start_t) {
+    max_t <- nrow(oscbvar::macrodata)
+    sub <- oscbvar::macrodata[start_t:max_t, ]
+    t <- c(1:nrow(sub))
+    sotw <- cbind(t, sub)
+    return(sotw)
+}

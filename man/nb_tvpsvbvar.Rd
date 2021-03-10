@@ -2,11 +2,10 @@
 % Please edit documentation in R/macro_nb_generators.R
 \name{nb_tvpsvbvar}
 \alias{nb_tvpsvbvar}
-\title{Generates a notebook for a TVP-SV-BVAR model}
+\title{Notebook generator: TVP-SV-BVAR}
 \usage{
 nb_tvpsvbvar(
   data,
-  model,
   window_length = 60,
   rolling = FALSE,
   start_t = 5,
@@ -17,8 +16,6 @@ nb_tvpsvbvar(
 }
 \arguments{
 \item{data}{Dataset from which to generate the notebook}
-
-\item{model}{Which columns in the dataset should be included}
 
 \item{window_length}{Minimum length of the estimation window.}
 
@@ -33,5 +30,9 @@ nb_tvpsvbvar(
 \item{tau}{Number of observations to use for training prior.}
 }
 \description{
+Generates a notebook for a BVAR model with stochastic variance and time-
+  varying parameters.
+}
+\details{
 Uses default settings in bvarsv.
 }

@@ -28,6 +28,10 @@
 #'   included?
 #' @param svbvar_7 Should the 7-dimensional BVAR with stochastic volatility be
 #'   included?
+#' @param svbvar_3_o2 Should the 3-dimensional VAR(2) with stochastic volatility
+#'   be included?
+#' @param svbvar_7_o2 Should the 7-dimensional VAR(2) with stochastic volatility
+#'   be included?
 #' @param bart_7 Should the 7-dimensional BART model be included?
 #' @param tvpsvbvar_3 Should the 3-dimensional time-varying-parameter BVAR with
 #'   stochastic volatility be included?

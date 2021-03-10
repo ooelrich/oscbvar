@@ -77,7 +77,7 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
         df[(i + 1 - window_length), "pmean"][[1]] <- pdist[[1]]
         df[(i + 1 - window_length), "lpdens"] <- pdist[[2]]
         df[(i + 1 - window_length), "method"] <- sprintf("BVAR_%i_o%i", m, lags)
-        df[(i + 1 - window_length), "t"] <- i
+        df[(i + 1 - window_length), "t"] <- (i + 1)
     }
     return(df)
 }
@@ -134,7 +134,7 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
         df[(i + 1 - window_length), "pmean"] <- pred_mean
         df[(i + 1 - window_length), "lpdens"] <- pdens
         df[(i + 1 - window_length), "method"] <- sprintf("SVBVAR_%i_o%i", m, lags)
-        df[(i + 1 - window_length), "t"] <- i
+        df[(i + 1 - window_length), "t"] <- (i + 1)
 
     }
     return(df)
@@ -159,6 +159,8 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 #'   or not. Defaults to FALSE since the intercept breaks the function.
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
+#' 
+#' @imports sn
 
 
 nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
@@ -219,12 +221,21 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
     #preds <- bart_model$yhat.test
     
     kernel_density <- density(preds)
-    log_pred_dens_bart <- log(approx(kernel_density$x, kernel_density$y, xout = y)$y)
+    #log_pred_dens_bart <- log(approx(kernel_density$x, kernel_density$y, xout = y)$y)
     
+    log_score_st <- function(post_pred_draws, y_new) {
+      obj <- sn::selm(post_pred_draws~1, family = "st")
+      para <- as.list(coef(obj, param.type = "DP"))
+      sn::dst(y_new, xi = para$xi, omega = para$omega, alpha = para$alpha,
+              nu = para$nu, log = TRUE)
+    }
+
+    log_pred_dens_bart <- log_score_st(preds, y)
+
     df[(i + 1 - window_length), "pmean"][[1]] <- mean(preds)
     df[(i + 1 - window_length), "lpdens"] <- log_pred_dens_bart
     df[(i + 1 - window_length), "method"] <- sprintf("BART_%i_o%i", m, lags)
-    df[(i + 1 - window_length), "t"] <- i
+    df[(i + 1 - window_length), "t"] <- (i + 1)
     
   }
   return(df)
@@ -333,7 +344,7 @@ nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE,
         df[(i + 1 - window_length), "pmean"][[1]] <- pdist[[1]]
         df[(i + 1 - window_length), "lpdens"] <- pdist[[2]]
         df[(i + 1 - window_length), "method"] <- sprintf("BVAR_%i_o%i", m, lags)
-        df[(i + 1 - window_length), "t"] <- i
+        df[(i + 1 - window_length), "t"] <- (i + 1)
     }
     return(df)
 }

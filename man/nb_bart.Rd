@@ -2,33 +2,41 @@
 % Please edit documentation in R/macro_nb_generators.R
 \name{nb_bart}
 \alias{nb_bart}
-\title{Generates a notebook for a BART model}
+\title{Notebook generator: BART}
 \usage{
 nb_bart(
   data,
-  model,
   window_length = 60,
   rolling = FALSE,
   start_t = 5,
+  lags = 1,
+  include_intercept = FALSE,
   nrep = 10000,
   nburn = 5000
 )
 }
 \arguments{
-\item{data}{Dataset from which to generate the notebook}
-
-\item{model}{Which columns in the dataset should be included}
+\item{data}{Dataset from which to generate the notebook.}
 
 \item{window_length}{Minimum length of the estimation window.}
 
-\item{rolling}{Whether to use a rolling estimation window or not.}
+\item{rolling}{Whether to use a rolling estimation window or not. Defaults to
+FALSE.}
 
-\item{start_t}{Which observation to set as t=1.}
+\item{start_t}{Which observation to set as t = 1. Defaults to observation 5.}
+
+\item{lags}{The order of the VAR. Defaults to 1.}
+
+\item{include_intercept}{Whether to include an intercep in the design matrix
+or not. Defaults to FALSE since the intercept breaks the function.}
 
 \item{nrep}{Number of MCMC draws (after burn-in)}
 
 \item{nburn}{Number of burn-in draws}
 }
 \description{
+Generates a notebook for a BART model.
+}
+\details{
 Uses default settings in dbarts.
 }

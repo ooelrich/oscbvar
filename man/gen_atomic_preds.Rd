@@ -14,6 +14,8 @@ gen_atomic_preds(
   bvar_7_o2 = TRUE,
   svbvar_3 = TRUE,
   svbvar_7 = TRUE,
+  svbvar_3_o2 = TRUE,
+  svbvar_7_o2 = TRUE,
   bart_7 = TRUE,
   tvpsvbvar_3 = TRUE,
   bvar_3_basic = FALSE,
@@ -44,6 +46,12 @@ included?}
 
 \item{svbvar_7}{Should the 7-dimensional BVAR with stochastic volatility be
 included?}
+
+\item{svbvar_3_o2}{Should the 3-dimensional VAR(2) with stochastic volatility
+be included?}
+
+\item{svbvar_7_o2}{Should the 7-dimensional VAR(2) with stochastic volatility
+be included?}
 
 \item{bart_7}{Should the 7-dimensional BART model be included?}
 

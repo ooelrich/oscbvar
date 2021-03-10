@@ -2,9 +2,16 @@
 % Please edit documentation in R/macro_nb_generators.R
 \name{nb_bvar_flat_Jeff}
 \alias{nb_bvar_flat_Jeff}
-\title{Generates a notebook for a BVAR simple version}
+\title{Notebook generator: simple (flat-Jeff) BVAR}
 \usage{
-nb_bvar_flat_Jeff(data, window_length = 60, rolling = FALSE)
+nb_bvar_flat_Jeff(
+  data,
+  window_length = 60,
+  rolling = FALSE,
+  start_t = 5,
+  lags = 1,
+  include_intercept = FALSE
+)
 }
 \arguments{
 \item{data}{Dataset from which to generate the notebook}
@@ -12,7 +19,14 @@ nb_bvar_flat_Jeff(data, window_length = 60, rolling = FALSE)
 \item{window_length}{Minimum length of the estimation window.}
 
 \item{rolling}{Whether to use a rolling estimation window or not.}
+
+\item{start_t}{Which observation to consider as t = 1. Defaults to 5.}
+
+\item{lags}{The order of the VAR.}
+
+\item{include_intercept}{Whether or not an intercept should be included.}
 }
 \description{
-Uses a flat Jeffreys' prior. Generates a notebook for the decision-maker to use. No intercept. One lag. Very simple.
+Generates a notebook for a BVAR model with flat-Jeff priors, meaning a flat
+prior on the regression coefficients and Jeffreys' prior on the var-covariance.
 }

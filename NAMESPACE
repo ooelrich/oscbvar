@@ -1,2 +1,3 @@
 exportPattern("^[^\\.]")
-importFrom("stats", "dnorm", "predict", "sd", "approx", "density")
+importFrom("stats", "dnorm", "predict", "sd", "approx", "density", "lm", "sigma")
+importFrom("utils", "str")

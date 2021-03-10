@@ -9,7 +9,7 @@ gen_Z(data, start_t, lags, include_intercept)
 \arguments{
 \item{data}{Data frame (Y).}
 
-\item{start_t}{Which observation is considered as t=1. Needs to be greater 
+\item{start_t}{Which observation is considered as t = 1. Needs to be greater 
 than the number of lags.}
 
 \item{lags}{Order of the VAR.}
