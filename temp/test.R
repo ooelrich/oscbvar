@@ -18,6 +18,12 @@ atom_dat <- gen_atomic_preds(window_length = 60, rolling = FALSE, start_t = 5,
 
 load_all()
 sotw <- data.frame(t = c(1:nrow(macrodata)), macrodata)
-testie <- caliper_relevance(atom_dat, 161, 5, sotw)
+caliper_weight_df <- caliper_relevance(atom_dat, 161, 10, sotw, woc = "plott")
 
-testie
+
+RAL_data <- RAL_calculator(caliper_weight_df, atom_dat)
+
+load_all()
+hubba <- gen_RAL(RAL_data, "propto")
+
+bubba <- gen_RAL(RAL_data, "select_best")

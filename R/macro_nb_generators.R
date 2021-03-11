@@ -32,6 +32,12 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
                     start_t = 5, lags = 1, overall_tightness = 0.2,
                     lag_decay = 1, include_intercept = TRUE) {
 
+    if(!is.logical(rolling)){
+      stop("rolling must be boolean/logical")
+    }
+    if(!is.logical(include_intercept)){
+      stop("include intercept must be boolean/logical")
+    }
     # data frame to store predictions in, all notebooks use the same function
     df <- gen_atomic_df() 
 
@@ -108,6 +114,13 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
 nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
                     start_t = 5, lags = 1, include_intercept = TRUE) {
     
+
+    if(!is.logical(rolling)){
+      stop("rolling must be boolean/logical")
+    }
+    if(!is.logical(include_intercept)){
+      stop("include intercept must be boolean/logical")
+    }
     df <- gen_atomic_df()
     T <- nrow(data)
     m <- ncol(data)
@@ -166,7 +179,13 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
                     lags = 1, include_intercept = FALSE,
                     nrep = 10000, nburn = 5000) {
-  
+  if(!is.logical(rolling)){
+      stop("rolling must be boolean/logical")
+  }
+  if(!is.logical(include_intercept)){
+      stop("include intercept must be boolean/logical")
+  }
+
   df <- gen_atomic_df()
   T <- nrow(data)
   m <- ncol(data)
@@ -261,6 +280,10 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
 nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
                        start_t = 5, nrep = 10000, nburn = 5000, tau = 20) {
 
+  if(!is.logical(rolling)){
+      stop("rolling must be boolean/logical")
+  }
+
   df <- gen_atomic_df()
   T <- nrow(data)
   m <- ncol(data)
@@ -308,6 +331,13 @@ nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
 nb_bvar_flat_Jeff <- function(data, window_length = 60, rolling = FALSE,
                               start_t = 5, lags = 1, include_intercept = FALSE) {
 
+    if(!is.logical(rolling)){
+      stop("rolling must be boolean/logical")
+    }
+    if(!is.logical(include_intercept)){
+      stop("include intercept must be boolean/logical")
+    }
+    
     df <- gen_atomic_df()
     T <- nrow(data)
     m <- ncol(data)

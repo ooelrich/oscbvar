@@ -31,3 +31,58 @@ gen_baseline <- function(atomic_df, start_agg) {
 
     return(baseline_df)
 }
+
+#' @title Generate relevance adjusted aggregations
+#' 
+#' @description Generates relevance adjusted aggregation given a data set with
+#'   relevance adjusted logscores.
+#' 
+#' @param RAL_data Data set containing relevance adjusted logscores.
+#' @param agg_meth Which method should be used to aggregate the agents based on
+#'   their relevance-adjusted logscores. Currently available are propto (which
+#'   uses a softmax transformation) and select_best which picks the model with 
+#'   the best RAL at each time point.
+#' @imports data.table
+
+gen_RAL <- function(RAL_data, agg_meth) {
+
+    # Using the method of giving each model the same RAL when NA
+    # This will happen when using caliper and there is no relevant data
+    RAL_data[is.na(RAL_data)] <- 1
+
+    df_RAL <- switch(agg_meth,
+                    "propto" = propto_weighting(RAL_data),
+                    "select_best" = selbest_weighting(RAL_data),
+                    stop("Unknown aggregation method."))
+    
+    return(df_RAL)
+}
+
+
+#' @title Weighting proportional to RAL
+#' 
+#' @param data Dataset to use
+#' 
+#' @imports data.table
+
+propto_weighting <- function(data) {
+        
+        df_RAL <- data[, .(lpdens = log(sum(exp(lpdens)*exp(RAL)/sum(exp(RAL)))),
+                            pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
+                            method = "RAL_propto", t), by = .(t)][, -1]
+        return(df_RAL)
+}
+
+
+#' @title Weighting by picking the best model
+#' 
+#' @param data Which dataset to use
+#' 
+#' @imports data.table
+
+selbest_weighting <- function(data) {
+    df_RAL <- data[, .(lpdens =max(lpdens),
+                       pmean = max(pmean),
+                       method = "RAL_selbest", t), by = .(t)][-1]
+    return(df_RAL)
+}
