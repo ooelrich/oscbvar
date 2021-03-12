@@ -1,3 +1,21 @@
+#' @title Generate similarity data table
+#' 
+#' @description Generates a data table used by the DM to determine relevance
+#'   adjusted log scores.
+#' 
+#' @param method Which relevance assessment method should be used?
+#' @param sotw State of the world data frame supplied by the DM. 
+#' @param start_agg 
+
+gen_similarity_table <- function(method, sotw, start_agg,...) {
+    sim_df <- switch(method,
+                    "caliper" = (sotw),
+                    "mahala" = (sotw),
+                    stop("Unknown relevance assessment method."))
+    return(sim_df)
+}
+
+
 #' @title Relevance assessment method: Caliper
 #' 
 #' @description 
@@ -13,10 +31,10 @@
 #' very few (1-5 say) observations would make the variance of the RAL very high.
 #' 
 #' @param atomic_df Data frames with agent predictions.
-#' @param start_agg From which value of t to start aggregating
-#' @param tol Determines how similar observations need to be to be included.
 #' @param sotw Data frame containing the state of the world at each time point.
 #'   The first column of this data frame should be t (as in time).
+#' @param start_agg From which value of t to start aggregating
+#' @param tol Determines how similar observations need to be to be included.
 #' @param woc Weight on caliper. This specifies how the observations "within"
 #'   the caliper should be weighted. Takes vaules "full" meaning that only 
 #'   observations inside the tolerance count, or "progressive", which gives 
@@ -27,7 +45,7 @@
 #' 
 #' @import data.table
 
-caliper_relevance <- function(atomic_df, start_agg, tol = 5, sotw, woc = "full") {
+caliper_relevance <- function(atomic_df, sotw, start_agg, tol = 5, woc = "full") {
     
     T <- max(atomic_df$t)
     start <- min(atomic_df$t)
@@ -64,6 +82,19 @@ caliper_relevance <- function(atomic_df, start_agg, tol = 5, sotw, woc = "full")
     similarity_df <- data.table::data.table(similarity_df)
     similarity_df <- similarity_df[order(-t, -t2), .(t2, similarity = similarity/sum(similarity)), by = .(t)]
     return(similarity_df)
+}
+
+#' @title Relevance assessment method: Mahalanobis
+#' 
+#' @description 
+#'
+#' @param atomic_df Data frames with agent predictions.
+#' @param sotw Data frame containing the state of the world at each time point.
+#'   The first column of this data frame should be t (as in time).
+#' @param start_agg From which value of t to start aggregating
+
+mahala_relevance <- function(atomic_df, sotw, start_agg, tol = 5, woc = "full") {
+
 }
 
 #' @title Relevance adjusted logscore calculator
