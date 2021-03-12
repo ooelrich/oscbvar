@@ -173,7 +173,7 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
 #' 
-#' @imports sn
+#' @import sn
 
 
 nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,

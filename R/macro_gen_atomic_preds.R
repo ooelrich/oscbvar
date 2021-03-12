@@ -13,7 +13,8 @@
 #' which data set to use. Uses the data set previously known as og_medium_scaled
 #' so to minimize the risk of accidentally using the wrong data set...
 #' 
-#' @param window_length How many observations to use for estimation.
+#' @param window_length Minimum number of observations used for estimation.
+#'   Defaults to 60.
 #' @param rolling Whether to use a rolling window for estimation, defaults to
 #'   false.
 #' @param start_t Which observation to consider the first real observation. All
