@@ -1,3 +1,15 @@
+#' @title Generate list of atomic models
+#' 
+#' @description Generates a list of all the available atomic models. Passed as
+#'   an argument to the atomic prediction generator (and the gen_all_data fun).
+
+gen_atomic_list <- function() {
+    atomic_models <- c("bvar_3", "bvar_7", "bvar_3_o2", "bvar_7_o2", 
+                     "svbvar_3", "svbvar_7", "svbvar_3_o2", "svbvar_7_o2",
+                     "bart_7", "tvpsvbvar_3", "bvar_3_basic", "bvar_7_basic")
+    return(atomic_models)
+}
+
 #' @title Generate atomic data frame 
 #' 
 #' @description
