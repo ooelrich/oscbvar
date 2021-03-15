@@ -15,5 +15,5 @@ The first column of this data frame should be t (as in time).}
 \item{start_agg}{From which value of t to start aggregating}
 }
 \description{
-
+Calculates weights based on the Mahalanobis method.
 }

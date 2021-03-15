@@ -9,6 +9,8 @@ gen_all_data(
   start_agg = 161,
   rolling = FALSE,
   window_length = 60,
+  tol = 5,
+  woc = "full",
   bvar_3 = TRUE,
   bvar_7 = TRUE,
   bvar_3_o2 = TRUE,
@@ -34,6 +36,10 @@ FALSE.}
 
 \item{window_length}{Minimum number of observations used for estimation.
 Defaults to 60.}
+
+\item{tol}{What tolerance to use in the caliper method.}
+
+\item{woc}{What weight-on-caliper method to use in the caliper method.}
 
 \item{bvar_3}{Should the 3-dimensional VAR(1) model be included?}
 
@@ -65,10 +71,6 @@ included?}
 
 \item{bvar_7_basic}{Should the basic 7-dimensional flat-Jeff VAR(1) model be
 included?}
-
-\item{tol}{What tolerance to use in the caliper method.}
-
-\item{woc}{What weight-on-caliper method to use in the caliper method.}
 }
 \description{
 Generates all the data needed to create the figures and table

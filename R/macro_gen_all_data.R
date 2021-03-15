@@ -33,7 +33,7 @@
 #' @param woc What weight-on-caliper method to use in the caliper method.
 
 gen_all_data <- function(start_t = 5, start_agg = 161, rolling = FALSE, 
-                         window_length = 60,
+                         window_length = 60, tol = 5, woc = "full",
                          bvar_3 = TRUE, bvar_7 = TRUE,
                          bvar_3_o2 = TRUE, bvar_7_o2 = TRUE,
                          svbvar_3 = TRUE, svbvar_7 = TRUE,

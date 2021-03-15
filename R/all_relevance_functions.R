@@ -68,7 +68,7 @@ caliper_relevance <- function(atomic_df, sotw, start_agg, tol = 5, woc = "full")
 
 #' @title Relevance assessment method: Mahalanobis
 #' 
-#' @description 
+#' @description Calculates weights based on the Mahalanobis method.
 #'
 #' @param atomic_df Data frames with agent predictions.
 #' @param sotw Data frame containing the state of the world at each time point.

@@ -20,7 +20,7 @@ gen_baseline <- function(atomic_df, start_agg) {
 
     # Giving all models equal weight
     df_all <- data.table::data.table(atomic_df)
-    df_equal_wt <- df_all[start_agg:T,
+    df_equal_wt <- df_all[t >= start_agg,
         .(pmean = mean(pmean), lpdens = log(mean(exp(lpdens))), method = "equal_wt", t),
         by = .(t)][, 2:5]
     baseline_df <- rbind(baseline_df, df_equal_wt)
@@ -68,9 +68,9 @@ gen_RAA <- function(RAL_data, agg_meth) {
 
 propto_weighting <- function(data) {
         
-        df_RAL <- data[, .(lpdens = log(sum(exp(lpdens)*exp(RAL)/sum(exp(RAL)))),
-                            pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
-                            method = "RAL_propto", t), by = .(t)][, -1]
+        df_RAL <- data[, .(pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
+                           lpdens = log(sum(exp(lpdens)*exp(RAL)/sum(exp(RAL)))),
+                           method = "RAL_propto", t), by = .(t)][, -1]
         return(df_RAL)
 }
 
@@ -82,9 +82,9 @@ propto_weighting <- function(data) {
 #' @import data.table
 
 selbest_weighting <- function(data) {
-    df_RAL <- data[, .(lpdens =max(lpdens),
-                       pmean = max(pmean),
-                       method = "RAL_selbest", t), by = .(t)][-1]
+    df_RAL <- data[, .(pmean = max(pmean),
+                       lpdens =max(lpdens),
+                       method = "RAL_selbest", t), by = .(t)][, -1]
     return(df_RAL)
 }
 
