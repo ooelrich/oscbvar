@@ -179,6 +179,7 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
                     lags = 1, include_intercept = FALSE,
                     nrep = 10000, nburn = 5000) {
+
   if(!is.logical(rolling)){
       stop("rolling must be boolean/logical")
   }
@@ -276,6 +277,8 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
 #' @param tau Number of observations to use for training prior.
+#' 
+#' @import bvarsv
 
 nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
                        start_t = 5, nrep = 10000, nburn = 5000, tau = 20) {
@@ -288,7 +291,7 @@ nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
   T <- nrow(data)
   m <- ncol(data)
 
-  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
+  Y_all <- as.matrix(data[start_t:T, ])
 
   for (i in window_length:(T - start_t)) {
 

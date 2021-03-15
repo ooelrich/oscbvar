@@ -97,12 +97,12 @@ gen_atomic_preds <- function(window_length = 60,
         df <- rbind(df, dat)
     }
     if (bart_7) {
-        dat <- nb_bart(oscbvar::macrodata, c(1:7), window_length = window_length,
+        dat <- nb_bart(oscbvar::macrodata[, 1:7], window_length = window_length,
                         rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }
     if (tvpsvbvar_3) {
-        dat <- nb_tvpsvbvar(oscbvar::macrodata, c(1:3), window_length = window_length,
+        dat <- nb_tvpsvbvar(oscbvar::macrodata[, 1:3], window_length = window_length,
                     rolling = rolling, start_t = start_t)
         df <- rbind(df, dat)
     }

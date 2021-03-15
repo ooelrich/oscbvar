@@ -12,6 +12,7 @@
 #' @param start_agg Which time point to start creating aggregate predictions for.
 #'   Note that this is based on the variable t in the supplied data frame, and
 #'   not row number.
+#' @import data.table
 
 gen_baseline <- function(atomic_df, start_agg) {
 
@@ -101,6 +102,8 @@ selbest_weighting <- function(data) {
 
 RAL_calculator <- function(weight_df, atomic_df) {
     
+    t2 <- similarity <- lpdens <- method <- adj_lpdens <- NULL
+
     start_agg <- min(weight_df$t)
     stop_agg <- max(weight_df$t)
 

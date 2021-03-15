@@ -56,6 +56,7 @@ gen_all_data <- function(start_t = 5, start_agg = 161, rolling = FALSE,
                                 start_t = start_t, baseline = TRUE,
                                 caliper = TRUE, mahala = TRUE, tol = tol,
                                 woc = "full")
+    df_atom <- data.table::data.table(df_atom)
     df <- rbind(df_atom[t >= start_agg, ], agg_preds)
     return(df)
 }
