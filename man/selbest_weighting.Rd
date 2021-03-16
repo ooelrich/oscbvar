@@ -4,10 +4,12 @@
 \alias{selbest_weighting}
 \title{Weighting by picking the best model}
 \usage{
-selbest_weighting(data)
+selbest_weighting(data, sim_measure)
 }
 \arguments{
-\item{data}{Which dataset to use}
+\item{data}{Which dataset to use.}
+
+\item{sim_measure}{Caliper or mahala.}
 }
 \description{
 Weighting by picking the best model

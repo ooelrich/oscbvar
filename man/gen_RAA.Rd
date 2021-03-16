@@ -4,7 +4,7 @@
 \alias{gen_RAA}
 \title{Generate relevance adjusted aggregations}
 \usage{
-gen_RAA(RAL_data, agg_meth)
+gen_RAA(RAL_data, agg_meth, sim_measure)
 }
 \arguments{
 \item{RAL_data}{Data set containing relevance adjusted logscores.}
@@ -13,6 +13,9 @@ gen_RAA(RAL_data, agg_meth)
 their relevance-adjusted logscores. Currently available are propto (which
 uses a softmax transformation) and select_best which picks the model with 
 the best RAL at each time point.}
+
+\item{sim_measure}{Which method was used to calculate the weights (caliper or
+mahala(nobis)).}
 }
 \description{
 Generates relevance adjusted aggregations given a data set with

@@ -1,20 +1,35 @@
 library(devtools)
 load_all()
 
-# Put code to test notebooks here
-# use a subset of the observations to make it take less time
+####################################################################
+### Put code to test notebooks here ################################
+### use a subset of the observations to make it faster #############
+####################################################################
 
 data <- as.matrix(macrodata[1:100, ])
 
+############################
+### SVBVAR #################
+############################
+
 svbvar_test <- nb_svbvar(data, lags = 2)
 
-bart_test <- nb_bart(data) # about 7 mins on the airbook with 100 obs
+############################
+### BART ###################
+############################
+# about 7 mins on the airbook with 100 obs (7 dims)
+# about xx mins on the airbook with all observations (7 dims)
+aa <- Sys.time()
+bart_test <- nb_bart(macrodata) 
+Sys.time() - aa
+
+############################
+### TVPSVBVAR ##############
+############################
 
 aa <- Sys.time()
 tvpsvbvar_test <- nb_tvpsvbvar(data) # about xx min on the airbook with 100 obs
 Sys.time() - aa
-
-
 
 
 # Debugging tvpsvbvar

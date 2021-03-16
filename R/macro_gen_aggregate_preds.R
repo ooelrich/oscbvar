@@ -34,15 +34,15 @@ gen_agg_preds <- function(atomic_df, start_agg, start_t = 5, baseline = TRUE,
     if (caliper) {
         weight_df <- caliper_relevance(atomic_df, sotw, start_agg, tol, woc)
         RAL_data <- RAL_calculator(weight_df, atomic_df)
-        df_cal_prop <- gen_RAA(RAL_data, "propto")
-        df_cal_sel <- gen_RAA(RAL_data, "select_best")
+        df_cal_prop <- gen_RAA(RAL_data, "propto", "caliper")
+        df_cal_sel <- gen_RAA(RAL_data, "select_best", "caliper")
         df_agg <- rbind(df_agg, df_cal_prop, df_cal_sel)
     }
     if (mahala) {
         weight_df <- mahala_relevance(atomic_df, sotw, start_agg)
         RAL_data <- RAL_calculator(weight_df, atomic_df)
-        df_mahala_prop <- gen_RAA(RAL_data, "propto")
-        df_mahala_sel <- gen_RAA(RAL_data, "select_best")
+        df_mahala_prop <- gen_RAA(RAL_data, "propto", "mahala")
+        df_mahala_sel <- gen_RAA(RAL_data, "select_best", "mahala")
         df_agg <- rbind(df_agg, df_mahala_prop, df_mahala_sel)
     }
     return(df_agg)

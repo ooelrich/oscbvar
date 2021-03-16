@@ -43,18 +43,19 @@ gen_baseline <- function(atomic_df, start_agg) {
 #'   their relevance-adjusted logscores. Currently available are propto (which
 #'   uses a softmax transformation) and select_best which picks the model with 
 #'   the best RAL at each time point.
+#' @param sim_measure Which method was used to calculate the weights (caliper or
+#'   mahala(nobis)).
 #' @import data.table
 
-
-gen_RAA <- function(RAL_data, agg_meth) {
+gen_RAA <- function(RAL_data, agg_meth, sim_measure) {
 
     # Using the method of giving each model the same RAL when NA
     # This will happen when using caliper and there is no relevant data
     RAL_data[is.na(RAL_data)] <- 1
 
     df_RAL <- switch(agg_meth,
-                    "propto" = propto_weighting(RAL_data),
-                    "select_best" = selbest_weighting(RAL_data),
+                    "propto" = propto_weighting(RAL_data, sim_measure),
+                    "select_best" = selbest_weighting(RAL_data, sim_measure),
                     stop("Unknown aggregation method."))
     
     return(df_RAL)
@@ -63,29 +64,36 @@ gen_RAA <- function(RAL_data, agg_meth) {
 
 #' @title Weighting proportional to RAL
 #' 
-#' @param data Dataset to use
+#' @param data Dataset to use.
+#' @param sim_measure Caliper or mahala.
 #' 
 #' @import data.table
 
-propto_weighting <- function(data) {
+propto_weighting <- function(data, sim_measure) {
         
+        method_name <- sprintf("%s_propto", sim_measure)
+
         df_RAL <- data[, .(pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
                            lpdens = log(sum(exp(lpdens)*exp(RAL)/sum(exp(RAL)))),
-                           method = "RAL_propto", t), by = .(t)][, -1]
+                           method = method_name, t), by = .(t)][, -1]
         return(df_RAL)
 }
 
 
 #' @title Weighting by picking the best model
 #' 
-#' @param data Which dataset to use
+#' @param data Which dataset to use.
+#' @param sim_measure Caliper or mahala.
 #' 
 #' @import data.table
 
-selbest_weighting <- function(data) {
+selbest_weighting <- function(data, sim_measure) {
+
+    method_name <- sprintf("%s_selbest", sim_measure)
+
     df_RAL <- data[, .(pmean = max(pmean),
                        lpdens =max(lpdens),
-                       method = "RAL_selbest", t), by = .(t)][, -1]
+                       method = method_name, t), by = .(t)][, -1]
     return(df_RAL)
 }
 

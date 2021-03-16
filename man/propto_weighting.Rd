@@ -4,10 +4,12 @@
 \alias{propto_weighting}
 \title{Weighting proportional to RAL}
 \usage{
-propto_weighting(data)
+propto_weighting(data, sim_measure)
 }
 \arguments{
-\item{data}{Dataset to use}
+\item{data}{Dataset to use.}
+
+\item{sim_measure}{Caliper or mahala.}
 }
 \description{
 Weighting proportional to RAL
