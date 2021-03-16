@@ -5,27 +5,18 @@
 \title{Generate all the data needed for the macroeconomics example}
 \usage{
 gen_all_data(
+  model_list,
   start_t = 5,
   start_agg = 161,
   rolling = FALSE,
   window_length = 60,
   tol = 5,
-  woc = "full",
-  bvar_3 = TRUE,
-  bvar_7 = TRUE,
-  bvar_3_o2 = TRUE,
-  bvar_7_o2 = TRUE,
-  svbvar_3 = TRUE,
-  svbvar_7 = TRUE,
-  svbvar_3_o2 = TRUE,
-  svbvar_7_o2 = TRUE,
-  bart_7 = TRUE,
-  tvpsvbvar_3 = TRUE,
-  bvar_3_basic = FALSE,
-  bvar_7_basic = FALSE
+  woc = "full"
 )
 }
 \arguments{
+\item{model_list}{List of names of the atomic models to use.}
+
 \item{start_t}{Which observation in the macrodata to consider as t = 1.}
 
 \item{start_agg}{At which time point to start aggregating. This will depend
@@ -37,40 +28,9 @@ FALSE.}
 \item{window_length}{Minimum number of observations used for estimation.
 Defaults to 60.}
 
-\item{tol}{What tolerance to use in the caliper method.}
+\item{tol}{Parameter that determines caliper tolerance.}
 
-\item{woc}{What weight-on-caliper method to use in the caliper method.}
-
-\item{bvar_3}{Should the 3-dimensional VAR(1) model be included?}
-
-\item{bvar_7}{Should the 7-dimensional VAR(1) model be included?}
-
-\item{bvar_3_o2}{Should the 3-dimensional VAR(2) model be included?}
-
-\item{bvar_7_o2}{Should the 7-dimensional VAR(2) model be included?}
-
-\item{svbvar_3}{Should the 3-dimensional BVAR with stochastic volatility be
-included?}
-
-\item{svbvar_7}{Should the 7-dimensional BVAR with stochastic volatility be
-included?}
-
-\item{svbvar_3_o2}{Should the 3-dimensional VAR(2) with stochastic volatility
-be included?}
-
-\item{svbvar_7_o2}{Should the 7-dimensional VAR(2) with stochastic volatility
-be included?}
-
-\item{bart_7}{Should the 7-dimensional BART model be included?}
-
-\item{tvpsvbvar_3}{Should the 3-dimensional time-varying-parameter BVAR with
-stochastic volatility be included?}
-
-\item{bvar_3_basic}{Should the basic 3-dimensional flat-Jeff VAR(1) model be
-included?}
-
-\item{bvar_7_basic}{Should the basic 7-dimensional flat-Jeff VAR(1) model be
-included?}
+\item{woc}{Parameter that determines "nonexistence" problems for the caliper.}
 }
 \description{
 Generates all the data needed to create the figures and table

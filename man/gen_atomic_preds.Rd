@@ -4,25 +4,11 @@
 \alias{gen_atomic_preds}
 \title{Generate atomic predictions}
 \usage{
-gen_atomic_preds(
-  window_length = 60,
-  rolling = FALSE,
-  start_t = 5,
-  bvar_3 = TRUE,
-  bvar_7 = TRUE,
-  bvar_3_o2 = TRUE,
-  bvar_7_o2 = TRUE,
-  svbvar_3 = TRUE,
-  svbvar_7 = TRUE,
-  svbvar_3_o2 = TRUE,
-  svbvar_7_o2 = TRUE,
-  bart_7 = TRUE,
-  tvpsvbvar_3 = TRUE,
-  bvar_3_basic = FALSE,
-  bvar_7_basic = FALSE
-)
+gen_atomic_preds(model_list, window_length = 60, rolling = FALSE, start_t = 5)
 }
 \arguments{
+\item{model_list}{List of names of the atomic models to use.}
+
 \item{window_length}{Minimum number of observations used for estimation.
 Defaults to 60.}
 
@@ -33,37 +19,6 @@ false.}
 observations prior to that one will be considered fixed. Set to 5 by
 default to allow the specification of models that are autoregressive of
 order 4 without breaking anything.}
-
-\item{bvar_3}{Should the 3-dimensional VAR(1) model be included?}
-
-\item{bvar_7}{Should the 7-dimensional VAR(1) model be included?}
-
-\item{bvar_3_o2}{Should the 3-dimensional VAR(2) model be included?}
-
-\item{bvar_7_o2}{Should the 7-dimensional VAR(2) model be included?}
-
-\item{svbvar_3}{Should the 3-dimensional BVAR with stochastic volatility be
-included?}
-
-\item{svbvar_7}{Should the 7-dimensional BVAR with stochastic volatility be
-included?}
-
-\item{svbvar_3_o2}{Should the 3-dimensional VAR(2) with stochastic volatility
-be included?}
-
-\item{svbvar_7_o2}{Should the 7-dimensional VAR(2) with stochastic volatility
-be included?}
-
-\item{bart_7}{Should the 7-dimensional BART model be included?}
-
-\item{tvpsvbvar_3}{Should the 3-dimensional time-varying-parameter BVAR with
-stochastic volatility be included?}
-
-\item{bvar_3_basic}{Should the basic 3-dimensional flat-Jeff VAR(1) model be
-included?}
-
-\item{bvar_7_basic}{Should the basic 7-dimensional flat-Jeff VAR(1) model be
-included?}
 }
 \description{
 Generates a notebook of atomic predictive densities and means.

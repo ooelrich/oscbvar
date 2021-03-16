@@ -11,6 +11,8 @@
 #' @param window_length Minimum number of observations used for estimation.
 #'   Defaults to 60.
 #' @param model_list List of names of the atomic models to use.
+#' @param tol Parameter that determines caliper tolerance.
+#' @param woc Parameter that determines "nonexistence" problems for the caliper.
 
 
 gen_all_data <- function(model_list, start_t = 5, start_agg = 161, rolling = FALSE, 
