@@ -26,7 +26,7 @@ gen_all_data <- function(model_list, start_t = 5, start_agg = 161, rolling = FAL
     agg_preds <- gen_agg_preds(atomic_df = df_atom, start_agg = start_agg,
                                 start_t = start_t, baseline = TRUE,
                                 caliper = TRUE, mahala = TRUE, tol = tol,
-                                woc = "full")
+                                woc = woc)
     df_atom <- data.table::data.table(df_atom)
     df <- rbind(df_atom[t >= start_agg, ], agg_preds)
     return(df)
