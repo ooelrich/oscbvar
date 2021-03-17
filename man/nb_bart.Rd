@@ -6,9 +6,7 @@
 \usage{
 nb_bart(
   data,
-  window_length = 60,
-  rolling = FALSE,
-  start_t = 5,
+  agc,
   lags = 1,
   include_intercept = FALSE,
   nrep = 10000,
@@ -18,12 +16,11 @@ nb_bart(
 \arguments{
 \item{data}{Dataset from which to generate the notebook.}
 
-\item{window_length}{Minimum length of the estimation window.}
-
-\item{rolling}{Whether to use a rolling estimation window or not. Defaults to
-FALSE.}
-
-\item{start_t}{Which observation to set as t = 1. Defaults to observation 5.}
+\item{agc}{List of atomic prediction generation controllers. The first
+element of the list gives the starting time (ie what observation is 
+considered as t = 1), the second element is the minimum window length used
+for estimation, and the third one is a boolean indicating if the estimation
+window is rolling or not. Defaults to (5, 60, FALSE)}
 
 \item{lags}{The order of the VAR. Defaults to 1.}
 

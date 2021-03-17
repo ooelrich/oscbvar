@@ -6,9 +6,7 @@
 \usage{
 nb_bvar(
   data,
-  window_length = 60,
-  rolling = FALSE,
-  start_t = 5,
+  agc = list(5, 60, TRUE),
   lags = 1,
   overall_tightness = 0.2,
   lag_decay = 1,
@@ -20,13 +18,11 @@ nb_bvar(
 the variables used by the model, and the outcome variable of interest
 should be in column 1.}
 
-\item{window_length}{Minimum length of the estimation window. Defaults to
-60 quarters (i.e. 5 years).}
-
-\item{rolling}{Whether to use a rolling estimation window or not. Defaults to
-FALSE.}
-
-\item{start_t}{Which observation starts the estimation sample. Defaults to 5.}
+\item{agc}{List of atomic prediction generation controllers. The first
+element of the list gives the starting time (ie what observation is 
+considered as t = 1), the second element is the minimum window length used
+for estimation, and the third one is a boolean indicating if the estimation
+window is rolling or not.}
 
 \item{lags}{The order of the VAR model. Defaults to 1.}
 

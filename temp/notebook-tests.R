@@ -41,3 +41,19 @@ testdata <- as.matrix(macrodata[1:60, 1:3])
 bv <- bvarsv::bvar.sv.tvp(testdata, nf = 1, nrep = nrep, nburn = nburn, tau = tau)
 summary(bv)
 bv$H.postmean
+
+
+# Reducing parameters in the notebook functions with lists
+
+library(devtools)
+load_all()
+model_list <- gen_atomic_list()
+atomic_cont <- list(5, 60, FALSE)
+atom_p <- gen_atomic_preds(model_list[1:5], atomic_cont)
+
+
+test_bart <- nb_bart(macrodata[1:120, 1:7], atomic_cont)
+
+#then we test the tvp
+
+test_tvp <- nb_tvpsvbvar(macrodata[1:120, 1:3], atomic_cont)

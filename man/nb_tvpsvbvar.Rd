@@ -4,24 +4,16 @@
 \alias{nb_tvpsvbvar}
 \title{Notebook generator: TVP-SV-BVAR}
 \usage{
-nb_tvpsvbvar(
-  data,
-  window_length = 60,
-  rolling = FALSE,
-  start_t = 5,
-  nrep = 10000,
-  nburn = 5000,
-  tau = 20
-)
+nb_tvpsvbvar(data, agc, nrep = 10000, nburn = 5000, tau = 20)
 }
 \arguments{
 \item{data}{Dataset from which to generate the notebook}
 
-\item{window_length}{Minimum length of the estimation window.}
-
-\item{rolling}{Whether to use a rolling estimation window or not.}
-
-\item{start_t}{Which observation to consider as t=1.}
+\item{agc}{List of atomic prediction generation controllers. The first
+element of the list gives the starting time (ie what observation is 
+considered as t = 1), the second element is the minimum window length used
+for estimation, and the third one is a boolean indicating if the estimation
+window is rolling or not. Defaults to (5, 60, FALSE)}
 
 \item{nrep}{Number of MCMC draws (after burn-in)}
 

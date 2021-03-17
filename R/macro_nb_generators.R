@@ -16,11 +16,11 @@
 #' @param data Dataset from which to generate the notebook. Should include only
 #'   the variables used by the model, and the outcome variable of interest
 #'   should be in column 1.
-#' @param window_length Minimum length of the estimation window. Defaults to
-#'   60 quarters (i.e. 5 years).
-#' @param rolling Whether to use a rolling estimation window or not. Defaults to
-#'   FALSE.
-#' @param start_t Which observation starts the estimation sample. Defaults to 5.
+#' @param agc List of atomic prediction generation controllers. The first
+#'   element of the list gives the starting time (ie what observation is 
+#'   considered as t = 1), the second element is the minimum window length used
+#'   for estimation, and the third one is a boolean indicating if the estimation
+#'   window is rolling or not.
 #' @param lags The order of the VAR model. Defaults to 1. 
 #' @param overall_tightness Overall tightness (pi_1 in Sunes notation). Defaults
 #'   to 0.2
@@ -28,19 +28,21 @@
 #' @param include_intercept Whether or not to include an intercept. Defaults to
 #'   TRUE.
 
-nb_bvar <- function(data, window_length = 60, rolling = FALSE,
-                    start_t = 5, lags = 1, overall_tightness = 0.2,
+nb_bvar <- function(data, agc = list(5, 60, TRUE), lags = 1, overall_tightness = 0.2,
                     lag_decay = 1, include_intercept = TRUE) {
 
-    if(!is.logical(rolling)){
+    if(!is.logical(agc[[3]])){
       stop("rolling must be boolean/logical")
     }
     if(!is.logical(include_intercept)){
       stop("include intercept must be boolean/logical")
     }
+
     # data frame to store predictions in, all notebooks use the same function
     df <- gen_atomic_df() 
 
+    start_t <- agc[[1]]
+    window_length <- agc[[2]]
     T <- nrow(data)
     m <- ncol(data)
     Y_all <- as.matrix(data.frame(data[start_t:T, ]))
@@ -53,7 +55,7 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
     # Start generating predictions
     for (i in window_length:(T - start_t)) {
         
-        if (rolling == TRUE) { # j is the starting point of the estimation set
+        if (agc[[3]]) { # j is the starting point of the estimation set
             j <- i + 1 - window_length
         } else {
             j <- 1
@@ -100,37 +102,38 @@ nb_bvar <- function(data, window_length = 60, rolling = FALSE,
 #' @param data Dataset from which to generate the notebook. Should include only
 #'   the variables used by the model, and the outcome varaible of interest
 #'   should be in column 1.
-#' @param window_length Length of estimation window. Defaults to 60 quarters 
-#'   (i.e. 5 years).
-#' @param rolling Whether to use a rolling estimation window or not. Defaults to
-#'   FALSE.
-#' @param start_t Which observation to consider as t=1.
+#' @param agc List of atomic prediction generation controllers. The first
+#'   element of the list gives the starting time (ie what observation is 
+#'   considered as t = 1), the second element is the minimum window length used
+#'   for estimation, and the third one is a boolean indicating if the estimation
+#'   window is rolling or not.
 #' @param lags The order of the VAR model. Defaults to 1.
 #' @param include_intercept Should the design matrix include an intercept? 
 #'   Defaults to TRUE.
 #' 
 #' @import stochvol
 
-nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
-                    start_t = 5, lags = 1, include_intercept = TRUE) {
-    
+nb_svbvar <- function(data, agc = list(5, 60, TRUE), lags = 1, include_intercept = TRUE) {
 
-    if(!is.logical(rolling)){
+    if(!is.logical(agc[[3]])){
       stop("rolling must be boolean/logical")
     }
     if(!is.logical(include_intercept)){
       stop("include intercept must be boolean/logical")
     }
+
     df <- gen_atomic_df()
     T <- nrow(data)
     m <- ncol(data)
+    start_t <- agc[[1]]
+    window_length <- agc[[2]]
 
     Y_all <- as.matrix(data.frame(data[start_t:T, ]))
     Z_all <- gen_Z(data.frame(data), start_t, lags, include_intercept)
 
     for (i in (window_length):(T - start_t)) {
         
-        if (rolling == TRUE) {
+        if (agc[[3]]) {
             j <- i + 1 - window_length
         } else {
             j <- 1
@@ -163,10 +166,11 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 #' Uses default settings in dbarts.
 #'
 #' @param data Dataset from which to generate the notebook.
-#' @param window_length Minimum length of the estimation window.
-#' @param rolling Whether to use a rolling estimation window or not. Defaults to
-#'   FALSE.
-#' @param start_t Which observation to set as t = 1. Defaults to observation 5.
+#' @param agc List of atomic prediction generation controllers. The first
+#'   element of the list gives the starting time (ie what observation is 
+#'   considered as t = 1), the second element is the minimum window length used
+#'   for estimation, and the third one is a boolean indicating if the estimation
+#'   window is rolling or not. Defaults to (5, 60, FALSE)
 #' @param lags The order of the VAR. Defaults to 1.
 #' @param include_intercept Whether to include an intercep in the design matrix
 #'   or not. Defaults to FALSE since the intercept breaks the function.
@@ -176,17 +180,19 @@ nb_svbvar <- function(data, window_length = 60, rolling = FALSE,
 #' @import sn
 
 
-nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
+nb_bart <- function(data, agc,
                     lags = 1, include_intercept = FALSE,
                     nrep = 10000, nburn = 5000) {
 
-  if(!is.logical(rolling)){
+  if(!is.logical(agc[[3]])){
       stop("rolling must be boolean/logical")
   }
   if(!is.logical(include_intercept)){
       stop("include intercept must be boolean/logical")
   }
 
+  start_t <- agc[[1]]
+  window_length <- agc[[2]]
   df <- gen_atomic_df()
   T <- nrow(data)
   m <- ncol(data)
@@ -211,7 +217,7 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
   
   for (i in (window_length):(T - start_t)) {
     
-    if (rolling == TRUE) {
+    if (agc[[3]]) {
       j <- i + 1 - window_length
     } else {
       j <- 1
@@ -235,13 +241,8 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
                                  resid.prior = chisq(prior.sig[[1]], prior.sig[[2]]))
     est_mod <- bart_model$run()
     preds <- bart_model$predict(z, NULL)[1, ]
-    #bart_model <- dbarts::bart(Z, Y[,1], z, 
-    #                           sigma = sqrt(Sigma.OLS), 
-    #                           ndpost = nrep, nskip = nburn)
-    #preds <- bart_model$yhat.test
     
     kernel_density <- density(preds)
-    #log_pred_dens_bart <- log(approx(kernel_density$x, kernel_density$y, xout = y)$y)
     
     log_score_st <- function(post_pred_draws, y_new) {
       obj <- sn::selm(post_pred_draws~1, family = "st")
@@ -271,31 +272,34 @@ nb_bart <- function(data, window_length = 60, rolling = FALSE, start_t = 5,
 #' Uses default settings in bvarsv.
 #'
 #' @param data Dataset from which to generate the notebook
-#' @param window_length Minimum length of the estimation window.
-#' @param rolling Whether to use a rolling estimation window or not.
-#' @param start_t Which observation to consider as t=1.
+#' @param agc List of atomic prediction generation controllers. The first
+#'   element of the list gives the starting time (ie what observation is 
+#'   considered as t = 1), the second element is the minimum window length used
+#'   for estimation, and the third one is a boolean indicating if the estimation
+#'   window is rolling or not. Defaults to (5, 60, FALSE)
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
 #' @param tau Number of observations to use for training prior.
 #' 
 #' @import bvarsv
 
-nb_tvpsvbvar <- function(data, window_length = 60, rolling = FALSE,
-                       start_t = 5, nrep = 10000, nburn = 5000, tau = 20) {
+nb_tvpsvbvar <- function(data, agc, nrep = 10000, nburn = 5000, tau = 20) {
 
-  if(!is.logical(rolling)){
+  if(!is.logical(agc[[3]])){
       stop("rolling must be boolean/logical")
   }
 
   df <- gen_atomic_df()
   T <- nrow(data)
   m <- ncol(data)
+  start_t <- agc[[1]]
+  window_length <- agc[[2]]
 
   Y_all <- as.matrix(data[start_t:T, ])
 
   for (i in window_length:(T - start_t)) {
 
-    if (rolling == TRUE) {
+    if (agc[[3]]) {
       j <- i + 1 - window_length
     } else {
       j <- 1

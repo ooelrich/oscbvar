@@ -6,31 +6,35 @@
 \usage{
 gen_all_data(
   model_list,
-  start_t = 5,
+  agc = list(5, 60, FALSE),
   start_agg = 161,
-  rolling = FALSE,
-  window_length = 60,
   tol = 5,
-  woc = "full"
+  woc = "full",
+  gen_atom = TRUE,
+  atom_df = NULL
 )
 }
 \arguments{
 \item{model_list}{List of names of the atomic models to use.}
 
-\item{start_t}{Which observation in the macrodata to consider as t = 1.}
+\item{agc}{List of atomic prediction generation controllers. The first
+element of the list gives the starting time (ie what observation is 
+considered as t = 1), the second element is the minimum window length used
+for estimation, and the third one is a boolean indicating if the estimation
+window is rolling or not.}
 
 \item{start_agg}{At which time point to start aggregating. This will depend
 on how much training data you want to feed the algorithms.}
 
-\item{rolling}{Whether or not to use rolling estimation windows. Defaults to
-FALSE.}
-
-\item{window_length}{Minimum number of observations used for estimation.
-Defaults to 60.}
-
 \item{tol}{Parameter that determines caliper tolerance.}
 
 \item{woc}{Parameter that determines "nonexistence" problems for the caliper.}
+
+\item{gen_atom}{Should atomic data be generated or is it supplied? Defaults 
+to TRUE.}
+
+\item{atom_df}{Optional argument, supplies a data frame with atomic
+predictions.}
 }
 \description{
 Generates all the data needed to create the figures and table
