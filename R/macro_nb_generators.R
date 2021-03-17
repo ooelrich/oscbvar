@@ -312,10 +312,10 @@ nb_tvpsvbvar <- function(data, agc, nrep = 10000, nburn = 5000, tau = 20) {
     f <- bvarsv::predictive.density(bv, v = 1, h = 1)
     log_pred_dens_bvar <- log(f(y))
 
-    df[(i - window_length - 1), "pmean"][[1]] <- mean(bv$fc.mdraws[1, 1, ])
-    df[(i - window_length - 1), "lpdens"] <- log_pred_dens_bvar
-    df[(i - window_length - 1), "method"] <- sprintf("TVPSVBVAR_%i", m)
-    df[(i - window_length - 1), "t"] <- i
+    df[(i + 1 - window_length), "pmean"][[1]] <- mean(bv$fc.mdraws[1, 1, ])
+    df[(i + 1 - window_length), "lpdens"] <- log_pred_dens_bvar
+    df[(i + 1 - window_length), "method"] <- sprintf("TVPSVBVAR_%i", m)
+    df[(i + 1 - window_length), "t"] <- i + 1
 
   }
   return(df)

@@ -1,5 +1,8 @@
-#' Medium data set from OG et al 2020, rescaled to unit variance
+#' @title Medium data set from OG et al 2020, rescaled to unit variance
 #'
+#' @description The final observation corresponds to 2019Q1. You do the rest of
+#'   the math.
+#' 
 #' @format A data frame with 218 rows and 7 variables:
 #' \describe{
 #'   \item{GDPC1}{Real GDP. Transformed by 400 x diff-log. Quarterly.}

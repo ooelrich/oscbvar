@@ -20,6 +20,7 @@ A data frame with 218 rows and 7 variables:
 macrodata
 }
 \description{
-Medium data set from OG et al 2020, rescaled to unit variance
+The final observation corresponds to 2019Q1. You do the rest of
+  the math.
 }
 \keyword{datasets}
