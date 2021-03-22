@@ -179,25 +179,30 @@ nb_svbvar <- function(data, agc = list(5, 60, TRUE), lags = 1, include_intercept
 #' 
 #' @import sn
 
+nb_bart <-function(
+    data,
+    agc,
+    lags = 1,
+    include_intercept = FALSE,
+    nrep = 10000,
+    nburn = 5000) {
 
-nb_bart <- function(data, agc,
-                    lags = 1, include_intercept = FALSE,
-                    nrep = 10000, nburn = 5000) {
-
-  if(!is.logical(agc[[3]])){
-      stop("rolling must be boolean/logical")
-  }
-  if(!is.logical(include_intercept)){
-      stop("include intercept must be boolean/logical")
-  }
+  stopifnot(is.logical(agc[[3]]))
+  stopifnot(is.logical(include_intercept))
 
   start_t <- agc[[1]]
   window_length <- agc[[2]]
   df <- gen_atomic_df()
   T <- nrow(data)
   m <- ncol(data)
-  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
-  Z_all <- gen_Z(data.frame(data), start_t, lags, include_intercept)
+  Y_all <-as.matrix(data.frame(data[start_t:T, ]))
+  
+  Z_all <-
+    gen_Z(
+      data.frame(data),
+      start_t,
+      lags,
+      include_intercept)
 
   cgm.level <- 0.95 # alpha
   cgm.exp <- 2 # beta
@@ -205,15 +210,24 @@ nb_bart <- function(data, agc,
   prior.cov <- 0.01
   sd.mu <- 2
   
-  control <- dbarts::dbartsControl(verbose = FALSE, keepTrainingFits = TRUE, 
-                           useQuantiles = FALSE,
-                           keepTrees = TRUE, n.samples = nrep,
-                           n.cuts = 100L, n.burn = nburn, n.trees = num.trees, 
-                           n.chains = 1,
-                           n.threads = 1, n.thin = 1L, printEvery = 1,
-                           printCutoffs = 0L, rngKind = "default", 
-                           rngNormalKind = "default",
-                           updateState = FALSE)
+  control <-
+    dbarts::dbartsControl(
+      verbose = FALSE,
+      keepTrainingFits = TRUE, 
+      useQuantiles = FALSE,
+      keepTrees = TRUE,
+      n.samples = nrep,
+      n.cuts = 100L,
+      n.burn = nburn,
+      n.trees = num.trees, 
+      n.chains = 1,
+      n.threads = 1,
+      n.thin = 1L,
+      printEvery = 1,
+      printCutoffs = 0L,
+      rngKind = "default", 
+      rngNormalKind = "default",
+      updateState = FALSE)
   
   for (i in (window_length):(T - start_t)) {
     
