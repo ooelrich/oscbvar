@@ -23,47 +23,71 @@
 #'   weight to the observations within the caliper proportional to the number of
 #'   observations within the caliper. Not that if the "full" method is being
 #'   used and error will be thrown if some timepoints have zero previous
-#'   observations within the caliper.
+#'   observations within the caliper. "uncond" reverts to the unconditional
+#'   predictive ability when there is no data (ie giving each previous
+#'   observation equal weight).
 #'
 #' @import data.table
 
-caliper_relevance <- function(atomic_df, sotw, start_agg, tol = 5, woc = "full") {
+caliper_relevance <- function(
+        atomic_df,
+        sotw,
+        start_agg = 161,
+        tol = 5,
+        woc = "full"
+) {
+    
     T <- max(atomic_df$t)
     start <- min(atomic_df$t)
     p <- (T - start_agg + 1)
     rows <- sum(seq_len(p))
 
-    similarity_df <- data.frame(matrix(ncol = 3, nrow = rows))
+    sim_df <- data.frame(matrix(ncol = 3, nrow = rows))
     x <- c("t", "t2", "similarity")
-    colnames(similarity_df) <- x
+    colnames(sim_df) <- x
     sotw <- data.table::data.table(sotw)
 
     j <- 0
     for (i in start_agg:T) {
         for (k in start:(i - 1)) {
             j <- j + 1
-            similarity_df[j, 1] <- i
-            similarity_df[j, 2] <- k
+            sim_df[j, 1] <- i
+            sim_df[j, 2] <- k
             if (sum((sotw[t == (i - 1), -1] - sotw[t == (k - 1), -1])^2) < tol) {
-                similarity_df[j, 3] <- 1
+                sim_df[j, 3] <- 1
             } else {
-                similarity_df[j, 3] <- 0
+                sim_df[j, 3] <- 0
             }
         }
         if (woc == "full") {
-            if (sum(subset(similarity_df, similarity_df$t == i)$similarity) == 0) {
-                stop(paste(
-                    "Time point with zero observations within caliper",
-                    "detected while using woc = full. Please increase",
-                    "tolerance."
-                ))
+            if (sum(subset(sim_df, sim_df$t == i)$similarity) == 0) {
+                stop(
+                    paste(
+                        "Time point with zero observations within caliper",
+                        "detected while using woc = full. Please increase",
+                        "tolerance."
+                    )
+                )
             }
         }
     }
 
-    similarity_df <- data.table::data.table(similarity_df)
-    similarity_df <- similarity_df[order(-t, -t2), .(t2, similarity = similarity / sum(similarity)), by = .(t)]
-    return(similarity_df)
+    sim_df <- data.table::data.table(sim_df)
+    
+    if (woc == "uncond") {
+        sim_df[, sum_sim := sum(similarity), by = .(t)]
+        sim_df$similarity[sim_df$sum_sim == 0] <- 1
+        sim_df[, sum_sim := NULL] # really quick way to drop a column
+    }
+
+    sim_df <- sim_df[
+        order(-t, -t2), 
+        .(t2, similarity = similarity / sum(similarity)),
+        by = .(t)
+    ]
+    
+
+    return(sim_df)
 }
 
 #' @title Relevance assessment method: Mahalanobis
@@ -83,23 +107,23 @@ mahala_relevance <- function(atomic_df, sotw, start_agg) {
     p <- (T - start_agg + 1)
     rows <- sum(seq_len(p))
 
-    similarity_df <- data.frame(matrix(ncol = 3, nrow = rows))
+    sim_df <- data.frame(matrix(ncol = 3, nrow = rows))
     x <- c("t", "t2", "similarity")
-    colnames(similarity_df) <- x
+    colnames(sim_df) <- x
     sotw <- data.table::data.table(sotw)
 
     j <- 0
     for (i in start_agg:T) {
         for (k in start:(i - 1)) {
             j <- j + 1
-            similarity_df[j, 1] <- i
-            similarity_df[j, 2] <- k
+            sim_df[j, 1] <- i
+            sim_df[j, 2] <- k
             md <- sqrt(sum((sotw[t == (i - 1), -1] - sotw[t == (k - 1), -1])^2))
-            similarity_df[j, 3] <- 1 / md
+            sim_df[j, 3] <- 1 / md
         }
     }
 
-    similarity_df <- data.table::data.table(similarity_df)
-    similarity_df <- similarity_df[order(-t, -t2), .(t2, similarity = similarity / sum(similarity)), by = .(t)]
-    return(similarity_df)
+    sim_df <- data.table::data.table(sim_df)
+    sim_df <- sim_df[order(-t, -t2), .(t2, similarity = similarity / sum(similarity)), by = .(t)]
+    return(sim_df)
 }

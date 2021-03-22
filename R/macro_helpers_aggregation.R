@@ -53,10 +53,12 @@ gen_RAA <- function(RAL_data, agg_meth, sim_measure) {
     # This will happen when using caliper and there is no relevant data
     RAL_data[is.na(RAL_data)] <- 1
 
-    df_RAL <- switch(agg_meth,
-                    "propto" = propto_weighting(RAL_data, sim_measure),
-                    "select_best" = selbest_weighting(RAL_data, sim_measure),
-                    stop("Unknown aggregation method."))
+    df_RAL <- switch(
+        agg_meth,
+        "propto" = propto_weighting(RAL_data, sim_measure),
+        "select_best" = selbest_weighting(RAL_data, sim_measure),
+        stop("Unknown aggregation method.")
+    )
     
     return(df_RAL)
 }
@@ -71,12 +73,19 @@ gen_RAA <- function(RAL_data, agg_meth, sim_measure) {
 
 propto_weighting <- function(data, sim_measure) {
         
-        method_name <- sprintf("%s_propto", sim_measure)
+    method_name <- sprintf("%s_propto", sim_measure)
 
-        df_RAL <- data[, .(pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
-                           lpdens = log(sum(exp(lpdens)*exp(RAL)/sum(exp(RAL)))),
-                           method = method_name, t), by = .(t)][, -1]
-        return(df_RAL)
+    df_RAL <- data[,
+        .(
+            pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
+            lpdens = log(sum(exp(lpdens) * exp(RAL) / sum(exp(RAL)))),
+            method = method_name,
+            t
+        ),
+        by = .(t)
+    ][, -1]
+        
+    return(df_RAL)
 }
 
 
@@ -91,9 +100,10 @@ selbest_weighting <- function(data, sim_measure) {
 
     method_name <- sprintf("%s_selbest", sim_measure)
 
-    df_RAL <- data[, .(pmean = max(pmean),
-                       lpdens =max(lpdens),
-                       method = method_name, t), by = .(t)][, -1]
+    df_RAL <- data[data[, .I[RAL == max(RAL)], by = t]$V1]
+    df_RAL$method <- method_name
+    df_RAL[, RAL := NULL]
+
     return(df_RAL)
 }
 
