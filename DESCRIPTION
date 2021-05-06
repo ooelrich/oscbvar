@@ -18,3 +18,7 @@ Imports:
     pracma,
     sn,
     data.table
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

@@ -4,7 +4,7 @@
 \alias{caliper_relevance}
 \title{Relevance assessment method: Caliper}
 \usage{
-caliper_relevance(atomic_df, sotw, start_agg, tol = 5, woc = "full")
+caliper_relevance(atomic_df, sotw, start_agg = 161, tol = 5, woc = "full")
 }
 \arguments{
 \item{atomic_df}{Data frames with agent predictions.}
@@ -22,7 +22,9 @@ observations inside the tolerance count, or "progressive", which gives
 weight to the observations within the caliper proportional to the number of
 observations within the caliper. Not that if the "full" method is being
 used and error will be thrown if some timepoints have zero previous
-observations within the caliper.}
+observations within the caliper. "uncond" reverts to the unconditional
+predictive ability when there is no data (ie giving each previous
+observation equal weight).}
 }
 \description{
 Calculates weights for which previous log scores to use based on the

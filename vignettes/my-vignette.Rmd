@@ -1,0 +1,28 @@
+---
+title: "my-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+I guess I can just write *markdown* here, but latex does not seem like it is working?
+
+$$ \alpha $$
+
+```{r, include = TRUE}
+a <- rnorm(10)
+a
+```

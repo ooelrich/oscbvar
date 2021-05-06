@@ -20,7 +20,7 @@ Generates a notebook of atomic predictive densities and means.
 }
 \details{
 Function to generate the atomic predictions (that is the predictions of the
-individual models, not of aggregation scehemes) for the macro-data example 
+individual models, not of aggregation schemes) for the macro-data example 
 for predicting DGP. Essentialy a list of potential models to include that the
 user selects from. Also contains some global settings that always should be
 the same between models, such as estimation window length, starting time, and
