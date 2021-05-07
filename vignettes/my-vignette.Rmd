@@ -1,8 +1,8 @@
 ---
-title: "my-vignette"
+title: "Generate data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{Generate data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
