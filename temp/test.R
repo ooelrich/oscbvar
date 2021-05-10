@@ -1,55 +1,50 @@
 library(devtools)
-
 load_all()
 
+
+# Vignette nr 1: generate atomic predictions
 menu <- gen_atomic_list()
-list_of_models <- menu[1:4]
-
-first_half <- gen_atomic_preds(list_of_models)
-
-
-sotw <- macrodata[5:nrow(macrodata), ]
-sotw <- data.frame(t = c(1:nrow(sotw)), sotw)
+list_of_models <- menu[c(2, 6, 9, 10)]
+atomic_settings <- list(5, 60, FALSE)
+adf <- gen_atomic_preds(menu, atomic_settings)
+aa <- Sys.time()
+Sys.time() - aa
 
 
-weight_df <- caliper_relevance(
-    first_half,
-    sotw,
-    161,
-    5,
-    "uncond"
+# The four notebooks and making sure they are working correctly
+
+atomic_settings <- list(5, 60, FALSE, 3)
+
+# bvar_7
+bvar7preds <- nb_bvar(
+     macrodata[, 1:3],
+     atomic_settings,
+     lags = 1
 )
+head(bvar7preds)
 
-View(weight_df)
-RAL_data <- RAL_calculator(weight_df, first_half)
-df_cal_prop <- gen_RAA(RAL_data, "propto", "caliper")
-df_cal_sel <- gen_RAA(RAL_data, "select_best", "caliper")
-df_agg <- rbind(df_agg, df_cal_prop, df_cal_sel)
+# svbvar_7
+svbvar <- nb_svbvar(
+    macrodata[, 1:3],
+    atomic_settings
+)
+head(svbvar)
 
-
-
-
-# Experimenting with tiny matrices
-t <- c(10, 10, 10, 9, 9, 9)
-t2 <- c(9, 8, 7, 8, 7, 6)
-targe <- rnorm(6)
-snurre <- rnorm(6)
-dft <- data.table(t, t2, targe, snurre)
-dft[, sumsim := sum(simi), by = .(t)]
-dft$simi[dft$sumsim == 0] <- 1
-dft[, sumsim := NULL]
-
-dft[targe == max(targe), .(t2) , by = .(t)]
-dft2 <-dft[dft[, .I[targe == max(targe)], by = t]$V1]
-dft
-dft2[, method := "caliper"]
-
-dft$snurre <- 1
-
-# debuggin the actual function
+# bart_7
+aa <- Sys.time()
+bart <- nb_bart(
+    macrodata[, 1:7],
+    atomic_settings
+)
+Sys.time() - aa
+head(bart)
 
 
-# sim_measure is just caliper
-
-RAL_data
-hahah <- selbest_weighting(RAL_data, "caliper")
+# tvpsvbvar
+aa <- Sys.time()
+tvpsvbvar <- nb_tvpsvbvar(
+    macrodata[, 1:3],
+    atomic_settings
+)
+Sys.time() - aa
+head(tvpsvbvar)

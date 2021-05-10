@@ -19,8 +19,15 @@
 #'   predictions.
 
 
-gen_all_data <- function(model_list, agc = list(5, 60, FALSE), start_agg = 161,
-                         tol = 5, woc = "full", gen_atom = TRUE, atom_df = NULL) {
+gen_all_data <- function(
+        model_list,
+        agc = list(5, 60, FALSE),
+        start_agg = 161,
+        tol = 5,
+        woc = "full",
+        gen_atom = TRUE,
+        atom_df = NULL
+    ) {
     
     df <- gen_atomic_df()
     if (gen_atom) {

@@ -23,8 +23,8 @@ gen_atomic_list <- function() {
 #' @keywords internal
  
 gen_atomic_df <- function() {
-    df <- data.frame(matrix(ncol = 4, nrow = 0))
-    x <- c("pmean", "lpdens", "method", "t")
+    df <- data.frame(matrix(ncol = 5, nrow = 0))
+    x <- c("pmean", "lpdens", "method", "t", "ytrue")
     colnames(df) <- x
     return(df)
 }
