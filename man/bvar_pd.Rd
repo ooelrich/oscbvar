@@ -7,33 +7,41 @@
 bvar_pd(z, y, gamma_n, omega_n, S_n, nu_n, marg = 1, logscale = TRUE)
 }
 \arguments{
-\item{z}{A vector of covariates for the observation we wish to predict.}
+\item{z}{A vector of covariates for the observation we wish to
+predict.}
 
-\item{y}{A vector of outcome variables, the solution manual if you will}
+\item{y}{A vector of outcome variables, the solution manual if you
+will.}
 
 \item{gamma_n}{Posterior mean for the regression coefficients}
 
-\item{omega_n}{Posterior covariance-matrix for the regression coefficients}
+\item{omega_n}{Posterior covariance-matrix for the regression
+coefficients.}
 
 \item{S_n}{Part of the posterior of the covariance matrix}
 
 \item{nu_n}{Part of the posterior of the covariance matrix}
 
-\item{marg}{Which outcome variable we are interested in, defaults to DGP}
+\item{marg}{Which outcome variable we are interested in, defaults to
+DGP.}
 
-\item{logscale}{Whether or not to use logscale. Currently only logscale is
-available, so defaults to true and trying to change this causes and error.}
+\item{logscale}{Whether or not to use logscale. Currently only
+logscale is available, so defaults to true and trying to change
+this causes and error.}
 }
 \value{
-A list consisting of the predictive mean and log density of the
-  variable corresponding to `marg`.
+A list consisting of the predictive mean and log density of
+  the variable corresponding to `marg`.
 }
 \description{
-Generates the predictive density for a BVAR model with NiW prior.
+Generates the predictive density for a BVAR model with 
+  NiW prior.
 }
 \details{
-Generates the one-step ahead predictive distribution for a BVAR model with
-normal-Wishart prior (or the flat-Jeff prior). Returns the predictive density
-and mean corresponding to the variable in `marg`. Density is given on the log
-scale by default, and the function currenlty does not support non-logscale.
+Generates the one-step ahead predictive distribution for a BVAR
+model with normal-Wishart prior (or the flat-Jeff prior). Returns
+the predictive density and mean corresponding to the variable in
+`marg`. Density is given on the log scale by default, and the
+
+function currenlty does not support non-logscale.
 }

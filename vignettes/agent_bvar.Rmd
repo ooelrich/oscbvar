@@ -1,8 +1,8 @@
 ---
-title: "Generate data"
+title: "Bayesian vector autoregression (BVAR)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Generate data}
+  %\VignetteIndexEntry{BVAR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,9 +18,7 @@ knitr::opts_chunk$set(
 library(oscbvar)
 ```
 
-I guess I can just write *markdown* here, but latex does not seem like it is working?
 
-$$ \alpha $$
 
 ```{r, include = TRUE}
 a <- rnorm(10)

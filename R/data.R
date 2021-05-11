@@ -14,3 +14,17 @@
 #'   \item{AHETPIx}{Real compensation/hour. Transformed by 400 x diff-log. Quarterly.}
 #' }
 "macrodata"
+
+#' @title Predictions from the tvpsvbvar model with variable 3 as response.
+#'
+#' @description Bla bla bla.
+#' 
+#' @format A data frame with 154 rows and 5 variables:
+#' \describe{
+#'   \item{pmean}{Predictive mean.}
+#'   \item{lpdens}{Log predictive density.}
+#'   \item{method}{Name of the model used.}
+#'   \item{t}{Time point}
+#'   \item{ytrue}{True value of the response value.}
+#' }
+"tvpsvbvar_resp3"

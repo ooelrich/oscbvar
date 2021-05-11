@@ -1,0 +1,26 @@
+---
+title: "Time varying parameters model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TVPSVBVAR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+A vignette about the stochastic volatility Bayesian vector autoregressive time-varying parameters model.
+
+```{r, include = TRUE}
+a <- rnorm(10)
+a
+```

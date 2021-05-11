@@ -19,7 +19,7 @@
 #'   for estimation, and the third one is a boolean indicating if the estimation
 #'   window is rolling or not.
 
-gen_atomic_preds <- function(model_list, agc = list(5, 60, FALSE)) {
+gen_atomic_preds <- function(model_list, agc = list(5, 60, FALSE, 1)) {
 
     df <- gen_atomic_df()
 

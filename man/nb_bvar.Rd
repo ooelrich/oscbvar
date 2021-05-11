@@ -5,8 +5,8 @@
 \title{Notebook generator: BVAR NiW}
 \usage{
 nb_bvar(
-  data,
-  agc = list(5, 60, TRUE),
+  data = oscbvar::macrodata[, 1:7],
+  agc = list(5, 60, TRUE, 1),
   lags = 1,
   overall_tightness = 0.2,
   lag_decay = 1,
@@ -14,36 +14,40 @@ nb_bvar(
 )
 }
 \arguments{
-\item{data}{Dataset from which to generate the notebook. Should include only
-the variables used by the model, and the outcome variable of interest
-should be in column 1.}
+\item{data}{Dataset from which to generate the notebook. Should
+include only the variables used by the model. Defaults to the
+macroeconomic dataset from this package using all varaibles.}
 
-\item{agc}{List of atomic prediction generation controllers. The first
-element of the list gives the starting time (ie what observation is 
-considered as t = 1), the second element is the minimum window length used
-for estimation, and the third one is a boolean indicating if the estimation
-window is rolling or not.}
+\item{agc}{List of atomic prediction generation controllers. The 
+first element of the list gives the starting time (ie what  
+observation is considered as t = 1), the second element is the 
+minimum window length used for estimation, and the third one is a 
+boolean indicating if the estimation window is rolling or not, the 
+forth indicates which variable is the response variable and it 
+defaults to 1 (GDP).}
 
 \item{lags}{The order of the VAR model. Defaults to 1.}
 
-\item{overall_tightness}{Overall tightness (pi_1 in Sunes notation). Defaults
-to 0.2}
+\item{overall_tightness}{Overall tightness (pi_1 in Sunes notation).
+Defaults to 0.2}
 
 \item{lag_decay}{The lag decay rate. Defaults to 1.}
 
-\item{include_intercept}{Whether or not to include an intercept. Defaults to
-TRUE.}
+\item{include_intercept}{Whether or not to include an intercept. 
+Defaults to TRUE.}
 }
 \description{
-Generates a notebook for a BVAR model with a Minnesota-flavoured NiW prior.
+Generates a notebook for a BVAR model with a Minnesota-flavoured NiW 
+prior.
 }
 \details{
-Generates a notebook of predictions for the decision maker to use. Uses a 
-version of the Minnesota prior: the prior for the variance is data based
-with nu_0 set to the number of time series plus two, and S_0 obtained by
-running a simple AR(4) model and extracting the diagonal elements. The prior
-for the regression coefficients is tweaked using two hyperparameters: the
-overall tightness (defaults to 0.2) and the lag decay rate (deftaults to 1).
-The cross-variable tightness is set to 1 to retain the Kronecker structure
-required for conjugacy.
+Generates a notebook of predictions for the decision maker to use. 
+Uses a version of the Minnesota prior: the prior for the variance is 
+data based with nu_0 set to the number of time series plus two, and 
+S_0 obtained by running a simple AR(4) model and extracting the 
+diagonal elements. The prior for the regression coefficients is 
+tweaked using two hyperparameters: the overall tightness (defaults
+to 0.2) and the lag decay rate (deftaults to 1).
+The cross-variable tightness is set to 1 to retain the Kronecker 
+structure required for conjugacy.
 }

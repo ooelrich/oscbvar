@@ -1,0 +1,26 @@
+---
+title: "Agent BART"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BART}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+All about the BART.
+
+```{r, include = TRUE}
+a <- rnorm(10)
+a
+```

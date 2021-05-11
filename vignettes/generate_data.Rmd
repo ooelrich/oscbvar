@@ -1,0 +1,26 @@
+---
+title: "Generate data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generate data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+This vignette goes through how to generate data for the paper: from (atomic) agent predictions, to the full data set including aggregation based methods.
+
+```{r, include = TRUE}
+a <- rnorm(10)
+a
+```

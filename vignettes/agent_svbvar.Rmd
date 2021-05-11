@@ -1,0 +1,26 @@
+---
+title: "Stochastic volatitily BVAR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SVBVAR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+
+
+```{r, include = TRUE}
+a <- rnorm(10)
+a
+```

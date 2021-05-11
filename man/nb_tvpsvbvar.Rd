@@ -4,16 +4,26 @@
 \alias{nb_tvpsvbvar}
 \title{Notebook generator: TVP-SV-BVAR}
 \usage{
-nb_tvpsvbvar(data, agc, nrep = 10000, nburn = 5000, tau = 20)
+nb_tvpsvbvar(
+  data = oscbvar::macrodata[, 1:3],
+  agc = list(5, 60, TRUE, 1),
+  nrep = 10000,
+  nburn = 5000,
+  tau = 20
+)
 }
 \arguments{
-\item{data}{Dataset from which to generate the notebook}
+\item{data}{Dataset from which to generate the notebook. Defaults to
+the macrodata set from the package including only the first three
+variables.}
 
-\item{agc}{List of atomic prediction generation controllers. The first
-element of the list gives the starting time (ie what observation is 
-considered as t = 1), the second element is the minimum window length used
-for estimation, and the third one is a boolean indicating if the estimation
-window is rolling or not. Defaults to (5, 60, FALSE)}
+\item{agc}{List of atomic prediction generation controllers. The 
+first element of the list gives the starting time (ie what  
+observation is considered as t = 1), the second element is the 
+minimum window length used for estimation, and the third one is a 
+boolean indicating if the estimation window is rolling or not, the 
+forth indicates which variable is the response variable and it 
+defaults to 1 (GDP).}
 
 \item{nrep}{Number of MCMC draws (after burn-in)}
 
@@ -22,8 +32,8 @@ window is rolling or not. Defaults to (5, 60, FALSE)}
 \item{tau}{Number of observations to use for training prior.}
 }
 \description{
-Generates a notebook for a BVAR model with stochastic variance and time-
-  varying parameters.
+Generates a notebook for a BVAR model with stochastic variance and 
+time-varying parameters.
 }
 \details{
 Uses default settings in bvarsv.
