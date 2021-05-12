@@ -50,8 +50,8 @@ weight_df <- caliper_relevance(
 View(weight_df)
 
 head(sotw)
-
-
+sotw <- sotw[, c(1,2,3,4,9)]
+head(sotw)
 aggpred_data <- gen_agg_preds(
     atomdat_2,
     start_agg = 161,
@@ -63,15 +63,8 @@ aggpred_data <- gen_agg_preds(
     mvc = 10
 )
 
-aggpred_2 <- aggpred_data
 
-save(aggpred_2, file = "data/aggpred_2.RData")
-
-View(atomdat_3)
-View(aggpred_data)
-
-
-# Doing the old classics
+# Doing the old classics evaluation
 lpdens_agg <- ggplot(aggpred_3, aes(y = lpdens, x = t, col = method)) +
     geom_line() +
     labs(title = "predictive density for aggregate methods")
@@ -79,17 +72,4 @@ ggsave("figs/lpdens_agg_fin_3.pdf", lpdens_agg)
 
 aggpred_3[, .(lpdens_sum = sum(lpdens)), by = .(method)][order(lpdens_sum), ]
 
-lpdens_agg <- ggplot(aggpred_2, aes(y = lpdens, x = t, col = method)) +
-    geom_line() +
-    labs(title = "predictive density for aggregate methods")
-ggsave("figs/lpdens_agg_fin_2.pdf", lpdens_agg)
-
-aggpred_2[, .(lpdens_sum = sum(lpdens)), by = .(method)][order(lpdens_sum), ]
-
-
-
-
-
-
-
-
+head(atomdat_2)
