@@ -2,22 +2,22 @@
 % Please edit documentation in R/macro_helpers_aggregation.R
 \name{gen_RAA}
 \alias{gen_RAA}
-\title{Generate relevance adjusted aggregations}
+\title{Generate relevance adjusted aggregations (local aggregations)}
 \usage{
 gen_RAA(RAL_data, agg_meth, sim_measure)
 }
 \arguments{
 \item{RAL_data}{Data set containing relevance adjusted logscores.}
 
-\item{agg_meth}{Which method should be used to aggregate the agents based on
-their relevance-adjusted logscores. Currently available are propto (which
-uses a softmax transformation) and select_best which picks the model with 
-the best RAL at each time point.}
+\item{agg_meth}{Which method should be used to aggregate the agents
+based on their relevance-adjusted logscores. Currently available
+are propto (which uses a softmax transformation) and select_best
+which picks the model with the best RAL at each time point.}
 
-\item{sim_measure}{Which method was used to calculate the weights (caliper or
-mahala(nobis)).}
+\item{sim_measure}{Which method was used to calculate the weights
+(caliper or mahala(nobis)).}
 }
 \description{
-Generates relevance adjusted aggregations given a data set with
-  relevance adjusted logscores.
+Generates relevance adjusted aggregations given a data
+  set with relevance adjusted logscores.
 }

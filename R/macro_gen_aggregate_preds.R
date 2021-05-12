@@ -52,8 +52,12 @@ gen_agg_preds <- function(
         )
         RAL_data <- RAL_calculator(weight_df, atomic_df)
         df_cal_prop <- gen_RAA(RAL_data, "propto", "caliper")
-        df_cal_sel <- gen_RAA(RAL_data, "select_best", "caliper")
-        df_agg <- rbind(df_agg, df_cal_prop, df_cal_sel)
+        # df_cal_sel <- gen_RAA(RAL_data, "select_best", "caliper")
+        df_agg <- rbind(
+            df_agg, 
+            df_cal_prop
+            #,df_cal_sel
+        )
     }
 
     if (mahala) {

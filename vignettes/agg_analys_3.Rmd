@@ -1,0 +1,26 @@
+---
+title: "Aggregate analysis 3"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Agg analysis 3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+
+
+```{r, include = TRUE}
+a <- 10
+a
+```

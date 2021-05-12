@@ -17,7 +17,7 @@
 
 #' @title Additional decision maker data.
 #'
-#' @description Bla bla bla.
+#' @description Some data about how hyped americans are about "the economy."
 #' 
 #' @format A data frame with 293 rows and 2 variables:
 #' \describe{
@@ -25,3 +25,31 @@
 #'   \item{USSURV1459}{This is the one we do not use.}
 #' }
 "dmdat"
+
+#' @title Agent predictions for response 2
+#'
+#' @description Bla bla bla.
+#' 
+#' @format A data frame with 616 rows and 5 columns.
+#' \describe{
+#'   \item{pmean}{Predictive mean.}
+#'   \item{lpdens}{Log predictive density.}
+#'   \item{method}{Aggregation method.}
+#'   \item{t}{Time.}
+#'   \item{ytrue}{True value of the response, not really implemented.}
+#' }
+"atomdat_2"
+
+#' @title Agent predictions for response 3
+#'
+#' @description Bla bla bla.
+#' 
+#' @format A data frame with 616 rows and 5 columns.
+#' \describe{
+#'   \item{pmean}{Predictive mean.}
+#'   \item{lpdens}{Log predictive density.}
+#'   \item{method}{Aggregation method.}
+#'   \item{t}{Time.}
+#'   \item{ytrue}{True value of the response, not really implemented.}
+#' }
+"atomdat_3"

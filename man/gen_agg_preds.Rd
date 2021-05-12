@@ -11,8 +11,8 @@ gen_agg_preds(
   baseline = TRUE,
   caliper = TRUE,
   mahala = TRUE,
-  tol = 5,
-  woc = "full"
+  cw = 5,
+  mvc = 10
 )
 }
 \arguments{
@@ -34,11 +34,12 @@ Defaults to TRUE.}
 \item{mahala}{Whether to generate RAP based on the mahalanobis
 method. Defaults to TRUE.}
 
-\item{tol}{Tolerance parameter for the caliper method. Defaults to
-5.}
+\item{cw}{Tolerance parameter for the caliper method. Defaults to
+5. Caliper width.}
 
-\item{woc}{Weight on caliper, parameter for the caliper method.
-Defaults to "full."}
+\item{mvc}{Minimum viable cluster size, ie minimum amount of
+observations required within the cluster to not combine with the
+global mean.}
 }
 \description{
 Super-function that generates aggregate predictions a la carte.

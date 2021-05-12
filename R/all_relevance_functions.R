@@ -67,9 +67,9 @@ caliper_relevance <- function(
         .(t2, similarity = 
             similarity * 
             (
-                1/sum(similarity) -
+                min(1/sum(similarity), 0) -
                 max((mvc - sum(similarity)) / mvc, 0) *
-                    (1 / sum(similarity - 1 / .N))
+                    (min(1/sum(similarity), 0) - 1 / .N)
             ) + 
             (1 - similarity) * 
                 max((mvc - sum(similarity)) / mvc, 0) / .N),
