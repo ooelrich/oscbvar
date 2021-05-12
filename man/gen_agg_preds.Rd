@@ -7,7 +7,7 @@
 gen_agg_preds(
   atomic_df,
   start_agg,
-  start_t = 5,
+  sotw,
   baseline = TRUE,
   caliper = TRUE,
   mahala = TRUE,
@@ -16,28 +16,29 @@ gen_agg_preds(
 )
 }
 \arguments{
-\item{atomic_df}{Data frame containing the atomic predictions to base the 
-aggregate predictions on.}
+\item{atomic_df}{Data frame containing the atomic predictions to
+base the aggregate predictions on.}
 
-\item{start_agg}{Which time point to generate the first aggregate prediction
-for.}
+\item{start_agg}{Which time point to generate the first aggregate
+prediction for.}
 
-\item{start_t}{Which observation is t = 1. Used to get the correct state of
-the world from macrodata.}
+\item{sotw}{Decision maker data set, observation one should
+correspond to start_t used to generate the atomic predictions.}
 
-\item{baseline}{Whether to generate the baseline aggregations (gewisano and
-equal weights). Defaults to TRUE.}
+\item{baseline}{Whether to generate the baseline aggregations
+(gewisano and equal weights). Defaults to TRUE.}
 
-\item{caliper}{Whether to generate RAP based on the caliper method. Defaults 
-to TRUE.}
-
-\item{mahala}{Whether to generate RAP based on the mahalanobis method. 
+\item{caliper}{Whether to generate RAP based on the caliper method.
 Defaults to TRUE.}
 
-\item{tol}{Tolerance parameter for the caliper method. Defaults to 5.}
+\item{mahala}{Whether to generate RAP based on the mahalanobis
+method. Defaults to TRUE.}
 
-\item{woc}{Weight on caliper, parameter for the caliper method. Defaults to
-"full."}
+\item{tol}{Tolerance parameter for the caliper method. Defaults to
+5.}
+
+\item{woc}{Weight on caliper, parameter for the caliper method.
+Defaults to "full."}
 }
 \description{
 Super-function that generates aggregate predictions a la carte.

@@ -4,7 +4,7 @@
 \alias{gen_atomic_preds}
 \title{Generate atomic predictions}
 \usage{
-gen_atomic_preds(model_list, agc = list(5, 60, FALSE))
+gen_atomic_preds(model_list, agc = list(5, 60, FALSE, 1))
 }
 \arguments{
 \item{model_list}{List of names of the atomic models to use.}

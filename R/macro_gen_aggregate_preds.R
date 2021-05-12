@@ -1,29 +1,31 @@
 #' @title Generate aggregate predictions
 #' 
-#' @description Super-function that generates aggregate predictions a la carte.
+#' @description 
+#' Super-function that generates aggregate predictions a la carte.
 #' 
-#' @param atomic_df Data frame containing the atomic predictions to base the 
-#'   aggregate predictions on.
-#' @param start_agg Which time point to generate the first aggregate prediction
-#'   for.
-#' @param start_t Which observation is t = 1. Used to get the correct state of
-#'   the world from macrodata.
-#' @param baseline Whether to generate the baseline aggregations (gewisano and
-#'   equal weights). Defaults to TRUE.
-#' @param  caliper Whether to generate RAP based on the caliper method. Defaults 
-#'   to TRUE.
-#' @param mahala Whether to generate RAP based on the mahalanobis method. 
+#' @param atomic_df Data frame containing the atomic predictions to
+#'   base the aggregate predictions on.
+#' @param start_agg Which time point to generate the first aggregate
+#'   prediction for.
+#' @param sotw Decision maker data set, observation one should
+#'   correspond to start_t used to generate the atomic predictions.
+#' @param baseline Whether to generate the baseline aggregations
+#'   (gewisano and equal weights). Defaults to TRUE.
+#' @param  caliper Whether to generate RAP based on the caliper method.
 #'   Defaults to TRUE.
-#' @param tol Tolerance parameter for the caliper method. Defaults to 5.
-#' @param woc Weight on caliper, parameter for the caliper method. Defaults to
-#'   "full."
+#' @param mahala Whether to generate RAP based on the mahalanobis
+#'   method. Defaults to TRUE.
+#' @param tol Tolerance parameter for the caliper method. Defaults to
+#'   5.
+#' @param woc Weight on caliper, parameter for the caliper method.
+#'   Defaults to "full."
 #' 
 #' @import data.table
 
 gen_agg_preds <- function(
         atomic_df,
         start_agg,
-        start_t = 5,
+        sotw,
         baseline = TRUE,
         caliper = TRUE,
         mahala  = TRUE,
@@ -32,18 +34,14 @@ gen_agg_preds <- function(
 ) {
 
     df_agg <- gen_atomic_df()
-    sotw <- macrodata[start_t:nrow(macrodata), ]
-    sotw <- data.frame(t = c(1:nrow(sotw)), sotw)
+    
 
     if (baseline) {
-
         df_base <- gen_baseline(atomic_df, start_agg)
         df_agg <- rbind(df_agg, df_base)
-        
     }
 
     if (caliper) {
-
         weight_df <- caliper_relevance(
             atomic_df,
             sotw,
@@ -55,7 +53,6 @@ gen_agg_preds <- function(
         df_cal_prop <- gen_RAA(RAL_data, "propto", "caliper")
         df_cal_sel <- gen_RAA(RAL_data, "select_best", "caliper")
         df_agg <- rbind(df_agg, df_cal_prop, df_cal_sel)
-
     }
 
     if (mahala) {

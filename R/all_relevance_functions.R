@@ -2,30 +2,30 @@
 #'
 #' @description
 #' Calculates weights for which previous log scores to use based on the
-#' relevance adjusted caliper method. All observations within a certain
-#' distance are given equal weight, all outside of that distance are given
-#' zero weight.
+#' caliper method. 
 #'
 #' @details
-#' A potential problem with the caliper method is that we don't really know
-#' how many observations are going to end up within the tolerance. I have no
-#' idea what is going to turn out as a "reasonable" number, but clearly having
-#' very few (1-5 say) observations would make the variance of the RAL very high.
+#' The caliper method splits the estimate between a local and a global
+#' part. The local part is the average of all log scores within the 
+#' caliper width, while the global part is the global average. The
+#' balance between the global and local part depends on the minimum
+#' viable clusester size. If the number of observations within the
+#' caliper equals or exceeds the minimum viable cluster size, the
+#' global estimates gets zero weight. When there are no obsevations 
+#' within the cluster, the global estimate gets all the weight. For all
+#' situations between these extremes, a linear combination depending on
+#' how large a percentage of the minimum viable cluster size is
+#' attained. (Se paper for maths.)
 #'
 #' @param atomic_df Data frames with agent predictions.
-#' @param sotw Data frame containing the state of the world at each time point.
-#'   The first column of this data frame should be t (as in time).
-#' @param start_agg From which value of t to start aggregating
-#' @param tol Determines how similar observations need to be to be included.
-#' @param woc Weight on caliper. This specifies how the observations "within"
-#'   the caliper should be weighted. Takes vaules "full" meaning that only
-#'   observations inside the tolerance count, or "progressive", which gives
-#'   weight to the observations within the caliper proportional to the number of
-#'   observations within the caliper. Not that if the "full" method is being
-#'   used and error will be thrown if some timepoints have zero previous
-#'   observations within the caliper. "uncond" reverts to the unconditional
-#'   predictive ability when there is no data (ie giving each previous
-#'   observation equal weight).
+#' @param sotw Data frame containing the state of the world at each
+#'   time point, which can include decision maker variables no in any
+#'   of the atomic models. The first column of this data frame should
+#'   be t (as in time).
+#' @param start_agg From which value of t to start aggregating, ie 
+#'   producing aggregate predictions.
+#' @param cw The caliper width.
+#' @param mvc Minimum viable cluster size.
 #'
 #' @import data.table
 
@@ -33,8 +33,8 @@ caliper_relevance <- function(
         atomic_df,
         sotw,
         start_agg = 161,
-        tol = 5,
-        woc = "full"
+        cw = 5,
+        mvc = 1
 ) {
     
     T <- max(atomic_df$t)
@@ -59,27 +59,9 @@ caliper_relevance <- function(
                 sim_df[j, 3] <- 0
             }
         }
-        if (woc == "full") {
-            if (sum(subset(sim_df, sim_df$t == i)$similarity) == 0) {
-                stop(
-                    paste(
-                        "Time point with zero observations within caliper",
-                        "detected while using woc = full. Please increase",
-                        "tolerance."
-                    )
-                )
-            }
-        }
     }
 
     sim_df <- data.table::data.table(sim_df)
-    
-    if (woc == "uncond") {
-        sim_df[, sum_sim := sum(similarity), by = .(t)]
-        sim_df$similarity[sim_df$sum_sim == 0] <- 1
-        sim_df[, sum_sim := NULL] # really quick way to drop a column
-    }
-
     sim_df <- sim_df[
         order(-t, -t2), 
         .(t2, similarity = similarity / sum(similarity)),

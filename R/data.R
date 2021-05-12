@@ -15,16 +15,13 @@
 #' }
 "macrodata"
 
-#' @title Predictions from the tvpsvbvar model with variable 3 as response.
+#' @title Additional decision maker data.
 #'
 #' @description Bla bla bla.
 #' 
-#' @format A data frame with 154 rows and 5 variables:
+#' @format A data frame with 293 rows and 2 variables:
 #' \describe{
-#'   \item{pmean}{Predictive mean.}
-#'   \item{lpdens}{Log predictive density.}
-#'   \item{method}{Name of the model used.}
-#'   \item{t}{Time point}
-#'   \item{ytrue}{True value of the response value.}
+#'   \item{USSURV1055}{This is the one we use.}
+#'   \item{USSURV1459}{This is the one we do not use.}
 #' }
-"tvpsvbvar_resp3"
+"dmdat"

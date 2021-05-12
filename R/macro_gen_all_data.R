@@ -37,7 +37,7 @@ gen_all_data <- function(
     }
     
     agg_preds <- gen_agg_preds(atomic_df = df_atom, start_agg = start_agg,
-                                start_t = agc[[1]], baseline = TRUE,
+                                baseline = TRUE,
                                 caliper = TRUE, mahala = TRUE, tol = tol,
                                 woc = woc)
     df_atom <- data.table::data.table(df_atom)
