@@ -53,7 +53,7 @@ caliper_relevance <- function(
             j <- j + 1
             sim_df[j, 1] <- i
             sim_df[j, 2] <- k
-            if (sum((sotw[t == (i - 1), -1] - sotw[t == (k - 1), -1])^2) < tol) {
+            if (sum((sotw[t == (i - 1), -1] - sotw[t == (k - 1), -1])^2) < cw) {
                 sim_df[j, 3] <- 1
             } else {
                 sim_df[j, 3] <- 0
@@ -64,10 +64,17 @@ caliper_relevance <- function(
     sim_df <- data.table::data.table(sim_df)
     sim_df <- sim_df[
         order(-t, -t2), 
-        .(t2, similarity = similarity / sum(similarity)),
+        .(t2, similarity = 
+            similarity * 
+            (
+                1/sum(similarity) -
+                max((mvc - sum(similarity)) / mvc, 0) *
+                    (1 / sum(similarity - 1 / .N))
+            ) + 
+            (1 - similarity) * 
+                max((mvc - sum(similarity)) / mvc, 0) / .N),
         by = .(t)
     ]
-    
 
     return(sim_df)
 }

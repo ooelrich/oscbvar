@@ -15,10 +15,11 @@
 #'   Defaults to TRUE.
 #' @param mahala Whether to generate RAP based on the mahalanobis
 #'   method. Defaults to TRUE.
-#' @param tol Tolerance parameter for the caliper method. Defaults to
-#'   5.
-#' @param woc Weight on caliper, parameter for the caliper method.
-#'   Defaults to "full."
+#' @param cw Tolerance parameter for the caliper method. Defaults to
+#'   5. Caliper width.
+#' @param mvc Minimum viable cluster size, ie minimum amount of
+#'   observations required within the cluster to not combine with the
+#'   global mean.
 #' 
 #' @import data.table
 
@@ -29,8 +30,8 @@ gen_agg_preds <- function(
         baseline = TRUE,
         caliper = TRUE,
         mahala  = TRUE,
-        tol = 5,
-        woc = "full"
+        cw = 5,
+        mvc = 10
 ) {
 
     df_agg <- gen_atomic_df()
@@ -46,8 +47,8 @@ gen_agg_preds <- function(
             atomic_df,
             sotw,
             start_agg,
-            tol,
-            woc
+            cw,
+            mvc
         )
         RAL_data <- RAL_calculator(weight_df, atomic_df)
         df_cal_prop <- gen_RAA(RAL_data, "propto", "caliper")
