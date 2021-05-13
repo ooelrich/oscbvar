@@ -31,3 +31,6 @@ pfig3 <-
 ggsave("vignettes/pmean_resp1.pdf", pfig1)
 ggsave("vignettes/pmean_resp2.pdf", pfig2)
 ggsave("vignettes/pmean_resp3.pdf", pfig3)
+
+
+head(atomdat_3)

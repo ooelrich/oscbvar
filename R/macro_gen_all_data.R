@@ -11,8 +11,8 @@
 #'   window is rolling or not.
 #' @param start_agg At which time point to start aggregating. This will depend
 #'   on how much training data you want to feed the algorithms.
-#' @param tol Parameter that determines caliper tolerance.
-#' @param woc Parameter that determines "nonexistence" problems for the caliper.
+#' @param cw Caliper width.
+#' @param mvc Minimum viable cluster.
 #' @param gen_atom Should atomic data be generated or is it supplied? Defaults 
 #'   to TRUE.
 #' @param atom_df Optional argument, supplies a data frame with atomic
@@ -21,10 +21,10 @@
 
 gen_all_data <- function(
         model_list,
-        agc = list(5, 60, FALSE),
+        agc = list(5, 60, FALSE, 1),
         start_agg = 161,
-        tol = 5,
-        woc = "full",
+        cw = 5,
+        mvc = 10,
         gen_atom = TRUE,
         atom_df = NULL
     ) {
@@ -38,8 +38,8 @@ gen_all_data <- function(
     
     agg_preds <- gen_agg_preds(atomic_df = df_atom, start_agg = start_agg,
                                 baseline = TRUE,
-                                caliper = TRUE, mahala = TRUE, tol = tol,
-                                woc = woc)
+                                caliper = TRUE, mahala = TRUE, cw = cw,
+                                mvc = mvc)
     df_atom <- data.table::data.table(df_atom)
     df <- rbind(df_atom[t >= start_agg, ], agg_preds)
     return(df)

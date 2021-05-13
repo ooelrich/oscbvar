@@ -6,10 +6,10 @@
 \usage{
 gen_all_data(
   model_list,
-  agc = list(5, 60, FALSE),
+  agc = list(5, 60, FALSE, 1),
   start_agg = 161,
-  tol = 5,
-  woc = "full",
+  cw = 5,
+  mvc = 10,
   gen_atom = TRUE,
   atom_df = NULL
 )
@@ -26,9 +26,9 @@ window is rolling or not.}
 \item{start_agg}{At which time point to start aggregating. This will depend
 on how much training data you want to feed the algorithms.}
 
-\item{tol}{Parameter that determines caliper tolerance.}
+\item{cw}{Caliper width.}
 
-\item{woc}{Parameter that determines "nonexistence" problems for the caliper.}
+\item{mvc}{Minimum viable cluster.}
 
 \item{gen_atom}{Should atomic data be generated or is it supplied? Defaults 
 to TRUE.}
