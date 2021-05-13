@@ -1,0 +1,27 @@
+---
+title: "Atomic predictions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Atomic predictions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(oscbvar)
+```
+
+This analyses the atomic predictions. It is a part of the *no plot left behind* project.
+
+<img src="pmean_resp1.pdf" width="666" height="666" title = "GDP" />
+
+<img src="pmean_resp2.pdf" width="666" height="666" />
+
+<img src="pmean_resp3.pdf" width="666" height="666" />

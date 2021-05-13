@@ -5,7 +5,7 @@
 \alias{atomdat_3}
 \title{Agent predictions for response 3}
 \format{
-A data table
+A data frame with 616 rows and 5 columns.
 \describe{
   \item{pmean}{Predictive mean.}
   \item{lpdens}{Log predictive density.}

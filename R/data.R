@@ -26,6 +26,20 @@
 #' }
 "dmdat"
 
+#' @title Agent predictions for response 1
+#'
+#' @description Bla bla bla.
+#' 
+#' @format A data frame with 616 rows and 5 columns.
+#' \describe{
+#'   \item{pmean}{Predictive mean.}
+#'   \item{lpdens}{Log predictive density.}
+#'   \item{method}{Aggregation method.}
+#'   \item{t}{Time.}
+#'   \item{ytrue}{True value of the response, not really implemented.}
+#' }
+"atomdat_1"
+
 #' @title Agent predictions for response 2
 #'
 #' @description Bla bla bla.

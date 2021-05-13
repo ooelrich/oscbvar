@@ -1,0 +1,11 @@
+library(devtools)
+load_all()
+
+# Vignette nr 1: generate atomic predictions
+menu <- gen_atomic_list()
+list_of_models <- menu[c(2, 6, 9, 10)]
+atomic_settings <- list(5, 60, FALSE, 1)
+atomdat_1 <- gen_atomic_preds(list_of_models, atomic_settings)
+
+save(atomdat_1, file = "data/atomdat_1.Rdata")
+head(atomdat_1)

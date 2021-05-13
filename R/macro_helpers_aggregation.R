@@ -21,8 +21,14 @@ gen_baseline <- function(atomic_df, start_agg) {
 
     # Giving all models equal weight
     df_all <- data.table::data.table(atomic_df)
-    df_equal_wt <- df_all[t >= start_agg,
-        .(pmean = mean(pmean), lpdens = log(mean(exp(lpdens))), method = "equal_wt", t),
+    df_equal_wt <- df_all[
+        t >= start_agg,
+        .(
+            pmean = mean(pmean),
+            lpdens = log(mean(exp(lpdens))),
+            method = "equal_wt",
+            t
+        ),
         by = .(t)][, 2:5]
     baseline_df <- rbind(baseline_df, df_equal_wt)
     ytrue <- rep(NA, nrow(baseline_df))

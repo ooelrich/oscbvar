@@ -26,9 +26,8 @@ head(macrodata)
 
 We focus primarily on the three time series below
 
-```{r, include = FALSE}
-par(mfrow=c(1,3))
-ts.plot(macrodata[, 1], ylab = "GDPC1")
-ts.plot(macrodata[, 2], ylab = "GDPCTPI")
-ts.plot(macrodata[, 3], ylab = "FEDFUNDS")
+```{r, include = TRUE, echo = FALSE}
+ts.plot(macrodata[, 1], ylab = "GDPC1", xlab = "")
+ts.plot(macrodata[, 2], ylab = "GDPCTPI", xlab = "")
+ts.plot(macrodata[, 3], ylab = "FEDFUNDS", xlab = "")
 ```

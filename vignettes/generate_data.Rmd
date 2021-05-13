@@ -20,7 +20,19 @@ library(oscbvar)
 
 This vignette goes through how to generate data for the paper: from (atomic) agent predictions, to the full data set including aggregation based methods.
 
-```{r, include = TRUE}
-a <- rnorm(10)
-a
+## Generate the agent predictions
+
+Agent predictions are generated using the *gen_atomic_preds* function, which requires two inputs: a list of models for which to generate predictions for (a list of available models can be obtained using the *gen_atomic_list()* function) and a list of settings (the starting point, the minimum estimation size before prediction starts, whether to use a rolling estimation window or not, and which column contains the response variable). The function uses the macrodata set.
+
+```{r, eval = FALSE}
+menu <- gen_atomic_list()
+list_of_models <- menu[c(2, 6, 9, 10)]
+atomic_settings <- list(5, 60, FALSE, 1)
+pred_data <- gen_atomic_preds(list_of_models, atomic_settings)
+```
+
+This will return a data frame on the format
+
+```{r, include = TRUE, echo = FALSE}
+#?builhead(atomdat_2)
 ```
