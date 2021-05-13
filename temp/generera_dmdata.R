@@ -1,6 +1,17 @@
 library(devtools)
 load_all()
 
+
+load("data/dmdat.Rdata")
+
+
+# Script that generates a data set of pooling variables for the DM
+# t needs to be in the first column, the rest are arbitrary
+start_t <- 5
+dmdm <- window(dmdat[, 1], start = min(time(macrodata)), end = max(time(macrodata)))
+dmdm <- dmdm/var(dmdm)
+pooling_vars <- cbind(macrodata, dmdm)
+
 varnames <- c(
     "GDPC1",
     "GDPCTPI",
@@ -9,19 +20,11 @@ varnames <- c(
     "GPDIC1",
     "HOANBS",
     "AHETPIx",
-    "ussurv10"
+    "USSURV1055"
 )
+colnames(pooling_vars) <- varnames
 
-colnames(dmdata) <- varnames
-head(dmdata)
-dmdata$ussurv10 <- ussurv/sqrt(var(ussurv))
+head(pooling_vars)
+pooling_vars <- pooling_vars[-c(1:(start_t - 1)), ]
+pooling_vars <- data.frame(t = c(1:nrow(pooling_vars)), pooling_vars)
 
-dmdata[, "ussurv10"] <-  dmdata[, "ussurv10"]/sqrt(var(dmdata[, "ussurv10"]))
-
-
-save(sotw, file = "temp/sotw.RData")
-head(dmdata)
-
-start_t <- 5
-sotw <- dmdata[start_t:nrow(dmdata), ]
-sotw <- data.frame(t = c(1:nrow(sotw)), sotw)
