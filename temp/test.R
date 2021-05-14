@@ -1,5 +1,8 @@
+
+library(dplyr)
 library(ggplot2)
 library(devtools)
+library(data.table)
 load_all()
 
 
@@ -18,6 +21,8 @@ View(weight_df)
 head(sotw)
 sotw <- sotw[, c(1,2,3,4,9)]
 head(sotw)
+
+
 aggpred_data <- gen_agg_preds(
     atomdat_2,
     start_agg = 161,
@@ -28,4 +33,3 @@ aggpred_data <- gen_agg_preds(
     cw = 5,
     mvc = 10
 )
-
