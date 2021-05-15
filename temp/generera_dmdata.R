@@ -28,3 +28,4 @@ head(pooling_vars)
 pooling_vars <- pooling_vars[-c(1:(start_t - 1)), ]
 pooling_vars <- data.frame(t = c(1:nrow(pooling_vars)), pooling_vars)
 
+save(pooling_vars, file = "temp/pooling_vars.Rdata")

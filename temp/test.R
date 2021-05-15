@@ -4,32 +4,29 @@ library(ggplot2)
 library(devtools)
 library(data.table)
 load_all()
+load("temp/pooling_vars.Rdata")
 
 
-
-
-weight_df <- caliper_relevance(
-    atomdat_3,
-    sotw,
-    161,
-    5,
-    10
-)
-
-View(weight_df)
-
-head(sotw)
-sotw <- sotw[, c(1,2,3,4,9)]
-head(sotw)
-
-
-aggpred_data <- gen_agg_preds(
-    atomdat_2,
-    start_agg = 161,
-    sotw,
-    baseline = TRUE,
-    caliper = TRUE,
-    mahala  = FALSE,
-    cw = 5,
-    mvc = 10
-)
+widths <- 1:50
+datasets <- list(atomdat_1, atomdat_2, atomdat_3)
+resps <- c("gdp", "gdptpi", "fedfunds")
+for (j in 1:3) {
+    for (i in 1:10) {
+        i <- i/10
+        aggpred_data <- gen_agg_preds(
+            datasets[[j]],
+            start_agg = 161,
+            sotw = data.frame(pooling_vars[, c  (1:4, 9)]),
+            baseline = TRUE,
+            caliper = TRUE,
+            mahala  = FALSE,
+            cw = i,
+            mvc = 10
+        )
+        # Doing the old classics evaluation
+        aggpreds <- ggplot(aggpred_data, aes(y = lpdens, x = t, col = method)) +
+            geom_line() +
+            labs(title = sprintf("agg preds for response %s and cw %f", resps[j], i))
+        ggsave(sprintf("temp/aggpreds/aggpreds_resp_%s_cw%f.pdf", resps[j], i), aggpreds)
+    }
+}
