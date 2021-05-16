@@ -11,8 +11,8 @@ widths <- 1:50
 datasets <- list(atomdat_1, atomdat_2, atomdat_3)
 resps <- c("gdp", "gdptpi", "fedfunds")
 for (j in 1:3) {
-    for (i in 1:10) {
-        i <- i/10
+    for (i in 1:5) {
+        i <- i
         aggpred_data <- gen_agg_preds(
             datasets[[j]],
             start_agg = 161,
@@ -30,3 +30,6 @@ for (j in 1:3) {
         ggsave(sprintf("temp/aggpreds/aggpreds_resp_%s_cw%f.pdf", resps[j], i), aggpreds)
     }
 }
+
+
+
