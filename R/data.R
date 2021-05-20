@@ -1,7 +1,6 @@
 #' @title Medium data set from OG et al 2020, rescaled to unit variance
 #'
-#' @description The final observation corresponds to 2019Q1. You do the rest of
-#'   the math.
+#' @description Starts at 1964Q4, ends at 2019Q1.
 #' 
 #' @format A data frame with 218 rows and 7 variables:
 #' \describe{

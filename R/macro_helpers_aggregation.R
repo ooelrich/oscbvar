@@ -41,10 +41,13 @@ gen_baseline <- function(atomic_df, start_agg) {
     return(baseline_df)
 }
 
-#' @title Generate relevance adjusted aggregations (local aggregations)
+#' @title Generates local aggregations
 #' 
-#' @description Generates relevance adjusted aggregations given a data
-#'   set with relevance adjusted logscores.
+#' @description
+#' Generates relevance adjusted aggregations given a data set with
+#' relevance adjusted logscores. This is just a switcher function that
+#' sends the data on either to the propto or the "select best" (which
+#' is kind of not in use atm) function.
 #' 
 #' @param RAL_data Data set containing relevance adjusted logscores.
 #' @param agg_meth Which method should be used to aggregate the agents
@@ -67,7 +70,7 @@ gen_RAA <- function(RAL_data, agg_meth, sim_measure) {
 }
 
 
-#' @title Weighting proportional to RAL
+#' @title Weighting proportional to LPA (local predictive ability)
 #' 
 #' @param data Dataset to use.
 #' @param sim_measure Caliper or mahala.
@@ -150,7 +153,7 @@ RAL_calculator <- function(weight_df, atomic_df) {
         data.table::setkey(atomic_sub, t)
         df_all <- atomic_sub[sim_df]
         df_all[, `:=`(adj_lpdens = lpdens * similarity)]
-        collapsed <- df_all[, .(RAL = sum(adj_lpdens)*.N), by = .(method)]
+        collapsed <- df_all[, .(RAL = sum(adj_lpdens)), by = .(method)]
         collapsed[, `:=`(t = i)]
         dfdf <- rbind(dfdf, collapsed)
     }

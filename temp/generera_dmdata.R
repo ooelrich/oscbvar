@@ -9,7 +9,7 @@ load("data/dmdat.Rdata")
 # t needs to be in the first column, the rest are arbitrary
 start_t <- 5
 dmdm <- window(dmdat[, 1], start = min(time(macrodata)), end = max(time(macrodata)))
-dmdm <- dmdm/var(dmdm)
+dmdm <- dmdm/sqrt(var(dmdm))
 pooling_vars <- cbind(macrodata, dmdm)
 
 varnames <- c(

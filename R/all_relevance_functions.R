@@ -65,14 +65,15 @@ caliper_relevance <- function(
     sim_df <- sim_df[
         order(-t, -t2), 
         .(t2, similarity = 
-            similarity * 
-            (
-                ifelse(is.finite(1/sum(similarity)), 1/sum(similarity), 0) -
-                max((mvc - sum(similarity)) / mvc, 0) *
-                    (ifelse(is.finite(1/sum(similarity)), 1/sum(similarity), 0) - 1 / .N)
-            ) + 
+            similarity + 
             (1 - similarity) * 
-                max((mvc - sum(similarity)) / mvc, 0) / .N),
+                max((mvc - sum(similarity)), 0) /
+                ifelse(
+                    .N - sum(similarity) > 0,
+                    .N - sum(similarity),
+                    1
+                )
+                ),
         by = .(t)
     ]
 

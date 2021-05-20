@@ -1,6 +1,8 @@
 library(devtools)
 load_all()
 
+## Detta är kod som generarar default atomiska data (alltså med den setup vi använder i pappret), som även används i våra vignetter.
+
 # Vignette nr 1: generate atomic predictions
 menu <- gen_atomic_list()
 list_of_models <- menu[c(2, 6, 9, 10)]
