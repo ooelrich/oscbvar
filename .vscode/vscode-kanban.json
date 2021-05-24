@@ -1,0 +1,20 @@
+{
+  "todo": [],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Oscar Oelrich"
+      },
+      "creation_time": "2021-05-24T11:41:55.566Z",
+      "description": {
+        "content": "Include the agent predictions but let them be \"greyed out.\"",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "Create draft version of predictive ability figure"
+    }
+  ],
+  "testing": [],
+  "done": []
+}

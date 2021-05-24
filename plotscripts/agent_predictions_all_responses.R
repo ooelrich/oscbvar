@@ -4,6 +4,7 @@ load_all()
 
 # Looking at the atomic predictive means compared to the actual outcome
 # Nr 3 will surprise you
+# Used in a vignette!
 
 pfig1 <- 
     ggplot(data = atomdat_1, aes(y = pmean, x = t)) +
@@ -31,6 +32,3 @@ pfig3 <-
 ggsave("vignettes/pmean_resp1.pdf", pfig1)
 ggsave("vignettes/pmean_resp2.pdf", pfig2)
 ggsave("vignettes/pmean_resp3.pdf", pfig3)
-
-
-head(atomdat_3)

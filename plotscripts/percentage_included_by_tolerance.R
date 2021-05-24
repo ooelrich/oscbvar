@@ -7,7 +7,7 @@ head(pooling_vars)
 dim(pooling_vars)
 
 max_tol <- 100
-macr <- pooling_vars[62:214, c(2:4, 9)]
+macr <- pooling_vars[62:214, c(2:4, 9)] # Selecting decision maker vars
 T <- nrow(macr)
 
 dist_mat <- matrix(NA, nrow = T, ncol = T)
@@ -94,44 +94,4 @@ plt <- plt + theme(
 plt
 
 ggsave("temp/percplot.pdf", plt)
-
-
-
-
-# operation snippet ggplot collection
-
-plt <- ggplot(
-    df,
-    aes(
-        x = xvar,
-        y = yvar,
-        group = factor(group_var),
-        col = factor(group_var)
-    )
-)
-plt <- plt  + geom_line()
-plt <- plt + theme_classic()
-plt <- plt + labs(
-    title = "Main title",
-    subtitle = "Subtitle",
-    x = "x title",
-    y = "y title",
-    color = "legend title (according to grouping)"
-    #,caption = "Data source: ToothGrowth"
-)
-plt <- plt + theme( # you can specify most aspects of axis and titles
-    plot.title = element_text(hjust = 0.5, size = 14),
-    plot.subtitle = element_text(hjust = 0.5),
-    plot.caption = element_text(hjust = 0, face = "italic"),
-    axis.title.x = element_text(
-        hjust = 0.5,
-        vjust = 0,
-        margin = margin(t = 20, r = 0, b = 0, l = 0)),
-)
-plt
-
-
-# and a standard histogram!
-
-
 

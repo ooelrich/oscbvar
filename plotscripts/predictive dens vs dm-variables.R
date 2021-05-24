@@ -3,7 +3,7 @@
 # All the pooling variables vs predictive ability for different outcomes
 # Is this actually something interesting to look at at all???
 
-load("temp/pooling_vars.Rdata")
+load("plotscripts/plt-data/pooling_vars.Rdata")
 
 dump2 <- pooling_vars[-c(1:60), ]
 ussurv <- c(NA, dump2$USSURV1055[1:153])
