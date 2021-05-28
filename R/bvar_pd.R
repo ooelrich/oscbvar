@@ -52,8 +52,8 @@ bvar_pd <- function(
   
   # marginal predictive density
   dens <- log(gamma((v + 1) / 2) / gamma(v / 2)) -
-            0.5 * (log(pi) - log(P) - v * log(Q[marg, marg])) -
-            ((v + 1) / 2) * log(Q[marg, marg] + P * (y - M[marg])^2)
+          0.5 * (log(pi) - log(P) - v * log(Q[marg, marg])) -
+          ((v + 1) / 2) * log(Q[marg, marg] + P * (y - M[marg])^2)
   
   return(list(M[marg], dens))
 }

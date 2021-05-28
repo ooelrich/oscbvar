@@ -15,6 +15,8 @@ mahalanobis atm).}
 of models.}
 }
 \description{
-Calculates the local logscores given a weight data
-  frame and a data frame of atomic predictions.
+Calculates the local logscores given a weight data frame and a data
+frame of atomic predictions. It does not calculate an estimate of
+ELPD, rather N*ELPD, where N is the bumber of observations, so that 
+the weights scale with weight of evidence.
 }

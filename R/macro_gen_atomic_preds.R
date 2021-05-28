@@ -4,20 +4,40 @@
 #' Generates a notebook of atomic predictive densities and means.
 #' 
 #' @details 
-#' Function to generate the atomic predictions (that is the predictions of the
-#' individual models, not of aggregation schemes) for the macro-data example 
-#' for predicting DGP. Essentialy a list of potential models to include that the
-#' user selects from. Also contains some global settings that always should be
-#' the same between models, such as estimation window length, starting time, and
-#' which data set to use. Uses the data set previously known as og_medium_scaled
-#' so to minimize the risk of accidentally using the wrong data set...
+#' Function to generate the atomic predictions (that is the predictions
+#' of the individual models, not of aggregation schemes) for the
+#' macrodata example. Essentialy a list of potential models to include
+#' that the user selects from. Also contains some global settings that
+#' always should be the same between models, such as estimation window
+#' length, starting time, and which data set to use.
 #' 
 #' @param model_list List of names of the atomic models to use.
-#' @param agc List of atomic prediction generation controllers. The first
-#'   element of the list gives the starting time (ie what observation is 
-#'   considered as t = 1), the second element is the minimum window length used
-#'   for estimation, and the third one is a boolean indicating if the estimation
-#'   window is rolling or not.
+#' @param agc List of atomic prediction generation controllers with
+#'   four elements:
+#'   \enumerate{
+#'     \item Which observation to consider as the first observation
+#'           (ie t=1). Defaults to 5, which gives some breathing room
+#'           for the specification of AR models.
+#'     \item Size of the estimation window. This determines how many
+#'           observations are used to train the models before any
+#'           predictions are made. Defaults to 60.
+#'     \item Whether to use a rolling estimation window or not. The 
+#'           default is FALSE, which corresponds to a non-rolling
+#'           window.
+#'     \item Which variable should be the response variable. Defaults
+#'           to 3 (FEDFUNDS). Other possible values are 1 (GDP) and 2
+#'           (GDPTCPI).
+#'   }
+#' 
+#' @return A data frame of atomic predictions with columns
+#'   \enumerate{
+#'     \item \code{pmean}, the predictive mean for time t (made at t-1)
+#'     \item \code{lpdens}, the log predictive density for time t 
+#'           (made at t - 1)
+#'     \item \code{method}, which model made the prediction
+#'     \item \code{t}, timepoint
+#'     \item \code{ytrue}, true value of the response at time t
+#'   }
 
 gen_atomic_preds <- function(model_list, agc = list(5, 60, FALSE, 1)) {
 

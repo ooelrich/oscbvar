@@ -20,7 +20,6 @@ A data frame with 218 rows and 7 variables:
 macrodata
 }
 \description{
-The final observation corresponds to 2019Q1. You do the rest of
-  the math.
+Starts at 1964Q4, ends at 2019Q1.
 }
 \keyword{datasets}

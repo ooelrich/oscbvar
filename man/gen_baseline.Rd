@@ -9,9 +9,9 @@ gen_baseline(atomic_df, start_agg)
 \arguments{
 \item{atomic_df}{A data frame consisting of atomic predictions.}
 
-\item{start_agg}{Which time point to start creating aggregate predictions for.
-Note that this is based on the variable t in the supplied data frame, and
-not row number.}
+\item{start_agg}{Which time point to start creating aggregate 
+predictions for. Note that this is based on the variable t in the 
+supplied data frame, and not row number.}
 }
 \description{
 Generates baseline aggregations to compare with the relevance
@@ -20,5 +20,5 @@ Generates baseline aggregations to compare with the relevance
 \details{
 Generates the following baseline aggregations: 
 * Equal weight: gives equal weight to all models.
-* Gewisano: gives weight using linear prediction pools (Geweke&Amisano).
+* Gewisano: gives weight using linear prediction pools (GewIsano).
 }

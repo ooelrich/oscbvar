@@ -2,7 +2,7 @@
 % Please edit documentation in R/macro_helpers_aggregation.R
 \name{propto_weighting}
 \alias{propto_weighting}
-\title{Weighting proportional to RAL}
+\title{Weighting proportional to LPA (local predictive ability)}
 \usage{
 propto_weighting(data, sim_measure)
 }
@@ -12,5 +12,5 @@ propto_weighting(data, sim_measure)
 \item{sim_measure}{Caliper or mahala.}
 }
 \description{
-Weighting proportional to RAL
+Weighting proportional to LPA (local predictive ability)
 }

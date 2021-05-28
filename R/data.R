@@ -16,7 +16,8 @@
 
 #' @title Additional decision maker data.
 #'
-#' @description Some data about how hyped americans are about "the economy."
+#' @description Some data about how hyped americans are about "the
+#'   economy." Starts at X and ends at Y.
 #' 
 #' @format A data frame with 293 rows and 2 variables:
 #' \describe{
@@ -27,7 +28,8 @@
 
 #' @title Agent predictions for response 1
 #'
-#' @description Bla bla bla.
+#' @description Can be generated from macrodata, but is included here
+#'   since that takes a lot of time. Agent predictions of GDP.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
 #' \describe{
@@ -41,7 +43,8 @@
 
 #' @title Agent predictions for response 2
 #'
-#' @description Bla bla bla.
+#' @description Can be generated from macrodata, but is included here
+#'   since that takes a lot of time. Agent predictions of GDPTCPI.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
 #' \describe{
@@ -55,7 +58,8 @@
 
 #' @title Agent predictions for response 3
 #'
-#' @description Bla bla bla.
+#' @description Can be generated from macrodata, but is included here
+#'   since that takes a lot of time. Agent predictions of FEDFUNDS.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
 #' \describe{

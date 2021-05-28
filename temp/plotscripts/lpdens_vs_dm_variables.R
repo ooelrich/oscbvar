@@ -1,9 +1,7 @@
-
-
 # All the pooling variables vs predictive ability for different outcomes
 # Is this actually something interesting to look at at all???
 
-load("plotscripts/plt-data/pooling_vars.Rdata")
+load("temp/plotscripts/plt-data/pooling_vars.Rdata")
 
 dump2 <- pooling_vars[-c(1:60), ]
 ussurv <- c(NA, dump2$USSURV1055[1:153])
@@ -46,6 +44,13 @@ melty_dump <- reshape2::melt(
 
 melty_dump$variable <- as.character(melty_dump$variable)
 
+plotfun <- function(df, i, j) {
+    a <- ggplot(df, aes(x = Pooling_var, y = lpdens)) +  
+        geom_point() +
+        labs(title = sprintf("lpdens (%s) vs %s", i, j)) +
+        facet_wrap(~method)
+    return(a)
+}
 
 ds <- unique(melty_dump$dataset)
 resp <- unique(melty_dump$variable)
@@ -56,13 +61,4 @@ for (i in ds) {
         myplt <- plotfun(df, i, j)     
         ggsave(sprintf("temp/lpdens (%s) vs %s.pdf", i, j), myplt)       
     }
-}
-
-
-plotfun <- function(df, i, j) {
-    a <- ggplot(df, aes(x = Pooling_var, y = lpdens)) +  
-        geom_point() +
-        labs(title = sprintf("lpdens (%s) vs %s", i, j)) +
-        facet_wrap(~method)
-    return(a)
 }

@@ -10,7 +10,7 @@ caliper_relevance(atomic_df, sotw, start_agg = 161, cw = 5, mvc = 1)
 \item{atomic_df}{Data frames with agent predictions.}
 
 \item{sotw}{Data frame containing the state of the world at each
-time point, which can include decision maker variables no in any
+time point, which can include decision maker variables not in any
 of the atomic models. The first column of this data frame should
 be t (as in time).}
 
@@ -21,13 +21,19 @@ producing aggregate predictions.}
 
 \item{mvc}{Minimum viable cluster size.}
 }
+\value{
+A data table that consists of several stacked data tables
+  (each indexed by the column t). Each subtable has a value t2 for
+  each previous observation, and to each of those a corresponding
+  similarity.
+}
 \description{
 Calculates weights for which previous log scores to use based on the
 caliper method.
 }
 \details{
 The caliper method splits the estimate between a local and a global
-part. The local part is the average of all log scores within the 
+part. The local part is the sum of all log scores within the 
 caliper width, while the global part is the global average. The
 balance between the global and local part depends on the minimum
 viable clusester size. If the number of observations within the

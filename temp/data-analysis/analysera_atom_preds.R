@@ -22,4 +22,3 @@ summ_stat <- function(df) {
 lapply(list(atom1dt[atom1dt$t > 72, ], atom1dt), summ_stat)
 lapply(list(atom2dt[atom2dt$t > 72, ], atom2dt), summ_stat)
 lapply(list(atom3dt[atom3dt$t > 72, ], atom3dt), summ_stat)
-

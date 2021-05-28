@@ -2,7 +2,7 @@
 % Please edit documentation in R/macro_helpers_aggregation.R
 \name{gen_RAA}
 \alias{gen_RAA}
-\title{Generate relevance adjusted aggregations (local aggregations)}
+\title{Generates local aggregations}
 \usage{
 gen_RAA(RAL_data, agg_meth, sim_measure)
 }
@@ -18,6 +18,8 @@ which picks the model with the best RAL at each time point.}
 (caliper or mahala(nobis)).}
 }
 \description{
-Generates relevance adjusted aggregations given a data
-  set with relevance adjusted logscores.
+Generates relevance adjusted aggregations given a data set with
+relevance adjusted logscores. This is just a switcher function that
+sends the data on either to the propto or the "select best" (which
+is kind of not in use atm) function.
 }

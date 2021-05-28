@@ -3,9 +3,6 @@ load_all()
 # Should only look at the subset of data that we are actually using,
 # so ignoring the first 65 (or more maybe) observations.
 
-head(pooling_vars)
-dim(pooling_vars)
-
 max_tol <- 100
 macr <- pooling_vars[62:214, c(2:4, 9)] # Selecting decision maker vars
 T <- nrow(macr)
@@ -94,4 +91,3 @@ plt <- plt + theme(
 plt
 
 ggsave("temp/percplot.pdf", plt)
-

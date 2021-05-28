@@ -9,10 +9,11 @@ gen_gewisano(data, start_t)
 \arguments{
 \item{data}{Data set of atomic predictions.}
 
-\item{start_t}{Which timepoint to start generating weights for. Obs! This is
-based on the variable t in the data, not the row number!}
+\item{start_t}{Which timepoint to start generating weights for. 
+Obs! This is based on the variable t in the data, not the row 
+number!}
 }
 \description{
-Generates weights according to Geweke & Amisano 2011/2012, also known as
-linear predicition pools.
+Generates weights according to Geweke & Amisano 2011/2012, also 
+known as linear predicition pools.
 }

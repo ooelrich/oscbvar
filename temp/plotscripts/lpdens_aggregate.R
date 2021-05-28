@@ -11,9 +11,9 @@ aggpred_data <- gen_agg_preds(
     mvc = 10
 )
 
-dftutt <- rbind(atomdat_1[atomdat_1$t > 172, ], aggpred_data)
+dftutt1 <- rbind(atomdat_1[atomdat_1$t > 172, ], aggpred_data)
 
-aggpreds <- ggplot(dftutt, aes(y = lpdens, x = t, col = method)) +
+aggpreds <- ggplot(dftutt1, aes(y = lpdens, x = t, col = method)) +
     geom_line() +
     theme_classic() + 
     labs(
@@ -33,6 +33,11 @@ final <- aggpreds +
 
 ggsave("temp/plots to save/gdp_final.pdf", final)
 
+# How well the methods do
+dftutt1 <- data.table(dftutt1)
+dftutt1[, .(mean_predab = mean(lpdens)), .(method)]
+
+
 ### Version for GDPTPCI
 
 aggpred_data <- gen_agg_preds(
@@ -46,9 +51,9 @@ aggpred_data <- gen_agg_preds(
     mvc = 10
 )
 
-dftutt <- rbind(atomdat_2[atomdat_2$t > 172, ], aggpred_data)
+dftutt2 <- rbind(atomdat_2[atomdat_2$t > 172, ], aggpred_data)
 
-aggpreds <- ggplot(dftutt, aes(y = lpdens, x = t, col = method)) +
+aggpreds <- ggplot(dftutt2, aes(y = lpdens, x = t, col = method)) +
     geom_line() +
     theme_classic() + 
     labs(
@@ -68,6 +73,9 @@ final <- aggpreds +
 
  ggsave("temp/plots to save/gdpctpi_final.pdf", final)
 
+# How well the methods do
+dftutt2 <- data.table(dftutt2)
+dftutt2[, .(mean_predab = mean(lpdens)), .(method)]
 
 
 ### Version for FEDFUNDS
@@ -83,9 +91,9 @@ aggpred_data <- gen_agg_preds(
     mvc = 10
 )
 
-dftutt <- rbind(atomdat_3[atomdat_3$t > 172, ], aggpred_data)
+dftutt3 <- rbind(atomdat_3[atomdat_3$t > 172, ], aggpred_data)
 
-aggpreds <- ggplot(dftutt, aes(y = lpdens, x = t, col = method)) +
+aggpreds <- ggplot(dftutt3, aes(y = lpdens, x = t, col = method)) +
     geom_line() +
     theme_classic() + 
     labs(
@@ -106,4 +114,6 @@ final <- aggpreds +
 ggsave("temp/fedfunds_final.pdf", final)
 
 
-
+# How well the methods do
+dftutt3 <- data.table(dftutt3)
+dftutt3[, .(mean_predab = mean(lpdens)), .(method)]
