@@ -169,7 +169,8 @@ RAL_calculator <- function(weight_df, atomic_df) {
 #' 
 #' @description
 #' Generates weights according to Geweke & Amisano 2011/2012, also 
-#' known as linear predicition pools.
+#' known as linear predicition pools. Obviously it takes data on a
+#' specific form, which you should describe.
 #' 
 #' @param data Data set of atomic predictions.
 #' @param start_t Which timepoint to start generating weights for. 
