@@ -6,6 +6,8 @@
 # data.table
 
 library(ggplot2)
+library(devtools)
+load_all()
 
 aggdata_list <- list()
 for (i in 1:40) {
@@ -50,7 +52,7 @@ all_things <- do.call(rbind, temp_list)
 cwplot <- ggplot(all_things, aes(x = calw, y = pred_abil)) +
     geom_line() +
     facet_wrap(~time, scales = "free")
-ggsave("temp/plt_cw_lpdens_over_time.pdf", cwplot)
+ggsave("temp/plt_cw_lpdens_over_time_fed.pdf", cwplot)
 
 
 # Cumulative version
@@ -73,5 +75,5 @@ all_things <- do.call(rbind, temp_list)
 cwplot_cumulative <- ggplot(all_things, aes(x = calw, y = pred_abil)) +
     geom_line() +
     facet_wrap(~time, scales = "free")
-ggsave("temp/plt_cw_lpdens_over_time_cumulat.pdf", cwplot_cumulative)
+ggsave("temp/plt_cw_lpdens_over_time_cumulat_fed.pdf", cwplot_cumulative)
 
