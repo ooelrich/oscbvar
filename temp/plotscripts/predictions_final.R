@@ -1,12 +1,29 @@
-# First create a data table with cumulative caliper with vs lpdens.
+# First create a data table with cumulative caliper width vs lpdens.
 # Next, all we need to do is to select the caliper width corresponding
 # to the largest value. Note that at time t, pred_abil is the sum of
 # all previous predictions.
 
-# First part of this script takes a couple of minutes to run
-# (5-10 or so)
-# You probably want to rerun this with higher "resolution", ie over
-# a finer grid of cw-values
+#####################################################################
+### USER INPUT ######################################################
+#####################################################################
+
+# FED version
+df_all <- readRDS("data-raw/data_allcw_fed.rds")
+outc <- "fed"
+dfx <- atomdat_3
+
+# Interest version
+df_all <- readRDS("data-raw/data_allcw_tcpi.rds")
+outc <- "tcpi"
+dfx <- atomdat_2
+
+# GDP version
+df_all <- readRDS("data-raw/data_allcw_gdp.rds")
+outc <- "gdp"
+dfx <- atomdat_1
+
+#####################################################################
+#####################################################################
 
 library(dplyr)
 library(ggplot2)
@@ -15,46 +32,14 @@ library(devtools)
 library(data.table)
 load_all()
 
-load("temp/plotscripts/plt-data/pooling_vars.Rdata")
-
-aggdata_list <- list()
-for (i in 1:40) {
-
-    print(i) # ghetto-timer
-
-    aggpred_data <- gen_agg_preds(
-        atomdat_3,
-        start_agg = 173,
-        sotw = data.frame(pooling_vars[, c  (1:4, 9)]),
-        baseline = TRUE,
-        caliper = TRUE,
-        mahala  = FALSE,
-        cw = i,
-        mvc = 10
-    )
-
-    cw <- rep(i, nrow(aggpred_data))
-    df <- cbind(aggpred_data, cw)
-
-    aggdata_list[[i]] <- df
-
-}
-
-df_all <- do.call(rbind, aggdata_list)
-df_all <- data.table(df_all)
-
-
 temp_list <- list()
 for (i in 174:214) {
-
     cw_data <- df_all[
         method == "caliper_propto" & t < i,
         .(pred_abil = sum(lpdens), time = i, calw = cw),
         .(cw)
     ]
-
     temp_list[[i - 172]] <- cw_data
-
 }
 
 all_things <- do.call(rbind, temp_list)
@@ -68,11 +53,9 @@ opt_cal <- all_things[
     .SD[which.max(pred_abil)],
     .(time)
 ][, .(time, cw)]
-
 colnames(opt_cal) <- c("t", "cw")
 
 # Dynamic versions of the aggregate generation. Gotta refactor the code.
-
 gen_agg_preds_dynamic <- function(
         atomic_df,
         start_agg,
@@ -168,7 +151,7 @@ caliper_relevance_dynamic <- function(
 }
 
 aggpred_data <- gen_agg_preds_dynamic(
-        atomdat_3,
+        dfx,
         start_agg = 174,
         sotw = data.frame(pooling_vars[, c  (1:4, 9)]),
         baseline = TRUE,
@@ -179,25 +162,25 @@ aggpred_data <- gen_agg_preds_dynamic(
 
 
 ### "NYA" KODEN BÖRJAR HÄR
-df_fed <- rbind(atomdat_3[atomdat_3$t > 173, ], aggpred_data)
+dff <- rbind(dfx[dfx$t > 173, ], aggpred_data)
 
 # This should be done with a lookup table
-df_fed$cat <- 1
-for (i in seq_len(nrow(df_fed))){
-    if (df_fed$method[i] == "equal_wt") {
-        df_fed$cat[i] <- 2
+dff$cat <- 1
+for (i in seq_len(nrow(dff))){
+    if (dff$method[i] == "equal_wt") {
+        dff$cat[i] <- 2
     }
-    if (df_fed$method[i] == "gewisano") {
-        df_fed$cat[i] <- 3
+    if (dff$method[i] == "gewisano") {
+        dff$cat[i] <- 3
     }
-    if (df_fed$method[i] == "caliper_propto") {
-        df_fed$cat[i] <- 4
+    if (dff$method[i] == "caliper_propto") {
+        dff$cat[i] <- 4
     }
 }
-df_fed$cat <- factor(df_fed$cat)
+dff$cat <- factor(dff$cat)
 
 aggpreds <- ggplot(
-        df_fed,
+        dff,
         aes(y = lpdens, x = t, group = method, col = cat)) +
     geom_line(position = position_dodge(width = 0.5), size = 0.7) +
     theme_classic() + 
@@ -209,8 +192,8 @@ aggpreds <- ggplot(
     theme(aspect.ratio = 7/16)
 
 # Make data frame for the labels
-df_fed <- data.table(df_fed)
-df_lab <- df_fed[t == 214] # select the last point, (t, elpd) will be (x,y)
+dff <- data.table(dff)
+df_lab <- dff[t == 214] # select the last point, (t, elpd) will be (x,y)
 df_lab[7, 2] <- df_lab[7, 2] - 0.1  # Move caliper version down slighlty
 df_lab[6, 2] <- df_lab[6, 2] + 0.05 # Move linear pool up a smidge
 
@@ -230,9 +213,8 @@ final <- aggpreds + geom_text(
     size = 2
 ) + theme(legend.position = "none")
 
-
 my_colors <- c("grey", RColorBrewer::brewer.pal(3, "Dark2"))
-names(my_colors) <- levels(factor(c(levels(df_fed$cat), levels(df_lab$cat)))) 
+names(my_colors) <- levels(factor(c(levels(dff$cat), levels(df_lab$cat)))) 
 my_scale <- scale_color_manual(name = "cat", values = my_colors)
 final <- final + my_scale  
 
@@ -243,7 +225,8 @@ final <- final + scale_x_continuous(
     labels = c("2016Q1", "2017Q1", "2018Q1", "2019Q1")
 )
 
-ggsave("temp/fedfunds_final.pdf", final)
+plottit <- sprintf("temp/final_%s.pdf", outc)
+ggsave(plottit, final)
 
 # The you should run pdfcrop fedfunds_final.pdf fedfunds_final.pdf
 # in the terminal to get a version that doesn't look ridiculous
