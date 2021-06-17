@@ -1,6 +1,12 @@
 # Generate a bunch of datasets of aggregate predictions, for a
 # selection of different cw values
 
+# the values of cw will go from 1/cwx to max(loopval)/cwx in increments
+# of 1/cwx. Change the max in the for-loop and the cwx to change stuff
+
+library(devtools)
+load_all()
+
 ##################################
 ### USER INPUT                 ###
 ##################################
@@ -20,16 +26,14 @@ outc <- "gdp"
 ###################################
 ###################################
 
-library(devtools)
-load_all()
 
 load("data-raw/pooling_vars.Rdata")
 
 aggdata_list <- list()
-for (i in 1:40) {
+for (i in 1:400) {
 
     print(i) # ghetto-timer
-
+    cwx <- i/10
     aggpred_data <- gen_agg_preds(
         dfx,
         start_agg = 173,
@@ -37,7 +41,7 @@ for (i in 1:40) {
         baseline = TRUE,
         caliper = TRUE,
         mahala  = FALSE,
-        cw = i,
+        cw = cwx,
         mvc = 10
     )
 

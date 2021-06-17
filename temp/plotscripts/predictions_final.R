@@ -160,9 +160,17 @@ aggpred_data <- gen_agg_preds_dynamic(
         calip_data = opt_cal
 )
 
-
 ### "NYA" KODEN BÖRJAR HÄR
 dff <- rbind(dfx[dfx$t > 173, ], aggpred_data)
+
+# aggpred_gdp <- dff
+# aggpred_gdp$outc <- "gdp"
+
+# aggpred_tcpi <- dff
+# aggpred_tcpi$outc <- "tcpi"
+
+#aggpred_fed <- dff
+#aggpred_fed$outc <- "fed"
 
 # This should be done with a lookup table
 dff$cat <- 1
@@ -222,7 +230,7 @@ final <- final + my_scale
 final <- final + scale_x_continuous(
     name = "",
     breaks = c(178, 190, 202, 214),
-    labels = c("2016Q1", "2017Q1", "2018Q1", "2019Q1")
+    labels = c("2010Q1", "2013Q1", "2016Q1", "2019Q1")
 )
 
 plottit <- sprintf("temp/final_%s.pdf", outc)
