@@ -7,6 +7,14 @@
 ### USER INPUT ######################################################
 #####################################################################
 
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(devtools)
+load("data-raw/pooling_vars.Rdata")
+load_all()
+
 # FED version
 df_all <- readRDS("data-raw/data_allcw_fed.rds")
 outc <- "fed"
@@ -24,13 +32,6 @@ dfx <- atomdat_1
 
 #####################################################################
 #####################################################################
-
-library(dplyr)
-library(ggplot2)
-library(gghighlight)
-library(devtools)
-library(data.table)
-load_all()
 
 temp_list <- list()
 for (i in 174:214) {
@@ -163,6 +164,7 @@ aggpred_data <- gen_agg_preds_dynamic(
 ### "NYA" KODEN BÖRJAR HÄR
 dff <- rbind(dfx[dfx$t > 173, ], aggpred_data)
 
+# FOR MAKING THE CW VS LPDENS OVER TIME THINGS
 # aggpred_gdp <- dff
 # aggpred_gdp$outc <- "gdp"
 
@@ -234,6 +236,7 @@ final <- final + scale_x_continuous(
 )
 
 plottit <- sprintf("temp/final_%s.pdf", outc)
+#plottit <- plot_crop(plottit) # trying to automate pdfcrop with knitr
 ggsave(plottit, final)
 
 # The you should run pdfcrop fedfunds_final.pdf fedfunds_final.pdf

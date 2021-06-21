@@ -26,6 +26,7 @@ outc <- "gdp"
 ######################################################################
 ######################################################################
 
+library(zoo)
 library(ggplot2)
 library(devtools)
 load_all()
@@ -38,14 +39,22 @@ for (i in 173:214) {
         method == "caliper_propto" & t == i,
         .(pred_abil = lpdens, time = i, calw = cw)
     ]
-
     temp_list[[i - 172]] <- cw_data
 }
 
 all_things <- do.call(rbind, temp_list)
+
+
+my_dates <- seq.Date(
+    from = base::as.Date("2008-12-01"),
+    by = "quarter",
+    length.out = 42
+)
+my_dates <- as.yearqtr(my_dates)
+all_things$date <- as.character(as.yearqtr(rep(my_dates, each = 400)))
 cwplot <- ggplot(all_things, aes(x = calw, y = pred_abil)) +
     geom_line() +
-    facet_wrap(~time, scales = "free")
+    facet_wrap(~ date, scales = "free")
 plot_tit <- sprintf("temp/cw_vs_lpdens_history_%s.pdf", outc)
 ggsave(plot_tit, cwplot)
 
@@ -63,8 +72,21 @@ for (i in 173:214) {
 
 all_things <- do.call(rbind, temp_list)
 
-cwplot_cumulative <- ggplot(all_things, aes(x = calw, y = pred_abil)) +
+my_dates <- seq.Date(
+    from = base::as.Date("2008-12-01"),
+    by = "quarter",
+    length.out = 42
+)
+my_dates <- as.yearqtr(my_dates)
+all_things$date <- as.character(as.yearqtr(rep(my_dates, each = 400)))
+
+cwplot_cumulative <- ggplot(all_things, aes(x = calw/10, y = pred_abil)) +
     geom_line() +
-    facet_wrap(~time, scales = "free")
+    facet_wrap(~date, scales = "free") +
+    labs(
+        x = "Caliper width",
+        y = "Sum of historical logscores within caliper"
+    )
+
 plot_tit <- sprintf("temp/cw_vs_lpdens_cumulative_%s.pdf", outc)
 ggsave(plot_tit, cwplot_cumulative)
