@@ -52,9 +52,13 @@ my_dates <- seq.Date(
 )
 my_dates <- as.yearqtr(my_dates)
 all_things$date <- as.character(as.yearqtr(rep(my_dates, each = 400)))
-cwplot <- ggplot(all_things, aes(x = calw, y = pred_abil)) +
+cwplot <- ggplot(all_things, aes(x = calw/10, y = pred_abil)) +
     geom_line() +
-    facet_wrap(~ date, scales = "free")
+    facet_wrap(~ date, scales = "free") +
+    labs(
+        x = "Caliper width",
+        y = "Sum of historical logscores within caliper"
+    )
 plot_tit <- sprintf("temp/cw_vs_lpdens_history_%s.pdf", outc)
 ggsave(plot_tit, cwplot)
 

@@ -20,7 +20,7 @@ df_all <- readRDS("data-raw/data_allcw_fed.rds")
 outc <- "fed"
 dfx <- atomdat_3
 
-# Interest version
+# inflation version
 df_all <- readRDS("data-raw/data_allcw_tcpi.rds")
 outc <- "tcpi"
 dfx <- atomdat_2
