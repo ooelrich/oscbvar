@@ -42,7 +42,7 @@ for (i in 1:400) {
         caliper = TRUE,
         mahala  = FALSE,
         cw = cwx,
-        mvc = 10
+        mvc = 1
     )
 
     cw <- rep(i, nrow(aggpred_data))
