@@ -1,7 +1,9 @@
 library(devtools)
 load_all()
 
-# Genererar atomdat_1, atomdat_2, atomdat_3.
+# Generates atomdat_1, atomdat_2, atomdat_3
+# which are "atomic" datasets with predictions from all the agents
+# for the response variables gdp, tcpi, and fed (1-2-3)
 
 menu <- gen_atomic_list()
 list_of_models <- menu[c(2, 6, 9, 10)]

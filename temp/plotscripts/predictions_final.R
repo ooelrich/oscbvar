@@ -171,8 +171,8 @@ dff <- rbind(dfx[dfx$t > 173, ], aggpred_data)
 # aggpred_tcpi <- dff
 # aggpred_tcpi$outc <- "tcpi"
 
-#aggpred_fed <- dff
-#aggpred_fed$outc <- "fed"
+aggpred_fed <- dff
+aggpred_fed$outc <- "fed"
 
 # This should be done with a lookup table
 dff$cat <- 1

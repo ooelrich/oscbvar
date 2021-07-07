@@ -11,9 +11,10 @@
 #' S_0 obtained by running a simple AR(4) model and extracting the 
 #' diagonal elements. The prior for the regression coefficients is 
 #' tweaked using two hyperparameters: the overall tightness (defaults
-#' to 0.2) and the lag decay rate (deftaults to 1).
+#' to 0.2) and the lag decay rate (defaults to 1).
 #' The cross-variable tightness is set to 1 to retain the Kronecker 
 #' structure required for conjugacy.
+#' 
 #' 
 #' @param data Dataset from which to generate the notebook. Should
 #'   include only the variables used by the model. Defaults to the
@@ -24,7 +25,7 @@
 #'   minimum window length used for estimation, and the third one is a 
 #'   boolean indicating if the estimation window is rolling or not, the 
 #'   forth indicates which variable is the response variable and it 
-#'   defaults to 1 (GDP).
+#'   defaults to 1.
 #' @param lags The order of the VAR model. Defaults to 1. 
 #' @param overall_tightness Overall tightness (pi_1 in Sunes notation).
 #'   Defaults to 0.2
@@ -279,12 +280,12 @@ nb_bart <-function(
     bart_model <- dbarts::dbarts(
       Y[, response]~Z, 
       control = control,
-      tree.prior = cgm(cgm.exp, cgm.level), 
-      node.prior = normal(sd.mu),
+      tree.prior = dbarts::cgm(cgm.exp, cgm.level), 
+      node.prior = dbarts::normal(sd.mu),
       n.samples = nrep, 
       weights = rep(1, NROW(Y)), 
       sigma = sqrt(Sigma.OLS[1]), 
-      resid.prior = chisq(prior.sig[[1]], prior.sig[[2]])
+      resid.prior = dbarts::chisq(prior.sig[[1]], prior.sig[[2]])
     )
     est_mod <- bart_model$run()
     preds <- bart_model$predict(z, NULL)[1, ]

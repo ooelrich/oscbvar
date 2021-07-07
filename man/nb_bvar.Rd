@@ -24,7 +24,7 @@ observation is considered as t = 1), the second element is the
 minimum window length used for estimation, and the third one is a 
 boolean indicating if the estimation window is rolling or not, the 
 forth indicates which variable is the response variable and it 
-defaults to 1 (GDP).}
+defaults to 1.}
 
 \item{lags}{The order of the VAR model. Defaults to 1.}
 
@@ -47,7 +47,7 @@ data based with nu_0 set to the number of time series plus two, and
 S_0 obtained by running a simple AR(4) model and extracting the 
 diagonal elements. The prior for the regression coefficients is 
 tweaked using two hyperparameters: the overall tightness (defaults
-to 0.2) and the lag decay rate (deftaults to 1).
+to 0.2) and the lag decay rate (defaults to 1).
 The cross-variable tightness is set to 1 to retain the Kronecker 
 structure required for conjugacy.
 }

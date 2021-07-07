@@ -15,6 +15,7 @@ A data frame with 293 rows and 2 variables:
 dmdat
 }
 \description{
-Some data about how hyped americans are about "the economy."
+Some data about how hyped americans are about "the
+  economy." Starts at X and ends at Y.
 }
 \keyword{datasets}

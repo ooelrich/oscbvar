@@ -18,6 +18,7 @@ A data frame with 616 rows and 5 columns.
 atomdat_1
 }
 \description{
-Bla bla bla.
+Can be generated from macrodata, but is included here
+  since that takes a lot of time. Agent predictions of GDP.
 }
 \keyword{datasets}

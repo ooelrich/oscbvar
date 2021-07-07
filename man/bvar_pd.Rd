@@ -35,13 +35,12 @@ A list consisting of the predictive mean and log density of
 }
 \description{
 Generates the predictive density for a BVAR model with 
-  NiW prior.
+  NiW prior..
 }
 \details{
 Generates the one-step ahead predictive distribution for a BVAR
 model with normal-Wishart prior (or the flat-Jeff prior). Returns
 the predictive density and mean corresponding to the variable in
 `marg`. Density is given on the log scale by default, and the
-
 function currenlty does not support non-logscale.
 }

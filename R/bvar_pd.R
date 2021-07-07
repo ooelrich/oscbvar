@@ -1,15 +1,15 @@
 #' @title BVAR-NiW predictive density
 #' 
 #' @description Generates the predictive density for a BVAR model with 
-#'   NiW prior.
+#'   NiW prior..
 #' 
 #' @details 
 #' Generates the one-step ahead predictive distribution for a BVAR
 #' model with normal-Wishart prior (or the flat-Jeff prior). Returns
 #' the predictive density and mean corresponding to the variable in
 #' `marg`. Density is given on the log scale by default, and the
-#' 
 #' function currenlty does not support non-logscale. 
+#' 
 #' @param z A vector of covariates for the observation we wish to
 #'   predict.
 #' @param y A vector of outcome variables, the solution manual if you
