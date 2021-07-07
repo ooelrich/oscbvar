@@ -66,8 +66,6 @@ summary(lm(bikes$cnt ~ bikes$atemp))
 
 library(data.table)
 
-DTbikes <- data.table(bikes_d)
-DTbikes[, months := mnth + yr * 12] # not sure...
 
 summary(lm(DTbikes$cnt ~ DTbikes$months + as.factor(DTbikes$season)))
 summary(lm(DTbikes$cnt ~ DTbikes$months))
@@ -83,3 +81,50 @@ plot(DTbikes$months, DTbikes$cnt)
 
 # rename instant as t
 # don't really need to drop stuff I guess
+
+library(data.table)
+DTbikes <- data.table(bikes_d)
+DTbikes[, months := mnth + yr * 12] # not sure...
+DTbikes$weekday <- as.factor(DTbikes$weekday)
+DTbikes$weathersit <- as.factor(DTbikes$weathersit)
+DTbikes[, c("dteday","season"):= NULL]
+DTbikes$logcnt <- log(DTbikes$cnt)
+cnt_l <- DTbikes$cnt[-nrow(DTbikes)]
+logcnt_l <- DTbikes$logcnt[-nrow(DTbikes)]
+DTbikes <- cbind(DTbikes[-1, ], cnt_l, logcnt_l)
+
+
+
+summary(
+    lm(
+        cnt ~ .-instant - logcnt - logcnt_l - atemp -casual - registered -weekday -months -holiday,
+        data = DTbikes
+    )
+)
+
+summary(
+    lm(
+        logcnt ~ .-instant  -cnt -cnt_l - atemp -casual - registered -weekday -months,
+        data = DTbikes
+    )
+)
+
+
+
+# lessplay
+m1 <- lm(
+    cnt ~ .-instant - logcnt - logcnt_l - atemp -casual - registered -weekday -months -holiday,
+    data = DTbikes
+)
+
+
+m2 <- lm(
+    logcnt ~ .-instant  -cnt -cnt_l - atemp -casual - registered -weekday -months,
+    data = DTbikes
+)
+
+hist(m1$residuals)
+hist(m2$residuals)
+
+shapiro.test(m1$residuals)
+shapiro.test(m2$residuals)
