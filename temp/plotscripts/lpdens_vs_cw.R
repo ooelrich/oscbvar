@@ -92,5 +92,5 @@ cwplot_cumulative <- ggplot(all_things, aes(x = calw/10, y = pred_abil)) +
         y = "Sum of historical logscores within caliper"
     )
 
-plot_tit <- sprintf("temp/cw_vs_lpdens_cumulative_%s.pdf", outc)
+plot_tit <- sprintf("temp/plots/cw_vs_lpdens_cumulative_%s.pdf", outc)
 ggsave(plot_tit, cwplot_cumulative)

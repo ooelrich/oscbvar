@@ -42,5 +42,5 @@ observations required within the cluster to not combine with the
 global mean.}
 }
 \description{
-Super-function that generates aggregate predictions a la carte.
+Super-function that generates aggregate predictions a la carte. Carte.
 }

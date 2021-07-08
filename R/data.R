@@ -70,3 +70,30 @@
 #'   \item{ytrue}{True value of the response, not really implemented.}
 #' }
 "atomdat_3"
+
+#' @title Bikeshare data, daily!
+#' 
+#' @description Data on bikeshare, daily version, with a bunch of covariates.
+#' 
+#' @format A data frame with 720 rows and 14 columns
+#' \describe{
+#'  \item{yr}{Year.}
+#'  \item{mnth}{Month.}
+#'  \item{t}{Time.}
+#'  \item{holiday}{Holiday.}
+#'  \item{weekday}{Weekday.}
+#'  \item{workingday}{Weekday but not a holiday.}
+#'  \item{weathersit}{1: clear, few clouds, partly cloudy. 2: mist and
+#'      cloudy, mist and broken clouds. 3: light snow, light rain and
+#'      thunderstorm and scattered clouds. 4: heavy rain and ice pellets
+#'      and thunderstorm and mist, snow and fog.}
+#'  \item{temp}{Normalized temperature in celsius (how is this in 
+#'      celsius...).}
+#'  \item{hum}{Normalized humidity. I can't see how this is normalized.}
+#'  \item{windspeed}{"Normalized" windspeed.}
+#'  \item{cnt}{Count of total rental bikes (used).}
+#'  \item{logcnt}{Log of cnt.}
+#'  \item{cnt_l}{Lagged cnt.}
+#'  \item{logcnt_l}{Lagged log count.}
+#' }
+"bikes_d"

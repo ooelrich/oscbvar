@@ -1,7 +1,7 @@
 #' @title Generate aggregate predictions
 #' 
 #' @description 
-#' Super-function that generates aggregate predictions a la carte.
+#' Super-function that generates aggregate predictions a la carte. Carte.
 #' 
 #' @param atomic_df Data frame containing the atomic predictions to
 #'   base the aggregate predictions on.
