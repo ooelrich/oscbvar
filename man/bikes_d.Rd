@@ -9,6 +9,8 @@ A data frame with 720 rows and 14 columns
 \describe{
  \item{yr}{Year.}
  \item{mnth}{Month.}
+ \item{sandy1}{Hurricane day 1.}
+ \item{sandy2}{Hurricane day 2.}
  \item{t}{Time.}
  \item{holiday}{Holiday.}
  \item{weekday}{Weekday.}

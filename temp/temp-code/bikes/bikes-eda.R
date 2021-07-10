@@ -1,17 +1,21 @@
-# should create a single pdf (or maybe a folder) with some visualisation
+library(data.table)
 
-# 1 is winter
-ggplot(bikes, aes(y = cnt, x = season)) + geom_col()
+# fit simple linear regressions
+m1 <- lm(
+    cnt ~ .-t - logcnt - logcnt_l -weekday -holiday,
+    data = bikes_d
+)
 
-# 1 is "best" weather, 4 is "worst"
-ggplot(bikes, aes(y = cnt, x = weathersit)) + geom_col()
+m2 <- lm(
+    logcnt ~ . -t  -cnt -cnt_l -weekday,
+    data = bikes_d
+)
 
-ggplot(bikes, aes(y = cnt, x = holiday)) + geom_col()
+hist(m1$residuals, breaks = 100)
+hist(m2$residuals, breaks = 100)
 
-# Here is where we save the stuff after having processed it
-# usethis::use_data()
+ts.plot(m1$residuals)
+ts.plot(m2$residuals)
 
-# "känns som temp" har sämre förklaringsgrad än temperatur!!
-# (inte så stor skillnad)
-summary(lm(bikes$cnt ~ bikes$temp))
-summary(lm(bikes$cnt ~ bikes$atemp))
+shapiro.test(m1$residuals)
+shapiro.test(m2$residuals)
