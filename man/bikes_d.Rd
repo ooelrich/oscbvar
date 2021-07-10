@@ -12,13 +12,10 @@ A data frame with 720 rows and 14 columns
  \item{sandy1}{Hurricane day 1.}
  \item{sandy2}{Hurricane day 2.}
  \item{t}{Time.}
- \item{holiday}{Holiday.}
- \item{weekday}{Weekday.}
  \item{workingday}{Weekday but not a holiday.}
- \item{weathersit}{1: clear, few clouds, partly cloudy. 2: mist and
-     cloudy, mist and broken clouds. 3: light snow, light rain and
-     thunderstorm and scattered clouds. 4: heavy rain and ice pellets
-     and thunderstorm and mist, snow and fog.}
+ \item{weather_1}{1: clear, few clouds, partly cloudy. Baseline
+     is light snow, light rain and thunderstorm and scattered clouds.}
+ \item{weather_2}{2: mist and cloudy, mist and broken clouds.}
  \item{temp}{Normalized temperature in celsius (how is this in 
      celsius...).}
  \item{hum}{Normalized humidity. I can't see how this is normalized.}
