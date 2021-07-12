@@ -71,28 +71,51 @@
 #' }
 "atomdat_3"
 
-#' @title Bikeshare data, daily!
+#' @title Bikeshare data, daily
 #' 
 #' @description Data on bikeshare, daily version, with a bunch of covariates.
 #' 
-#' @format A data frame with 720 rows and 14 columns
+#' @format A data frame with 730 rows and 13 columns
 #' \describe{
+#'  \item{cnt}{Count of total rental bikes (used).}
+#'  \item{t}{Time.}
 #'  \item{yr}{Year.}
 #'  \item{mnth}{Month.}
-#'  \item{sandy1}{Hurricane day 1.}
-#'  \item{sandy2}{Hurricane day 2.}
-#'  \item{t}{Time.}
 #'  \item{workingday}{Weekday but not a holiday.}
-#'  \item{weather_1}{1: clear, few clouds, partly cloudy. Baseline
-#'      is light snow, light rain and thunderstorm and scattered clouds.}
-#'  \item{weather_2}{2: mist and cloudy, mist and broken clouds.}
 #'  \item{temp}{Normalized temperature in celsius (how is this in 
 #'      celsius...).}
 #'  \item{hum}{Normalized humidity. I can't see how this is normalized.}
 #'  \item{windspeed}{"Normalized" windspeed.}
-#'  \item{cnt}{Count of total rental bikes (used).}
-#'  \item{logcnt}{Log of cnt.}
+#'  \item{sandy1}{Hurricane day 1.}
+#'  \item{sandy2}{Hurricane day 2.}
+#'  \item{weather_1}{1: clear, few clouds, partly cloudy. Baseline
+#'      is light snow, light rain and thunderstorm and scattered clouds.}
+#'  \item{weather_2}{2: mist and cloudy, mist and broken clouds.}
 #'  \item{cnt_l}{Lagged cnt.}
-#'  \item{logcnt_l}{Lagged log count.}
 #' }
 "bikes_d"
+
+#' @title Bikeshare data, daily
+#' 
+#' @description Data on bikeshare, daily version, with a bunch of covariates.
+#' 
+#' @format A data frame with 730 rows and 13 columns
+#' \describe{
+#'  \item{logcnt}{Log of cnt.}
+#'  \item{t}{Time.}
+#'  \item{yr}{Year.}
+#'  \item{mnth}{Month.}
+#'  \item{workingday}{Weekday but not a holiday.}
+#'  \item{temp}{Normalized temperature in celsius (how is this in 
+#'      celsius...).}
+#'  \item{hum}{Normalized humidity. I can't see how this is normalized.}
+#'  \item{windspeed}{"Normalized" windspeed.}
+#'  \item{sandy1}{Hurricane day 1.}
+#'  \item{sandy2}{Hurricane day 2.}
+#'  \item{weather_1}{1: clear, few clouds, partly cloudy. Baseline
+#'      is light snow, light rain and thunderstorm and scattered clouds.}
+#'  \item{weather_2}{2: mist and cloudy, mist and broken clouds.}
+#'  \item{logcnt_l}{Lagged log count.}
+#' }
+"bikes_d_log"
+

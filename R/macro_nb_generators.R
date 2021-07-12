@@ -280,12 +280,12 @@ nb_bart <-function(
     bart_model <- dbarts::dbarts(
       Y[, response]~Z, 
       control = control,
-      tree.prior = dbarts::cgm(cgm.exp, cgm.level), 
-      node.prior = dbarts::normal(sd.mu),
+      tree.prior = dbarts:::cgm(cgm.exp, cgm.level), 
+      node.prior = dbarts:::normal(sd.mu),
       n.samples = nrep, 
       weights = rep(1, NROW(Y)), 
       sigma = sqrt(Sigma.OLS[1]), 
-      resid.prior = dbarts::chisq(prior.sig[[1]], prior.sig[[2]])
+      resid.prior = dbarts:::chisq(prior.sig[[1]], prior.sig[[2]])
     )
     est_mod <- bart_model$run()
     preds <- bart_model$predict(z, NULL)[1, ]

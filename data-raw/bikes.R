@@ -40,11 +40,18 @@ bikes_d[
     ):= NULL
 ]
 
-bikes_d$logcnt <- log(bikes_d$cnt)
 cnt_l <- bikes_d$cnt[-nrow(bikes_d)]
-logcnt_l <- bikes_d$logcnt[-nrow(bikes_d)]
-bikes_d <- cbind(bikes_d[-1, ], cnt_l, logcnt_l)
 names(bikes_d)[names(bikes_d)=="instant"] <- "t"
+bikes_d$t <- bikes_d$t
+bikes_d <- bikes_d[, c(8, 1:7, 9:12)]
+bikes_d <- cbind(bikes_d[-1, ], cnt_l)
 bikes_d$t <- bikes_d$t - 1
 
 save(bikes_d, file = "data/bikes_d.RData")
+
+# logversion of data
+logcnt <- log(bikes_d$cnt)
+logcnt_l <- log(bikes_d$cnt_l)
+bikes_d_log <- cbind(logcnt, bikes_d[, -c(1,13)], logcnt_l)
+
+save(bikes_d_log, file = "data/bikes_d_log.RData")

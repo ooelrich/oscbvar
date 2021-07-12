@@ -29,7 +29,11 @@ intercept? Defaults to TRUE.}
 }
 \description{
 Generates a notebook for BVAR models with stochastic volatility
-specifically for the bike sharing data.
+specifically for the bike sharing data. For some reason the svsample
+function does not work when any of the columns in covariates have 
+"to many zeroes" (more than half?), in which case you need to
+specify "startpara = list(mu = 0, phi = 0, sigma = 1, beta = rep(0,
+ncol(covariates))."
 }
 \details{
 Uses the stochvol package with default priors.
