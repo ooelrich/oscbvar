@@ -3,6 +3,8 @@ load_all()
 # Should only look at the subset of data that we are actually using,
 # so ignoring the first 65 (or more maybe) observations.
 
+# THIS SHOULD BE A FUNCTION IN THE PACKAGE
+
 max_tol <- 100
 macr <- pooling_vars[62:214, c(2:4, 9)] # Selecting decision maker vars
 T <- nrow(macr)

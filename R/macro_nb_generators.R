@@ -48,9 +48,15 @@ nb_bvar <- function(
   window_length <- agc[[2]]
   T <- nrow(data)
   m <- ncol(data)
-  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
-  Z_all <- gen_Z(data = data.frame(data), start_t, lags, include_intercept)
   response <- agc[[4]]
+
+  Y_all <- as.matrix(data.frame(data[start_t:T, ]))
+  Z_all <- gen_Z(
+    data = data.frame(data),
+    start_t,
+    lags,
+    include_intercept
+  )
 
   # Set the part of the prior that is constant over time
   nu_0 <- m + 2
@@ -75,6 +81,7 @@ nb_bvar <- function(
     Z <- Z_all[j:i, ]
     z <- Z_all[i + 1, ]
     y <- Y_all[i + 1, ]
+    
     ZtZ <- t(Z) %*% Z
     ZtY <- t(Z) %*% Y
     beta_ols <- solve(ZtZ, ZtY)
@@ -141,10 +148,11 @@ nb_svbvar <- function(
 ) {
 
   df <- gen_atomic_df()
-  T <- nrow(data)
-  m <- ncol(data)
+
   start_t <- agc[[1]]
   window_length <- agc[[2]]
+  T <- nrow(data)
+  m <- ncol(data)
   response <- agc[[4]]
 
   Y_all <- as.matrix(data.frame(data[start_t:T, ]))

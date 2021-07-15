@@ -54,6 +54,8 @@ caliper_relevance <- function(
 
     j <- 0
     for (i in start_agg:T) {
+        hello <- sprintf("Iteration %i of %i", i + 1 - start_agg, T - start_agg)
+        print(hello)
         for (k in start:(i - 1)) {
             j <- j + 1
             sim_df[j, 1] <- i

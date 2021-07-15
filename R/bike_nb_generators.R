@@ -251,6 +251,8 @@ bikes_regression <- function(log_scale = FALSE, agc = list(1, 60, TRUE)) {
 
   for (i in (window_length):(T - start_t)) {
     
+    mess <- sprintf("iteration %i of %i", i - window_length + 1, T-start_t)
+    print(mess)
     if (agc[[3]]) {
       j <- i + 1 - window_length
     } else {
@@ -272,12 +274,22 @@ bikes_regression <- function(log_scale = FALSE, agc = list(1, 60, TRUE)) {
     }
 
     if (log_scale) {
-      mod <- stan_glm(logcnt ~ ., data = data[j:i, ], cores = 4, seed=111)  
+      mod <- rstanarm::stan_glm(
+        logcnt ~ .,
+        data = data[j:i, ],
+        cores = 4,
+        refresh = 0
+      )  
     } else {
-      mod <- stan_glm(cnt ~ ., data = data[j:i, ], cores = 4, seed=111)
+      mod <- rstanarm::stan_glm(
+        cnt ~ .,
+        data = data[j:i, ],
+        cores = 4,
+        refresh = 0
+      )
     }
     
-    ppd <- posterior_predict(mod, data)
+    ppd <- rstanarm::posterior_predict(mod, data)
     pred_mean <- mean(ppd)
     pred_sd <- sd(ppd)
     lpdens <- dnorm(
@@ -287,9 +299,10 @@ bikes_regression <- function(log_scale = FALSE, agc = list(1, 60, TRUE)) {
       log = TRUE
     )
   
+    methodd <- ifelse(log_scale, "BREGLOG", "BREG")
     df[(i + 1 - window_length), "pmean"] <- pred_mean
     df[(i + 1 - window_length), "lpdens"] <- lpdens
-    df[(i + 1 - window_length), "method"] <- "BREG"
+    df[(i + 1 - window_length), "method"] <- methodd
     df[(i + 1 - window_length), "t"] <- (i + 1)
     df[(i + 1 - window_length), "ytrue"] <- data[i + 1, 1]    
   }

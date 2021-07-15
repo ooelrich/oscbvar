@@ -9,7 +9,7 @@ bikes_d[665:672, c("dteday", "cnt")]
 # dissipated november 2
 # Not clear which days we should "dummy out" as Sandy days. 
 # I think the data is from Washington, D.C.. Makes sense that people
-# were a bit scared/not really bikeing around that much the day or so 
+# were a bit scared/not really biking around that much the day or so 
 # BEFORE the storm hit as well.
 
 # Dummying out the 29th for sure, probably the 30th as well
