@@ -1,10 +1,9 @@
-library(data.table)
 
-# fit simple linear regressions
-m1 <- lm(
-    cnt ~ .-t - logcnt - logcnt_l -weekday -holiday,
-    data = bikes_d
-)
+head(bikes_d)
+
+
+# fit simple linear regression
+
 
 m2 <- lm(
     logcnt ~ . -t  -cnt -cnt_l -weekday,
