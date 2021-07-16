@@ -55,6 +55,7 @@ names(bikes_d)[names(bikes_d)=="instant"] <- "t"
 bikes_d <- bikes_d[, c(8, 1:7, 9:12)]
 bikes_d <- cbind(bikes_d[-1, ], cnt_l)
 bikes_d$t <- bikes_d$t - 1
+row.names(bikes_d) <- 1:nrow(bikes_d)
 
 
 ###############################
@@ -64,7 +65,7 @@ bikes_d$t <- bikes_d$t - 1
 logcnt <- log(bikes_d$cnt)
 logcnt_l <- log(bikes_d$cnt_l)
 bikes_d_log <- cbind(logcnt, bikes_d[, -c(1,13)], logcnt_l)
-
+row.names(bikes_d_log) <- 1:nrow(bikes_d_log)
 
 save(bikes_d, file = "data/bikes_d.RData")
 save(bikes_d_log, file = "data/bikes_d_log.RData")
