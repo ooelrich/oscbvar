@@ -154,7 +154,7 @@ RAL_calculator <- function(weight_df, atomic_df) {
     
     for (i in start_agg:stop_agg) {
         sim_df <- weight_df[t == i, list(t = t2, similarity)]
-        atomic_sub <- atomic_df[t < i, list(lpdens, method, t)]
+        atomic_sub <- atomic_df[t < i, .(lpdens, method, t)]
         data.table::setkey(sim_df, t)
         data.table::setkey(atomic_sub, t)
         df_all <- atomic_sub[sim_df]

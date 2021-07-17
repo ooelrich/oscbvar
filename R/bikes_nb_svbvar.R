@@ -29,7 +29,7 @@ bikes_svbvar <- function(
     include_intercept = TRUE
 ) {
 
-  logcnt <- NULL
+  logcnt <- NULL # NSE R CMD check NOTE
 
   if(!log_scale){
     stop("Non-log version not yet implemented")
