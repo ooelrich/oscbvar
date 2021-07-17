@@ -27,12 +27,7 @@ bikes_regression <- function(log_scale = TRUE, agc = list(1, 60, TRUE)) {
 
   for (i in (window_length):(T - start_t)) {
     
-    mess <- sprintf(
-      "iteration %i of %i",
-      i - window_length + 1,
-      T-start_t + 1 - window_length
-    )
-    print(mess)
+    print(sprintf("%i of %i", i-window_length+1, T-start_t+1-window_length))
 
     if (agc[[3]]) {
       j <- i + 1 - window_length

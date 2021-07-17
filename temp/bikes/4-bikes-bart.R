@@ -12,8 +12,10 @@ library(ggplot2)
 # starting at 200 this takes 58 minutes
 aa <- Sys.time()
 bikes_bart <- bikes_bart(
-    log_scale = TRUE,
-    agc = list(1, 200, FALSE)
+    agc = list(1, 200, FALSE),
+    include_intercept = FALSE,
+    nrep = 10000,
+    nburn = 5000
 )
 Sys.time() - aa
 

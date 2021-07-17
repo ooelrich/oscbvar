@@ -56,6 +56,8 @@ bikes_svbvar <- function(
 
   for (i in (window_length):(T - start_t)) {
         
+    print(sprintf("%i of %i", i-window_length+1, T-start_t+1-window_length))
+
     if (agc[[3]]) {
       j <- i + 1 - window_length
     } else {

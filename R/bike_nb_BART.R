@@ -6,8 +6,6 @@
 #' @details 
 #' Uses default settings in dbarts.
 #'
-#' @param covariates Covarites, aka design matrix.
-#' @param log_scale Should the dependent variable be on log scale?
 #' @param agc List of atomic prediction generation controllers. The 
 #'   first element of the list gives the starting time (ie what  
 #'   observation is considered as t = 1), the second element is the 
@@ -24,9 +22,7 @@
 #' @export
 
 bikes_bart <-function(
-    covariates,
-    log_scale = FALSE,
-    agc = list(1, 60, TRUE),
+    agc = list(1, 200, TRUE),
     include_intercept = FALSE,
     nrep = 10000,
     nburn = 5000
@@ -34,14 +30,7 @@ bikes_bart <-function(
 
   bikes_d <- cgm <- chisq <- NULL
 
-  stopifnot(is.logical(agc[[3]]))
-  stopifnot(is.logical(include_intercept))
-
-  if (log_scale) {
-      data <- matrix(bikes_d$logcnt, ncol = 1)
-  } else {
-      data <- matrix(bikes_d$cnt, ncol = 1)
-  }
+  data <- matrix(oscbvar::bikes_d_log$logcnt, ncol = 1)
 
   start_t <- agc[[1]]
   window_length <- agc[[2]]
@@ -49,7 +38,7 @@ bikes_bart <-function(
   T <- nrow(data)
   Y_all <-as.matrix(data.frame(data[start_t:T, 1]))
   
-  Z_all <- covariates
+  Z_all <- subset(oscbvar::bikes_d_log, select = -c(logcnt, t))
 
   cgm.level <- 0.95 # alpha
   cgm.exp <- 2 # beta
@@ -78,6 +67,8 @@ bikes_bart <-function(
   
   for (i in (window_length):(T - start_t)) {
     
+    print(sprintf("%i of %i", i-window_length+1, T-start_t+1-window_length))
+
     if (agc[[3]]) {
       j <- i + 1 - window_length
     } else {
@@ -95,7 +86,7 @@ bikes_bart <-function(
     prior.sig <- c(NROW(Y)/2, 0.75)
     
     bart_model <- dbarts::dbarts(
-      V1 ~ .,
+      Y ~ .,
       data = sigmat,
       control = control,
       tree.prior = cgm(cgm.exp, cgm.level), 
