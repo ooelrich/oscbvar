@@ -1,6 +1,6 @@
 #' @title Medium data set from OG et al 2020, rescaled to unit variance
 #'
-#' @description Starts at 1964Q4, ends at 2019Q1.
+#' @description Starts at 1964Q4, ends at 2019Q1..
 #' 
 #' @format A data frame with 218 rows and 7 variables:
 #' \describe{
@@ -14,6 +14,7 @@
 #' }
 "macrodata"
 
+
 #' @title Additional decision maker data.
 #'
 #' @description Some data about how hyped americans are about "the
@@ -26,9 +27,10 @@
 #' }
 "dmdat"
 
+
 #' @title Agent predictions for response 1
 #'
-#' @description Can be generated from macrodata, but is included here
+#' @description Can be generated from oscbvar::macrodata, but is included here
 #'   since that takes a lot of time. Agent predictions of GDP.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
@@ -41,9 +43,10 @@
 #' }
 "atomdat_1"
 
+
 #' @title Agent predictions for response 2
 #'
-#' @description Can be generated from macrodata, but is included here
+#' @description Can be generated from oscbvar::macrodata, but is included here
 #'   since that takes a lot of time. Agent predictions of GDPTCPI.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
@@ -56,9 +59,10 @@
 #' }
 "atomdat_2"
 
+
 #' @title Agent predictions for response 3
 #'
-#' @description Can be generated from macrodata, but is included here
+#' @description Can be generated from oscbvar::macrodata, but is included here
 #'   since that takes a lot of time. Agent predictions of FEDFUNDS.
 #' 
 #' @format A data frame with 616 rows and 5 columns.
@@ -95,6 +99,7 @@
 #' }
 "bikes_d"
 
+
 #' @title Bikeshare data, daily
 #' 
 #' @description Data on bikeshare, daily version, with a bunch of covariates.
@@ -118,4 +123,3 @@
 #'  \item{logcnt_l}{Lagged log count.}
 #' }
 "bikes_d_log"
-

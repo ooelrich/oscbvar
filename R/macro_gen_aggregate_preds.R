@@ -19,7 +19,7 @@
 #'   5. Caliper width.
 #' @param mvc Minimum viable cluster size, ie minimum amount of
 #'   observations required within the cluster to not combine with the
-#'   global mean.
+#'   global mean
 #' 
 #' @import data.table
 
@@ -64,7 +64,7 @@ gen_agg_preds <- function(
 
     if (mahala) {
 
-        weight_df <- mahala_relevance(atomic_df, sotw, start_agg)
+        #weight_df <- mahala_relevance(atomic_df, sotw, start_agg)
         RAL_data <- RAL_calculator(weight_df, atomic_df)
         df_mahala_prop <- gen_RAA(RAL_data, "propto", "mahala")
         df_mahala_sel <- gen_RAA(RAL_data, "select_best", "mahala")

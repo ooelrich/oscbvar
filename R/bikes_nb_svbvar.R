@@ -6,15 +6,13 @@
 #' function does not work when any of the columns in covariates have 
 #' "to many zeroes" (more than half?), in which case you need to
 #' specify "startpara = list(mu = 0, phi = 0, sigma = 1, beta = rep(0,
-#' ncol(covariates))."
+#' ncol(covariates)).".
 #' 
 #' @details
 #' Uses the stochvol package with default priors. 
 #' 
-#' @param covariates Covariates to use in the model, in additional to
-#'   the count variable (which is always included). No defaults.
 #' @param log_scale Boolean. Do you want to take the log of the count
-#'   variable? Defaults to FALSE.
+#'   variable? Defaults to TRUE.
 #' @param agc List of atomic prediction generation controllers. The 
 #'   first element of the list gives the starting time (ie what  
 #'   observation is considered as t = 1), the second element is the 
@@ -26,26 +24,32 @@
 #' @import stochvol
 
 bikes_svbvar <- function(
-    covariates,
-    log_scale = FALSE,
+    log_scale = TRUE,
     agc = list(1, 60, FALSE),
     include_intercept = TRUE
 ) {
 
-  covariates <- as.matrix(covariates)
+  logcnt <- NULL
 
-  if (log_scale) {
-      data <- bikes_d$logcnt
-  } else {
-      data <- bikes_d$cnt
+  if(!log_scale){
+    stop("Non-log version not yet implemented")
   }
 
+  if (log_scale) {
+      data <- oscbvar::bikes_d_log
+  } else {
+      data <- oscbvar::bikes_d
+  }
+
+  covariates <- subset(data, select = -c(logcnt, t))
+  covariates <- as.matrix(covariates)
+
   df <- gen_atomic_df()
-  T <- length(data)
+  T <- nrow(data)
   start_t <- agc[[1]]
   window_length <- agc[[2]]
 
-  Y_all <- as.matrix(data[start_t:T])
+  Y_all <- as.matrix(data[start_t:T, "logcnt"])
 
   inter <- rep(1, nrow(covariates))
   covariates <- cbind(inter, covariates)
@@ -68,6 +72,7 @@ bikes_svbvar <- function(
         beta = rep(0, ncol(covariates))
       )
     )
+
     pred_draws <- predict(sv_draws, 1, t(covariates[i + 1, ]))
 
     pred_mean <- mean(pred_draws$y[[1]])

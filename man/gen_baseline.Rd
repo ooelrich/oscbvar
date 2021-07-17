@@ -11,7 +11,7 @@ gen_baseline(atomic_df, start_agg)
 
 \item{start_agg}{Which time point to start creating aggregate 
 predictions for. Note that this is based on the variable t in the 
-supplied data frame, and not row number.}
+supplied data frame, and not row number.,}
 }
 \description{
 Generates baseline aggregations to compare with the relevance

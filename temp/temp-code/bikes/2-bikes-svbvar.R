@@ -1,10 +1,19 @@
-library(data.table)
-
-###################################
-# Set up the data for the bikes ###
-###################################
+############################################################
+### GENERATE PREDICTIONS                                 ###
+############################################################
 
 load("data-raw/sv_pred.Rdata")
+head(sv_pred)
+
+
+sv_df <- bikes_svbvar(
+    agc = list(1, 728, FALSE),
+    log_scale = TRUE
+)
+
+head(svdat)
+
+
 load("data-raw/reg_pred.Rdata")
 df_bikes <- rbind(sv_pred[141:nrow(sv_pred), ], reg_pred)
 df_sotw <- subset(bikes_d, select = -c(cnt, sandy1, sandy2, cnt_l))

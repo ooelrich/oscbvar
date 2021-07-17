@@ -15,11 +15,13 @@
 #'   boolean indicating if the estimation window is rolling or not.
 #' @param include_intercept Whether to include an intercep in the
 #'   design matrix or not. Defaults to FALSE since the intercept breaks
-#'   the function.
+#'   the function
 #' @param nrep Number of MCMC draws (after burn-in)
 #' @param nburn Number of burn-in draws
 #' 
 #' @import sn
+#' @importFrom stats dnorm density lm
+#' @export
 
 bikes_bart <-function(
     covariates,
@@ -29,6 +31,8 @@ bikes_bart <-function(
     nrep = 10000,
     nburn = 5000
 ) {
+
+  bikes_d <- cgm <- chisq <- NULL
 
   stopifnot(is.logical(agc[[3]]))
   stopifnot(is.logical(include_intercept))
@@ -94,12 +98,12 @@ bikes_bart <-function(
       V1 ~ .,
       data = sigmat,
       control = control,
-      tree.prior = dbarts:::cgm(cgm.exp, cgm.level), 
-      node.prior = dbarts:::normal(sd.mu),
+      tree.prior = cgm(cgm.exp, cgm.level), 
+      node.prior = normal(sd.mu),
       n.samples = nrep, 
       weights = rep(1, NROW(Y)), 
       sigma = sqrt(Sigma.OLS[1]), 
-      resid.prior = dbarts:::chisq(prior.sig[[1]], prior.sig[[2]])
+      resid.prior = chisq(prior.sig[[1]], prior.sig[[2]])
     )
     est_mod <- bart_model$run()
     preds <- bart_model$predict(z, NULL)[1,]
@@ -147,16 +151,14 @@ bikes_bart <-function(
 #'   observation is considered as t = 1), the second element is the 
 #'   minimum window length used for estimation, and the third one is a 
 #'   boolean indicating if the estimation window is rolling or not.
-#' @param include_intercept Whether to include an intercep in the
-#'   design matrix or not. Defaults to FALSE since the intercept breaks
-#'   the function.
-#' @param nrep Number of MCMC draws (after burn-in)
-#' @param nburn Number of burn-in draws
 #' 
-#' @import sn
+#' @import rstanarm
+#' @export
 
 bikes_regression <- function(log_scale = FALSE, agc = list(1, 60, TRUE)) {
   
+  bikes_d <- bikes_d_log <- yr <- sandy1 <- sandy2 <- NULL
+
   start_t <- agc[[1]]
   window_length <- agc[[2]]
   df <- gen_atomic_df()

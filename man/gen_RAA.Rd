@@ -19,7 +19,7 @@ which picks the model with the best RAL at each time point.}
 }
 \description{
 Generates relevance adjusted aggregations given a data set with
-relevance adjusted logscores. This is just a switcher function that
+relevance adjusted log scores. This is just a switcher function that
 sends the data on either to the propto or the "select best" (which
 is kind of not in use atm) function.
 }

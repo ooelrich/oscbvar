@@ -18,7 +18,7 @@ A data frame with 616 rows and 5 columns.
 atomdat_2
 }
 \description{
-Can be generated from macrodata, but is included here
+Can be generated from oscbvar::macrodata, but is included here
   since that takes a lot of time. Agent predictions of GDPTCPI.
 }
 \keyword{datasets}

@@ -5,7 +5,7 @@
 \title{Notebook generator: BVAR NiW}
 \usage{
 nb_bvar(
-  data = oscbvar::macrodata[, 1:7],
+  data = macrodata[, 1:7],
   agc = list(5, 60, TRUE, 1),
   lags = 1,
   overall_tightness = 0.2,
@@ -38,7 +38,7 @@ Defaults to TRUE.}
 }
 \description{
 Generates a notebook for a BVAR model with a Minnesota-flavoured NiW 
-prior.
+prior..
 }
 \details{
 Generates a notebook of predictions for the decision maker to use. 

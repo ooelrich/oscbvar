@@ -26,7 +26,7 @@ boolean indicating if the estimation window is rolling or not.}
 
 \item{include_intercept}{Whether to include an intercep in the
 design matrix or not. Defaults to FALSE since the intercept breaks
-the function.}
+the function}
 
 \item{nrep}{Number of MCMC draws (after burn-in)}
 

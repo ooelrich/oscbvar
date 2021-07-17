@@ -20,6 +20,6 @@ A data frame with 218 rows and 7 variables:
 macrodata
 }
 \description{
-Starts at 1964Q4, ends at 2019Q1.
+Starts at 1964Q4, ends at 2019Q1..
 }
 \keyword{datasets}

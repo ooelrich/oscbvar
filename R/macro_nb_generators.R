@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' Generates a notebook for a BVAR model with a Minnesota-flavoured NiW 
-#' prior.
+#' prior..
 #' 
 #' @details
 #' Generates a notebook of predictions for the decision maker to use. 
@@ -34,7 +34,7 @@
 #'   Defaults to TRUE.
 
 nb_bvar <- function(
-    data = oscbvar::macrodata[, 1:7],
+    data = macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     overall_tightness = 0.2,
@@ -141,7 +141,7 @@ nb_bvar <- function(
 #' @import stochvol
 
 nb_svbvar <- function(
-    data = oscbvar::macrodata[, 1:7],
+    data = macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     include_intercept = TRUE
@@ -218,7 +218,7 @@ nb_svbvar <- function(
 #' @import sn
 
 nb_bart <-function(
-    data = oscbvar::macrodata[, 1:7],
+    data = macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     include_intercept = FALSE,
@@ -228,6 +228,8 @@ nb_bart <-function(
 
   stopifnot(is.logical(agc[[3]]))
   stopifnot(is.logical(include_intercept))
+
+  cgm <- chisq <- NULL # NSE R CMD check
 
   start_t <- agc[[1]]
   window_length <- agc[[2]]
@@ -288,12 +290,12 @@ nb_bart <-function(
     bart_model <- dbarts::dbarts(
       Y[, response]~Z, 
       control = control,
-      tree.prior = dbarts:::cgm(cgm.exp, cgm.level), 
-      node.prior = dbarts:::normal(sd.mu),
+      tree.prior = cgm(cgm.exp, cgm.level), 
+      node.prior = normal(sd.mu),
       n.samples = nrep, 
       weights = rep(1, NROW(Y)), 
       sigma = sqrt(Sigma.OLS[1]), 
-      resid.prior = dbarts:::chisq(prior.sig[[1]], prior.sig[[2]])
+      resid.prior = chisq(prior.sig[[1]], prior.sig[[2]])
     )
     est_mod <- bart_model$run()
     preds <- bart_model$predict(z, NULL)[1, ]
@@ -351,7 +353,7 @@ nb_bart <-function(
 #' @import bvarsv
 
 nb_tvpsvbvar <- function(
-    data = oscbvar::macrodata[, 1:3],
+    data = macrodata[, 1:3],
     agc = list(5, 60, TRUE, 1),
     nrep = 10000,
     nburn = 5000,

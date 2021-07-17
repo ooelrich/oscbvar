@@ -2,7 +2,7 @@
 % Please edit documentation in R/macro_helpers_general.R
 \name{gen_atomic_df}
 \alias{gen_atomic_df}
-\title{Generate atomic data frame}
+\title{Generate atomic data frame for predictions}
 \usage{
 gen_atomic_df()
 }

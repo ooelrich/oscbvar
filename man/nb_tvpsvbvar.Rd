@@ -5,7 +5,7 @@
 \title{Notebook generator: TVP-SV-BVAR}
 \usage{
 nb_tvpsvbvar(
-  data = oscbvar::macrodata[, 1:3],
+  data = macrodata[, 1:3],
   agc = list(5, 60, TRUE, 1),
   nrep = 10000,
   nburn = 5000,

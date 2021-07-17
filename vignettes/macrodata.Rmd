@@ -1,8 +1,8 @@
 ---
-title: "Macrodata"
+title: "macrodata"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Macrodata}
+  %\VignetteIndexEntry{macrodata}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

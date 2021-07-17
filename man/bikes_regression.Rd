@@ -14,14 +14,6 @@ first element of the list gives the starting time (ie what
 observation is considered as t = 1), the second element is the 
 minimum window length used for estimation, and the third one is a 
 boolean indicating if the estimation window is rolling or not.}
-
-\item{include_intercept}{Whether to include an intercep in the
-design matrix or not. Defaults to FALSE since the intercept breaks
-the function.}
-
-\item{nrep}{Number of MCMC draws (after burn-in)}
-
-\item{nburn}{Number of burn-in draws}
 }
 \description{
 Generates a notebook for a bayesian regression model.

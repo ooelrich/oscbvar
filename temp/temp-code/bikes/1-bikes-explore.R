@@ -1,16 +1,12 @@
 library(ggplot2)
 head(bikes_d_log)
 
-ts.plot(bikes_d_log$logcnt)
 
 # Fit a simple linear regression
 m1 <- lm(
     logcnt ~ . -t,
     data = bikes_d_log
 )
-
-ts.plot(m1$residuals)
-
 
 df <- data.frame(
     y = bikes_d_log$logcnt,
@@ -23,7 +19,7 @@ df <- data.frame(
 ggplot(df, aes(y = y, x = time)) +
     geom_line() +
     geom_line(aes(y = fitted), col = "red") +
-    facet_wrap(~group, ncol = 1, scales = "free") +
+    #facet_wrap(~group, ncol = 1, scales = "free") +
     labs(
         title = "Log counts and fitted values (lm)",
         x = "Time",

@@ -13,6 +13,7 @@ Encoding: UTF-8
 Depends: R(>= 4.0.0)
 Imports: 
     stochvol,
+    rstanarm,
     dbarts,
     bvarsv,
     pracma,

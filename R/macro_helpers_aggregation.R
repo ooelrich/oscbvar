@@ -11,10 +11,12 @@
 #' @param atomic_df A data frame consisting of atomic predictions.
 #' @param start_agg Which time point to start creating aggregate 
 #'   predictions for. Note that this is based on the variable t in the 
-#'   supplied data frame, and not row number.
+#'   supplied data frame, and not row number.,
 #' @import data.table
 
 gen_baseline <- function(atomic_df, start_agg) {
+
+    lpdens <- pmean <- NULL
 
     baseline_df <- gen_atomic_df()
     T <- max(atomic_df$t)
@@ -23,13 +25,13 @@ gen_baseline <- function(atomic_df, start_agg) {
     df_all <- data.table::data.table(atomic_df)
     df_equal_wt <- df_all[
         t >= start_agg,
-        .(
+        list(
             pmean = mean(pmean),
             lpdens = log(mean(exp(lpdens))),
             method = "equal_wt",
             t
         ),
-        by = .(t)][, 2:5]
+        by = list(t)][, 2:5]
     baseline_df <- rbind(baseline_df, df_equal_wt)
     ytrue <- rep(NA, nrow(baseline_df))
     baseline_df <- cbind(baseline_df, ytrue)
@@ -45,7 +47,7 @@ gen_baseline <- function(atomic_df, start_agg) {
 #' 
 #' @description
 #' Generates relevance adjusted aggregations given a data set with
-#' relevance adjusted logscores. This is just a switcher function that
+#' relevance adjusted log scores. This is just a switcher function that
 #' sends the data on either to the propto or the "select best" (which
 #' is kind of not in use atm) function.
 #' 
@@ -78,11 +80,13 @@ gen_RAA <- function(RAL_data, agg_meth, sim_measure) {
 #' @import data.table
 
 propto_weighting <- function(data, sim_measure) {
+
+    pmean <- RAL <- lpdens <- NULL
         
     method_name <- sprintf("%s_propto", sim_measure)
 
     df_RAL <- data[,
-        .(
+        list(
             pmean = sum(pmean * exp(RAL)) / sum(exp(RAL)),
             lpdens = log(
                         sum(
@@ -93,7 +97,7 @@ propto_weighting <- function(data, sim_measure) {
             t,
             ytrue = NA
         ),
-        by = .(t)
+        by = list(t)
     ][, -1]
         
     return(df_RAL)
@@ -108,6 +112,8 @@ propto_weighting <- function(data, sim_measure) {
 #' @import data.table
 
 selbest_weighting <- function(data, sim_measure) {
+
+    RAL <- NULL
 
     method_name <- sprintf("%s_selbest", sim_measure)
 
@@ -147,13 +153,13 @@ RAL_calculator <- function(weight_df, atomic_df) {
     colnames(dfdf) <- c("method", "RAL", "t")
     
     for (i in start_agg:stop_agg) {
-        sim_df <- weight_df[t == i, .(t = t2, similarity)]
-        atomic_sub <- atomic_df[t < i, .(lpdens, method, t)]
+        sim_df <- weight_df[t == i, list(t = t2, similarity)]
+        atomic_sub <- atomic_df[t < i, list(lpdens, method, t)]
         data.table::setkey(sim_df, t)
         data.table::setkey(atomic_sub, t)
         df_all <- atomic_sub[sim_df]
         df_all[, `:=`(adj_lpdens = lpdens * similarity)]
-        collapsed <- df_all[, .(RAL = sum(adj_lpdens)), by = .(method)]
+        collapsed <- df_all[, list(RAL = sum(adj_lpdens)), by = list(method)]
         collapsed[, `:=`(t = i)]
         dfdf <- rbind(dfdf, collapsed)
     }
@@ -170,13 +176,14 @@ RAL_calculator <- function(weight_df, atomic_df) {
 #' @description
 #' Generates weights according to Geweke & Amisano 2011/2012, also 
 #' known as linear predicition pools. Obviously it takes data on a
-#' specific form, which you should describe.
+#' specific form, which you should describe..
 #' 
 #' @param data Data set of atomic predictions.
 #' @param start_t Which timepoint to start generating weights for. 
 #'   Obs! This is based on the variable t in the data, not the row 
 #'   number!
-#' @import pracma, data.table
+#' @import data.table
+#' @importFrom pracma fmincon
 
 gen_gewisano <- function(data, start_t) {
 

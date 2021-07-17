@@ -16,5 +16,5 @@ number!}
 \description{
 Generates weights according to Geweke & Amisano 2011/2012, also 
 known as linear predicition pools. Obviously it takes data on a
-specific form, which you should describe.
+specific form, which you should describe..
 }

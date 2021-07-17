@@ -41,6 +41,8 @@ caliper_relevance <- function(
         cw = 5,
         mvc = 1
 ) {
+
+    t2 <- similarity <- NULL
     
     T <- max(atomic_df$t)
     start <- min(atomic_df$t)
@@ -71,7 +73,7 @@ caliper_relevance <- function(
     sim_df <- data.table::data.table(sim_df)
     sim_df <- sim_df[
         order(-t, -t2), 
-        .(t2, similarity = 
+        list(t2, similarity = 
             similarity + 
             (1 - similarity) * 
                 max((mvc - sum(similarity)), 0) /
@@ -81,7 +83,7 @@ caliper_relevance <- function(
                     1
                 )
                 ),
-        by = .(t)
+        by = list(t)
     ]
 
     return(sim_df)

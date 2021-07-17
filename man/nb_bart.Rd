@@ -5,7 +5,7 @@
 \title{Notebook generator: BART}
 \usage{
 nb_bart(
-  data = oscbvar::macrodata[, 1:7],
+  data = macrodata[, 1:7],
   agc = list(5, 60, TRUE, 1),
   lags = 1,
   include_intercept = FALSE,
