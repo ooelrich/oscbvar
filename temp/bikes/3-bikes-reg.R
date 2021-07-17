@@ -34,7 +34,6 @@ df <- data.frame(
     group = rep(1:5, each = 106)
 )
 
-
 ggplot(df, aes(y = y, x = time)) +
     geom_line() +
     geom_line(aes(y = fitted), col = "red") +
@@ -45,3 +44,6 @@ ggplot(df, aes(y = y, x = time)) +
         x = "Time",
         y = "Log count"
     )
+
+# The bayesian model does not get a perfect fit on the dummy
+# This is the main diff with lm(), so all seems fine
