@@ -28,7 +28,7 @@ bikes_bart <-function(
     nburn = 5000
 ) {
 
-  bikes_d <- cgm <- chisq <- NULL
+  bikes_d <- cgm <- chisq <- logcnt <- NULL
 
   data <- matrix(oscbvar::bikes_d_log$logcnt, ncol = 1)
 

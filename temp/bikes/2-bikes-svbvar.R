@@ -17,7 +17,6 @@ bikes_sv <- bikes_svbvar(
 )
 Sys.time() - aa
 
-bikes_sv <- sv_df
 save(bikes_sv, file = "data-raw/bikes_sv.RData")
 
 ############################################################

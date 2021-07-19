@@ -5,7 +5,7 @@
 \title{Notebook generator: Stochastic BVAR}
 \usage{
 nb_svbvar(
-  data = macrodata[, 1:7],
+  data = oscbvar::macrodata[, 1:7],
   agc = list(5, 60, TRUE, 1),
   lags = 1,
   include_intercept = TRUE

@@ -11,5 +11,5 @@ gen_sotw(start_t)
 }
 \description{
 Generates a data frame with the state of the world, including the t-notation
-used by the rest of the package..
+used by the rest of the package.
 }

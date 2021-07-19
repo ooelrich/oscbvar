@@ -44,47 +44,47 @@ gen_atomic_preds <- function(model_list, agc = list(5, 60, FALSE, 1)) {
     df <- gen_atomic_df()
 
     if ("bvar_3" %in% model_list) {
-        dat <- nb_bvar(macrodata[, 1:3], agc, lags = 1)
+        dat <- nb_bvar(oscbvar::macrodata[, 1:3], agc, lags = 1)
         df <- rbind(df, dat)
     }
     if ("bvar_7" %in% model_list) {
-        dat <- nb_bvar(macrodata[, 1:7], agc, lags = 1)
+        dat <- nb_bvar(oscbvar::macrodata[, 1:7], agc, lags = 1)
         df <- rbind(df, dat)
     }
     if ("bvar_3_o2" %in% model_list) {
-        dat <- nb_bvar(macrodata[, 1:3], agc, lags = 2)
+        dat <- nb_bvar(oscbvar::macrodata[, 1:3], agc, lags = 2)
         df <- rbind(df, dat)
     }
     if ("bvar_7_o2" %in% model_list) {
-        dat <- nb_bvar(macrodata[, 1:7], agc, lags = 2)
+        dat <- nb_bvar(oscbvar::macrodata[, 1:7], agc, lags = 2)
         df <- rbind(df, dat)
     }
     if ("svbvar_3" %in% model_list) {
-        dat <- nb_svbvar(macrodata[, 1:3], agc, lags = 1,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:3], agc, lags = 1,
                         include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if ("svbvar_7" %in% model_list) {
-        dat <- nb_svbvar(macrodata[, 1:7], agc, lags = 1,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:7], agc, lags = 1,
                         include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if ("svbvar_3_o2" %in% model_list) {
-        dat <- nb_svbvar(macrodata[, 1:3], agc, lags = 2,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:3], agc, lags = 2,
                         include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if ("svbvar_7_o2" %in% model_list) {
-        dat <- nb_svbvar(macrodata[, 1:7], agc, lags = 2,
+        dat <- nb_svbvar(oscbvar::macrodata[, 1:7], agc, lags = 2,
                         include_intercept = TRUE)
         df <- rbind(df, dat)
     }
     if ("bart_7" %in% model_list) {
-        dat <- nb_bart(macrodata[, 1:7], agc)
+        dat <- nb_bart(oscbvar::macrodata[, 1:7], agc)
         df <- rbind(df, dat)
     }
     if ("tvpsvbvar_3" %in% model_list) {
-        dat <- nb_tvpsvbvar(macrodata[, 1:3], agc)
+        dat <- nb_tvpsvbvar(oscbvar::macrodata[, 1:3], agc)
         df <- rbind(df, dat)
     }
 

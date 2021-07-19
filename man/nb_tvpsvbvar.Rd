@@ -5,7 +5,7 @@
 \title{Notebook generator: TVP-SV-BVAR}
 \usage{
 nb_tvpsvbvar(
-  data = macrodata[, 1:3],
+  data = oscbvar::macrodata[, 1:3],
   agc = list(5, 60, TRUE, 1),
   nrep = 10000,
   nburn = 5000,
@@ -33,7 +33,7 @@ defaults to 1 (GDP).}
 }
 \description{
 Generates a notebook for a BVAR model with stochastic variance and 
-time-varying parameters.
+time-varying parameters!
 }
 \details{
 Uses default settings in bvarsv.

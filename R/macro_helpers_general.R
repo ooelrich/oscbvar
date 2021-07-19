@@ -94,13 +94,13 @@ omega_minnesota <- function(lags, overall_tightness, lag_decay, m, include_inter
 #' 
 #' @description 
 #' Generates a data frame with the state of the world, including the t-notation
-#' used by the rest of the package..
+#' used by the rest of the package.
 #' 
 #' @param start_t Which observation to consider as t = 1.
 
 gen_sotw <- function(start_t) {
-    max_t <- nrow(macrodata)
-    sub <- macrodata[start_t:max_t, ]
+    max_t <- nrow(oscbvar::macrodata)
+    sub <- oscbvar::macrodata[start_t:max_t, ]
     t <- c(1:nrow(sub))
     sotw <- cbind(t, sub)
     return(sotw)

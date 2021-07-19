@@ -29,7 +29,7 @@ bikes_svbvar <- function(
     include_intercept = TRUE
 ) {
 
-  logcnt <- NULL # NSE R CMD check NOTE
+  logcnt <- yr <- sandy1 <- sandy2 <- NULL # NSE R CMD check NOTE
 
   if(!log_scale){
     stop("Non-log version not yet implemented")
@@ -64,18 +64,27 @@ bikes_svbvar <- function(
       j <- 1
     }
 
+
+    if (i < 365) {
+      covdat <- subset(covariates, select = -c(yr, sandy1, sandy2))
+    } else if (i < 667) {
+      covdat <- subset(covariates, select = -c(sandy1, sandy2))
+    } else if (i == 667) {
+      covdat <- subset(covariates, select = -c(sandy2))
+    }
+
     sv_draws <- stochvol::svsample(
       Y_all[j:i, 1],
-      designmatrix = covariates[j:i, ],
+      designmatrix = covdat[j:i, ],
       startpara = list(
         mu = 0,
         phi = 0.1,
         sigma = 1,
-        beta = rep(0, ncol(covariates))
+        beta = rep(0, ncol(covdat))
       )
     )
 
-    pred_draws <- predict(sv_draws, 1, t(covariates[i + 1, ]))
+    pred_draws <- predict(sv_draws, 1, t(covdat[i + 1, ]))
 
     pred_mean <- mean(pred_draws$y[[1]])
     pred_sd <- sd(pred_draws$y[[1]])

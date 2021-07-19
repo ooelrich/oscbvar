@@ -34,7 +34,7 @@
 #'   Defaults to TRUE.
 
 nb_bvar <- function(
-    data = macrodata[, 1:7],
+    data = oscbvar::macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     overall_tightness = 0.2,
@@ -141,7 +141,7 @@ nb_bvar <- function(
 #' @import stochvol
 
 nb_svbvar <- function(
-    data = macrodata[, 1:7],
+    data = oscbvar::macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     include_intercept = TRUE
@@ -218,7 +218,7 @@ nb_svbvar <- function(
 #' @import sn
 
 nb_bart <-function(
-    data = macrodata[, 1:7],
+    data = oscbvar::macrodata[, 1:7],
     agc = list(5, 60, TRUE, 1),
     lags = 1,
     include_intercept = FALSE,
@@ -331,7 +331,7 @@ nb_bart <-function(
 #'
 #' @description
 #' Generates a notebook for a BVAR model with stochastic variance and 
-#' time-varying parameters.
+#' time-varying parameters!
 #' 
 #' @details  
 #' Uses default settings in bvarsv.
@@ -353,7 +353,7 @@ nb_bart <-function(
 #' @import bvarsv
 
 nb_tvpsvbvar <- function(
-    data = macrodata[, 1:3],
+    data = oscbvar::macrodata[, 1:3],
     agc = list(5, 60, TRUE, 1),
     nrep = 10000,
     nburn = 5000,

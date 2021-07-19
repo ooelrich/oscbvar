@@ -5,7 +5,7 @@
 \title{Notebook generator: BVAR NiW}
 \usage{
 nb_bvar(
-  data = macrodata[, 1:7],
+  data = oscbvar::macrodata[, 1:7],
   agc = list(5, 60, TRUE, 1),
   lags = 1,
   overall_tightness = 0.2,
