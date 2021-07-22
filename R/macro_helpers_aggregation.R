@@ -203,7 +203,7 @@ gen_gewisano <- function(data, start_t) {
         j <- j + 1
         vecop <- as.matrix(df_fat[df_fat$t <= i, 2:(k + 1)])
         opt_sol <- pracma::fmincon(start_val, fun_to_opt, Aeq = matrix(1, 1, k),
-                beq = 1, lb = rep(0, k), ub = rep(1, k), dataopt = vecop)
+                beq = 1, lb = rep(0.0001, k), ub = rep(1, k), dataopt = vecop)
         wts[j, ] <- opt_sol$par
     }
 

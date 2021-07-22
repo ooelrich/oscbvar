@@ -39,7 +39,7 @@ method. Defaults to TRUE.}
 
 \item{mvc}{Minimum viable cluster size, ie minimum amount of
 observations required within the cluster to not combine with the
-global mean}
+global mean.}
 }
 \description{
 Super-function that generates aggregate predictions a la carte. Carte.

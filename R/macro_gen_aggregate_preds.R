@@ -19,7 +19,7 @@
 #'   5. Caliper width.
 #' @param mvc Minimum viable cluster size, ie minimum amount of
 #'   observations required within the cluster to not combine with the
-#'   global mean
+#'   global mean.
 #' 
 #' @import data.table
 

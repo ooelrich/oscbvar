@@ -34,16 +34,18 @@ df <- data.frame(
 )
 
 
-ggplot(df, aes(y = y, x = time)) +
+plt <- ggplot(df, aes(y = y, x = time)) +
     geom_line() +
     geom_line(aes(y = fitted), col = "red") +
     geom_line(aes(y = sv_fitted), col = "blue") +
     facet_wrap(~group, ncol = 1, scales = "free") +
     labs(
-        title = "Log counts and fitted values (stochvol)",
+        title = "Log counts and predictive means (stochvol) (red is fitted lm)",
         x = "Time",
         y = "Log count"
     )
+
+ggsave("temp/stochvol.pdf", plt)
 
 # NOTES about debugging
 # at i = 364 (which predicts for t = 365) the variance of the predictive

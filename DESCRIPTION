@@ -18,7 +18,9 @@ Imports:
     bvarsv,
     pracma,
     sn,
-    data.table
+    data.table,
+    ggplot2,
+    rlang
 Suggests: 
     rmarkdown,
     knitr,

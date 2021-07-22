@@ -16,12 +16,14 @@ df <- data.frame(
 )
 
 
-ggplot(df, aes(y = y, x = time)) +
+plt <- ggplot(df, aes(y = y, x = time)) +
     geom_line() +
     geom_line(aes(y = fitted), col = "red") +
-    #facet_wrap(~group, ncol = 1, scales = "free") +
+    facet_wrap(~group, ncol = 1, scales = "free") +
     labs(
         title = "Log counts and fitted values (lm)",
         x = "Time",
         y = "Log count"
     )
+
+ggsave("temp/lm-reg.pdf", plt)
