@@ -9,7 +9,7 @@
 #' part. The local part is the sum of all log scores within the 
 #' caliper width, while the global part is the global average. The
 #' balance between the global and local part depends on the minimum
-#' viable clusester size. If the number of observations within the
+#' viable cluster size. If the number of observations within the
 #' caliper equals or exceeds the minimum viable cluster size, the
 #' global estimates gets zero weight. When there are no obsevations 
 #' within the cluster, the global estimate gets all the weight. For all
@@ -56,8 +56,11 @@ caliper_relevance <- function(
 
     j <- 0
     for (i in start_agg:T) {
-        hello <- sprintf("Iteration %i of %i", i+1-start_agg, T-start_agg+1)
-        print(hello)
+        print(sprintf(
+            "caliper_relevance iter %i of %i",
+            i+1-start_agg,
+            T-start_agg+1))
+        
         for (k in start:(i - 1)) {
             j <- j + 1
             sim_df[j, 1] <- i

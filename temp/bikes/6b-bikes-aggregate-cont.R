@@ -10,16 +10,14 @@ df_atom <- rbind(bikes_bart, bikes_sv, bikes_reg)
 ### GENERATE A SMOOTHING FRAME, REMOVING WORST SANDY DAY ###
 ############################################################
 
-sotw_time <- data.frame(
-    t = bikes_d_log$t,
-    time = bikes_d_log$t/var(bikes_d_log$t)
-)
+sotw_cont <- subset(bikes_d_log, select = c(t, temp, hum, windspeed))
 
-sotw_time <- subset(sotw_time, sotw_time$t != 667)
-df_atom <- subset(df_atom, df_atom$t != 667)
+# Ghettofix av sjuka resultat, sätt alla modellers lpdens till noll
+# på den brutala sandy-dagen.
 
-sotw_time$t[sotw_time$t > 667] <- sotw_time$t[sotw_time$t > 667] - 1
-df_atom$t[df_atom$t > 667] <- df_atom$t[df_atom$t > 667] - 1
+# farliga data-table modifikationer
+df_atom[df_atom$t == 667, "lpdens"] <- 0
+
 
 #############################################################
 ### GENERATE BASELINE PREDS AND A COLLECTION OF DIFFERENT ###
@@ -29,7 +27,7 @@ df_atom$t[df_atom$t > 667] <- df_atom$t[df_atom$t > 667] - 1
 df_agg_base <- gen_agg_preds(
     atomic_df = df_atom,
     start_agg = 401,
-    sotw = sotw_time,
+    sotw = sotw_cont,
     baseline = TRUE,
     caliper = FALSE,
     mahala = FALSE,
@@ -40,17 +38,15 @@ df_agg_base <- gen_agg_preds(
 # add a cw column that is just NA for the baseline
 df_agg_base <- cbind(df_agg_base, calw = NA)
 df_all <- df_agg_base
-head(df_all)
 
-cwl <- seq(0.06, 0.2, by = 0.05)
-cwl <- c(0.01, 2, 10)
+cwl <- seq(0.03, 0.11, by = 0.04)
 aaa <- Sys.time()
 for (i in seq_len(length(cwl))) {
     cw <- cwl[i]
     df_agg <- gen_agg_preds(
         atomic_df = df_atom,
         start_agg = 401,
-        sotw = sotw_time,
+        sotw = sotw_cont,
         baseline = FALSE,
         caliper = TRUE,
         mahala = FALSE,
@@ -64,20 +60,20 @@ for (i in seq_len(length(cwl))) {
 Sys.time() - aaa
 # Tog 50 minuter för tre olika cw
 
-dim(df_all)
+
 head(df_all)
+df_all <- cbind(df_all, group = rep(1:3, each = 110))
+dft <- df_all # safety save stupid
 
+dft$method <- apply( dft[ , c(3, 6)], 1, paste, collapse = "_") # to that grouping works
+data.table(dft[, .(meanlpdens = mean(lpdens)), by = .(method)])
 
-
-df <- rbind(df_agg, df_agg_base)
-df <- cbind(df, group = rep(1:2, each = 123))
-data.table(df_all[, .(meanpred = mean(lpdens)), by = .(method, calw)])
-
-ggplot(df, aes(y = lpdens, x = t, color = method)) +
+ggplot(dft, aes(y = lpdens, x = t, color = method)) +
     geom_line() +
-    #facet_wrap(~group, ncol = 1, scales = "free") +
+    facet_wrap(~group, ncol = 1, scales = "free") +
     labs(
-        title = "Log pred density",
+        title = "Log pred density smoothing with continuous vars",
         x = "Time",
         y = "lpdens"
     )
+ggplot2::ggsave("temp/aggpreds-cont.pdf")

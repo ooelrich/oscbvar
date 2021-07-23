@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(oscbvar)
 ```
 
-This analyses the atomic predictions. It is a part of the *no plot left behind* project.
+This analyses the atomic predictions for the macroeconomics data. It is a part of the *no plot left behind* project.
 
 <img src="pmean_resp1.pdf" width="666" height="666" title = "GDP" />
 

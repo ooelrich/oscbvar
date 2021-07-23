@@ -22,7 +22,6 @@
 #'   global mean.
 #' 
 #' @import data.table
-
 gen_agg_preds <- function(
         atomic_df,
         start_agg,

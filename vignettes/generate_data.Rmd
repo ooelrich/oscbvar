@@ -36,3 +36,13 @@ This will return a data frame on the format
 ```{r, include = TRUE, echo = FALSE}
 #?builhead(atomdat_2)
 ```
+
+## Generate aggregate predictions
+
+Aggregate predictions come in two types. The first type is *baseline predictions* which are the two static pooling methods *equal weights* and *gewisano* (Geweke and Amisano's static otpimal linear pools). The second type is (dynamic) caliper pools.
+
+The generation of aggregate predictions using the caliper methods goes through three steps. First we create a weight data frame using the function caliper_relevance, these weights are then combined with atomic predictions (historical data) to create what used to be call relevance-adjusted log scores. These relevance adjusted log scores are then used to create weights using the function gen_RAA, which then sends us to the propto_weighting function that calculates log predictive densities and predictive means. So propto_weighting calculates the final predictions, and as it does that it sort of calculates the weights as a by-product, adn thus we cannot really reach in there and get the weights out.
+
+### Taking a look at the weights over time
+
+To get to the weights we need a data frame of atomic predictions, a data frame of smoothing variables, a time to start aggregating, a caliper width and a mvc. To get to the weights we simply need to first generate a weight matrix,then call RAL_calculator with that weight df and the atomic data frame, then manipulate the data frame we get back.

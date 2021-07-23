@@ -36,7 +36,7 @@ The caliper method splits the estimate between a local and a global
 part. The local part is the sum of all log scores within the 
 caliper width, while the global part is the global average. The
 balance between the global and local part depends on the minimum
-viable clusester size. If the number of observations within the
+viable cluster size. If the number of observations within the
 caliper equals or exceeds the minimum viable cluster size, the
 global estimates gets zero weight. When there are no obsevations 
 within the cluster, the global estimate gets all the weight. For all
